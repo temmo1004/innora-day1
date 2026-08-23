@@ -37,7 +37,7 @@ def main():
     html = re.sub(r'\s*<button class="tbtn".*?</button>', "", html, flags=re.S)
     html = re.sub(r'// 講師模式\n\(function\(\)\{.*?\n\}\)\(\);\n', "", html, flags=re.S)
 
-    for leak in ("講師", "白羊", "Joe", "待拍板"):
+    for leak in ("講師", "白羊", "Joe", "Shon", "待拍板"):
         if leak in html:
             raise SystemExit(f"build: 學員版還留著「{leak}」，檢查 index.html")
 
