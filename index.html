@@ -219,6 +219,8 @@ body.deck .dkprog{display:block}
       <a href="#resume">2 履歷</a>
       <a href="#card">3 名片</a>
       <a href="#fix">4 修好它</a>
+      <a href="#git">5 GitHub</a>
+      <a href="#db">6 資料庫</a>
       <a href="#ref">速查</a>
       <a href="#stuck">卡住了</a>
     </div>
@@ -271,10 +273,12 @@ body.deck .dkprog{display:block}
     <tr><td>11:50–12:10</td><td>列印 → 交給早上盲描你的那個人 → 換位小聊 → 上台互相介紹</td><td>認識全班</td></tr>
     <tr><td>12:10–13:10</td><td>午餐（13:10 回來，13:15 開始）</td><td>—</td></tr>
     <tr><td>13:15–14:00</td><td><b>AI 職能／性向測驗</b>＋復盤</td><td>你的職能報告</td></tr>
-    <tr><td>14:00–15:15</td><td><a href="#resume"><b>STEP 2</b> 你的數位履歷</a></td><td>一份履歷網頁</td></tr>
-    <tr><td>15:15–16:15</td><td><a href="#card"><b>STEP 3</b> 你的數位名片</a>＋部署上線</td><td>一個公開網址</td></tr>
-    <tr><td>16:15–16:45</td><td><a href="#fix"><b>STEP 4</b> 我把它弄壞，你修回來</a></td><td>修好它的能力</td></tr>
+    <tr><td>14:00–15:00</td><td><b>STEP 2</b> <a href="#resume">你的數位履歷</a></td><td>一份履歷網頁</td></tr>
+    <tr><td>15:00–15:45</td><td><b>STEP 3</b> <a href="#card">你的數位名片</a></td><td>一張名片頁</td></tr>
+    <tr><td>15:45–16:05</td><td><b>STEP 4</b> <a href="#fix">我把它弄壞，你修回來</a></td><td>修好它的能力</td></tr>
+      <tr><td>16:05–16:45</td><td><b>STEP 5</b> <a href="#git">Git 與 GitHub</a>＋部署上線</td><td><b>一個公開網址</b></td></tr>
     <tr><td>16:45–17:00</td><td>收攏、回饋任務、明日預告</td><td>—</td></tr>
+      <tr><td style="color:var(--ink3)">時間有剩</td><td style="color:var(--ink3)"><b>STEP 6</b> <a href="#db">如果有人想聯絡你呢？</a>（資料庫／Supabase）</td><td style="color:var(--ink3)">概念，不動手</td></tr>
   </table></div>
 
   <div class="teach"><b>講師 — 誰帶哪一段</b>
@@ -787,16 +791,8 @@ Text must never cover the face.</pre>
   手機優先</pre>
   </div>
 
-  <h3>把它掛上網</h3>
-  <div class="prompt">
-    <div class="phead"><span class="pnum">4</span><span class="pname">部署</span>
-      <button class="copy" data-t="p8">複製</button></div>
-    <pre id="p8">幫我把這個網頁放到 GitHub Pages 上，讓別人可以用網址打開。
-我沒有用過 GitHub，請一步一步告訴我要做什麼，
-每一步都告訴我要點哪裡、要打什麼。</pre>
-  </div>
-
-  <div class="ok"><b>完成標準</b>：你有一個網址，傳給旁邊的人，他手機打得開。</div>
+  <div class="ok"><b>名片做完的標準</b>：手機打開就是全螢幕，三秒鐘看得完。
+  <b>還沒有網址沒關係</b> —— 等一下 STEP 5 才會把它掛上網。</div>
 
   <div class="teach"><b>講師</b> — 一人一個網址，收進 LINE 群。這是 Day 1 唯一的硬產出，其他都可以打折，這個不行。</div>
 </section>
@@ -835,6 +831,131 @@ Text must never cover the face.</pre>
       <li>Joe 質疑過：「做簡歷好像沒有弄爆的問題？」——純靜態頁砍 JS 幾乎沒感覺。</li>
       <li><b>建議砍 CSS 區塊</b>：畫面立刻崩、視覺衝擊大、但一定修得回來，不會卡死人。</li>
       <li>執行表把這列為待拍板 #3，今晚定下來。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="git">
+  <div class="steptag">STEP 5</div>
+  <h2>Git 與 GitHub</h2>
+  <p class="sub">先講兩個字的意思，再把你的名片掛上網。</p>
+
+  <h3>Git 是什麼</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4 style="margin-top:0">版本控制</h4>
+      <p style="margin:0">每改一次就存一個「當時的樣子」。<br>今天改壞了，回到昨天那版就好。</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">備份</h4>
+      <p style="margin:0">你的東西不只在這台電腦上。<br>筆電掉了，檔案還在。</p>
+    </div>
+  </div>
+  <p>你放東西的那個地方叫做「<b>庫</b>」（repository，大家都念 repo）。一個作品一個庫。</p>
+
+  <div class="say"><b class="lab">白話版</b>
+    Git 是<b>存檔功能</b>，GitHub 是<b>放存檔的雲端空間</b> —— 而且它順便幫你把網頁變成一個真的網址。</div>
+
+  <h3>三個問題（先想再看答案）</h3>
+  <div class="tw"><table>
+    <tr><th>問題</th><th>答案</th></tr>
+    <tr><td><b>什麼是 GitHub？</b></td><td>全世界工程師放程式碼的地方。你的庫放上去，它幫你保管、也幫你發布成網站。</td></tr>
+    <tr><td><b>為什麼要「公開」才看得到網站？</b></td><td>免費帳號的 GitHub Pages <b>只能從公開的庫發布</b>。庫設成私人，網址就打不開。</td></tr>
+    <tr><td><b>有沒有不公開、又能給人看的方式？</b></td><td>有，但都要換條件：付費方案可以從私人庫發布；或改用別的服務。<b>這題留到課堂上一起想。</b></td></tr>
+  </table></div>
+
+  <div class="warn"><b>所以今天你要放上去的東西，全世界都看得到。</b>
+  身分證字號、電話、住家地址 —— <b>不要放</b>。Email 或 IG 就夠了。</div>
+
+  <hr>
+
+  <h3>把名片掛上網（拿到你的網址）</h3>
+  <p class="sub">不用學 Git 指令，全部用滑鼠在網頁上點。</p>
+
+  <ol>
+    <li><b>註冊 GitHub</b>：開 <b>github.com</b> → Sign up → 填 email、密碼、取一個帳號名。
+      <br><span style="color:var(--warn)"><b>帳號名等一下會變成你的網址，取好一點</b>（英文小寫，不要底線）。</span></li>
+    <li><b>建一個庫</b>：右上角 <b>+</b> → <b>New repository</b>
+      <ul>
+        <li>Repository name 填：<code>你的帳號名.github.io</code>（<b>一字不差，含 .github.io</b>）</li>
+        <li>選 <b>Public</b></li>
+        <li>按 <b>Create repository</b></li>
+      </ul>
+    </li>
+    <li><b>把檔案傳上去</b>：<b>Add file</b> → <b>Upload files</b> → 把你的網頁檔<b>直接拖進去</b> → 下面按 <b>Commit changes</b>
+      <br><span style="color:var(--warn)"><b>檔名一定要叫 <code>index.html</code></b>，叫別的名字網址會是空白頁。</span></li>
+    <li><b>打開 Pages</b>：<b>Settings</b> → 左邊 <b>Pages</b> → Source 選 <b>Deploy from a branch</b> → Branch 選 <b>main</b> 和 <b>/ (root)</b> → <b>Save</b></li>
+    <li><b>等一下下</b>，然後打開 <code>https://你的帳號名.github.io</code></li>
+  </ol>
+
+  <div class="warn"><b>不會馬上出現。</b>官方說最久要 <b>10 分鐘</b>。
+  第一次先看到 404 是正常的 —— 去倒杯水，回來重新整理。</div>
+
+  <div class="ok"><b>今天最重要的一件事完成了</b>
+    你有一個網址。傳給旁邊的人，請他<b>用手機打開</b>。<br>
+    他打得開 —— 你今天做的東西，已經在網路上了。</div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">SOS</span><span class="pname">卡在哪一步就問它</span>
+      <button class="copy" data-t="g1">複製</button></div>
+    <pre id="g1">我在把網頁放上 GitHub Pages，卡住了。
+
+我做到哪一步：（照實寫，例如：庫建好了，檔案也傳上去了）
+我看到的畫面：（照實寫，例如：打開網址是 404）
+
+請一步一步告訴我下一步要點哪裡、打什麼。我沒有用過 GitHub。</pre>
+  </div>
+
+  <div class="teach"><b>講師動作</b>
+    <ul>
+      <li>⚠️ <b>順序衝突要先決定</b>：你在 8/23 會上講的順序是「名片 → 爆破 → Git/GitHub」，
+      但時間軸目前把<b>部署排在名片段（15:15–16:15）</b>、弄壞排在之後。
+      本頁照<b>你講的順序</b>排（部署在 STEP 5）。要照時間軸就把 STEP 5 提前。</li>
+      <li><b>風險</b>：部署往後排，如果下午超時，「一人一個公開網址」這個 Day1 唯一硬產出就交不出來。</li>
+      <li>註冊 GitHub 要收驗證信，<b>叫他們先開好信箱分頁</b>。</li>
+      <li>帳號名＝網址，會有人隨便取然後後悔。<b>建庫前先讓全班唸一次自己的網址。</b></li>
+      <li>「不公開又能看」那題是你會上說的，<b>留給他們想，不要直接給答案</b>。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="db">
+  <div class="steptag">STEP 6</div>
+  <h2>如果有人想聯絡你呢？</h2>
+  <p class="sub">時間有剩才走這一段。</p>
+
+  <div class="say">
+    你的履歷放上去了。<br>
+    <b>有沒有人看完就想聯絡你？</b>——肯定有。<br>
+    那如果要做一個「他填一填、你就收得到」的系統，我們有什麼方式？</div>
+
+  <h3>先想想：你平常都把資料存在哪？</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>是不是一種儲存方式？</th></tr>
+    <tr><td><b>Excel</b></td><td>是。一格一格，有欄位，可以排序 —— 這其實就是一張表。</td></tr>
+    <tr><td><b>TXT 檔</b></td><td>也是。只是沒有欄位，全部混在一起。</td></tr>
+    <tr><td><b>紙本筆記本</b></td><td>也是。缺點是別人填不進來，你也搜尋不了。</td></tr>
+  </table></div>
+
+  <div class="say"><b class="lab">所以</b>
+    差別不在「能不能存」，在於 <b>誰能同時寫、能不能馬上找、資料會不會亂掉</b>。<br>
+    專門解決這三件事的東西，叫做<b>資料庫</b>。</div>
+
+  <h3>Supabase</h3>
+  <p>一個免費就能用的雲端資料庫。你不用架伺服器，網頁可以直接把資料寫進去。</p>
+  <p>對你今天的履歷來說，它能做到的是：<b>有人在你的頁面上留下聯絡方式，你在後台就看得到。</b></p>
+
+  <div class="warn"><b>今天不會做完。</b>這一段只要你聽懂「為什麼需要資料庫」就夠了 ——
+  真的動手做，是後面幾天的事。</div>
+
+  <div class="teach"><b>講師動作</b>
+    <ul>
+      <li>這是你自己說的<b>彈性件</b>：「這東西要講五個小時我也可以講到」。上午超時就<b>整段丟到週三</b>。</li>
+      <li>階梯照你會上的講法走：<b>先問他們有什麼儲存方式 → Excel → TXT → 才講什麼是資料庫</b>。
+      不要一開口就講「資料庫」。</li>
+      <li>不要在 Day1 帶他們註冊 Supabase，會吃掉收攏時間。</li>
     </ul>
   </div>
 </section>
