@@ -50,6 +50,8 @@ def main():
         dst = OUT.parent / "skills"
         shutil.rmtree(dst, ignore_errors=True)
         shutil.copytree(src, dst)
+        # 沒有 .nojekyll，GitHub Pages 會把 .md 轉成 .html，curl 原檔會 404
+        (OUT.parent / ".nojekyll").touch()
         print(f"    skills/ → {dst}")
     print(f"OK  {len(SRC.read_text(encoding='utf-8')):,} → {len(html):,} bytes  →  {OUT}")
 
