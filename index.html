@@ -66,8 +66,9 @@ a{color:var(--accent)}
   padding:22px 24px;margin:20px 0}
 .say{background:var(--accent-soft);border-left:4px solid var(--accent);
   border-radius:0 12px 12px 0;padding:18px 22px;margin:20px 0;font-size:18px;line-height:1.7}
-.say b{display:block;font-size:12px;letter-spacing:.1em;color:var(--accent);
+.say b.lab{display:block;font-size:12px;letter-spacing:.1em;color:var(--accent);
   text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.say b{font-weight:700}   /* 句中的粗體維持行內；只有 .lab 才是標籤 */
 .warn{background:var(--warn-soft);border-left:4px solid var(--warn);
   border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0;font-size:16px}
 .warn b{color:var(--warn)}
@@ -292,33 +293,180 @@ body.deck .dkprog{display:block}
 <section id="setup">
   <div class="steptag">STEP 0</div>
   <h2>先把工具裝起來</h2>
-  <p class="sub">兩個版本都要裝。等一下你會知道為什麼。</p>
+  <p class="sub">七個步驟，一步一步來。卡住就舉手，不要自己硬撐。</p>
+
+  <div class="say">
+    等一下你會裝<b>兩個東西</b>，它們是同一個工具的兩張臉：<br>
+    <b>桌面版</b>（有畫面、用滑鼠點）跟 <b>終端機版</b>（黑底白字、用打字的）。<br>
+    早上先用桌面版，下午你會知道為什麼需要另一個。
+  </div>
+
+  <div class="warn"><b>先講一句：</b>終端機那個黑色視窗<b>不會弄壞你的電腦</b>。
+  打錯字它只會回你一行看不懂的英文，重打就好。今天你會打錯很多次，那是正常的。</div>
+
+  <hr>
+
+  <h3>① 先有一個 ChatGPT 帳號（要付費的那種）</h3>
+  <ol>
+    <li>瀏覽器打開 <b>chatgpt.com</b></li>
+    <li>註冊 —— <b>用 Google 帳號登入最快</b>，不用另外記密碼</li>
+    <li>登入後點<b>左下角你的名字</b> → 「升級方案」→ 選 <b>Plus</b> → 刷卡</li>
+  </ol>
+  <p>Plus 一個月約 <b>US$20（折台幣約 600）</b>。這筆是你自己付的，不含在學費裡。</p>
+  <div class="ok"><b>做到這裡的驗收：</b>回到 chatgpt.com 的對話畫面，<b>左上角有一個可以切換模型的選單</b> —— 有看到就是升級成功了。</div>
+
+  <hr>
+
+  <h3>② 打開終端機</h3>
 
   <div class="grid2">
     <div class="card">
-      <h4 style="margin-top:0">GUI 版</h4>
-      <p style="margin:0">有畫面、看得懂、好上手。<br>今天早上先用它。</p>
+      <h4 style="margin-top:0">Mac</h4>
+      <ol style="margin-bottom:0">
+        <li>按 <b>⌘ + 空白鍵</b></li>
+        <li>打 <code>terminal</code></li>
+        <li>按 <b>Enter</b></li>
+      </ol>
     </div>
     <div class="card">
-      <h4 style="margin-top:0">CLI 版（終端機）</h4>
-      <p style="margin:0">黑底白字，看起來很難。<br>但它能做 GUI 做不到的事。</p>
+      <h4 style="margin-top:0">Windows</h4>
+      <ol style="margin-bottom:0">
+        <li>按 <b>Win + X</b></li>
+        <li>選「<b>終端機</b>」<br><span style="color:var(--ink3);font-size:14px">（沒有的話選 PowerShell）</span></li>
+      </ol>
     </div>
   </div>
 
-  <p>終端機怎麼開、怎麼進資料夾、怎麼啟動 —— 照這份走：</p>
-  <p><a href="https://temmo1004.github.io/claude-terminal-guide/" target="_blank" rel="noopener"><b>→ 終端機新手指南（另開）</b></a></p>
+  <p>會跳出一個視窗，裡面有一行英文字和一個一直在閃的方塊 —— 那個閃的就是游標，代表它在等你打字。</p>
 
-  <div class="ok"><b>裝好了沒？</b> 你的終端機上出現 <code>cwd:</code>，而且後面那串路徑是你自己的資料夾 —— 就算裝好了。</div>
+  <hr>
 
-  <div class="warn"><b>最常見的坑：</b>資料夾名稱有<b>空格</b>或<b>中文</b>，路徑要用雙引號包起來。
-  例：<code>cd "/Users/你的名字/我的 專案"</code></div>
+  <h3>③ 貼一行指令，把終端機版裝起來</h3>
+  <p>找到<b>你自己電腦</b>那一行，按「複製」，回到終端機貼上去，按 <b>Enter</b>。</p>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Mac</span><span class="pname">安裝指令</span>
+      <button class="copy" data-t="c1">複製</button></div>
+    <pre id="c1">curl -fsSL https://chatgpt.com/codex/install.sh | sh</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Win</span><span class="pname">安裝指令</span>
+      <button class="copy" data-t="c2">複製</button></div>
+    <pre id="c2">powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</pre>
+  </div>
+
+  <p><b>怎麼貼上：</b>Mac 按 <b>⌘ + V</b>；Windows 按 <b>Ctrl + V</b> 或直接<b>按滑鼠右鍵</b>。</p>
+
+  <div class="warn"><b>🔑 它可能會問你電腦的開機密碼。</b>
+  這時候你<b>打字螢幕上不會有任何反應</b> —— 沒有黑點、沒有星號，看起來像當機。
+  <b>那是正常的，它有收到。</b>直接把密碼打完按 Enter。</div>
+
+  <p>接下來會跑出一大堆字，跑個一兩分鐘。<b>字停下來、游標又開始閃 = 跑完了。</b></p>
+
+  <hr>
+
+  <h3>④ 確認真的裝好了</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">兩者皆同</span><span class="pname">檢查版本</span>
+      <button class="copy" data-t="c3">複製</button></div>
+    <pre id="c3">codex --version</pre>
+  </div>
+
+  <div class="ok"><b>成功長這樣：</b>它回你一行像 <code>codex-cli 0.149.0</code> 的字（數字不一定一樣，有數字就對了）。</div>
+
+  <div class="warn"><b>如果回你「command not found」或「不是內部或外部命令」：</b>
+  <b>把終端機整個關掉，重新開一次</b>，再打一次 <code>codex --version</code>。
+  九成的人這樣就好了 —— 剛裝好的東西要重開視窗才找得到。</div>
+
+  <hr>
+
+  <h3>⑤ 登入</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">兩者皆同</span><span class="pname">啟動並登入</span>
+      <button class="copy" data-t="c4">複製</button></div>
+    <pre id="c4">codex</pre>
+  </div>
+
+  <ol>
+    <li>它會給你幾個選項，選 <b>Sign in with ChatGPT</b>（用上下鍵移動，Enter 選）</li>
+    <li><b>瀏覽器會自己跳出來</b> → 用步驟①那個帳號登入 → 按同意</li>
+    <li>看到「登入成功」就<b>回到終端機視窗</b></li>
+  </ol>
+
+  <div class="ok"><b>成功長這樣：</b>終端機下面出現一個輸入框，你可以在裡面<b>直接打中文</b>。
+  試著打「你好」按 Enter，它會回你話。</div>
+
+  <hr>
+
+  <h3>⑥ 再把桌面版裝起來</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">兩者皆同</span><span class="pname">安裝桌面版</span>
+      <button class="copy" data-t="c5">複製</button></div>
+    <pre id="c5">codex app</pre>
+  </div>
+  <p>它會自己下載安裝，裝完會自己打開。以後就從 <b>Launchpad（Mac）</b>或<b>開始選單（Windows）</b>點它就好，不用再打指令。</p>
+  <div class="ok"><b>兩個都有了：</b>桌面上一個有畫面的 App，終端機裡一個打字用的。同一個帳號，同一個工具。</div>
+
+  <hr>
+
+  <h3>⑦ 讓它看得到你的檔案</h3>
+
+  <div class="say">
+    這一步最多人卡。<br>
+    終端機版<b>只看得到「你現在人在哪個資料夾」</b> —— 你沒帶它去，它就什麼都找不到。
+  </div>
+
+  <p>先在桌面建一個資料夾，名字就叫 <code>day1</code>（<b>不要用中文，不要有空格</b>）。然後：</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4 style="margin-top:0">Mac：拖進去最快</h4>
+      <p style="margin:0 0 8px">在終端機打 <code>cd</code> 再加<b>一個空格</b>，然後<b>把資料夾直接拖進終端機視窗</b> —— 路徑會自己跑出來。按 Enter。</p>
+      <p style="margin:0;color:var(--ink3);font-size:14px">或：在 Finder 對資料夾按右鍵 → 服務 → 新增位於資料夾的終端機視窗</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Windows：右鍵最快</h4>
+      <p style="margin:0">在檔案總管裡對資料夾<b>按右鍵</b> → 選「<b>在終端機中開啟</b>」。<br>這樣開的視窗一開始就已經在那個資料夾裡了。</p>
+    </div>
+  </div>
+
+  <div class="warn"><b>如果你硬要自己打路徑：</b>資料夾名稱有<b>空格</b>或<b>中文</b>，整段路徑要用<b>雙引號</b>包起來，不然它會讀成兩個東西。<br>
+  ❌ <code>cd /Users/ming/我的 專案</code><br>
+  ✅ <code>cd "/Users/ming/我的 專案"</code></div>
+
+  <p>確認你人在對的地方：</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Mac</span><span class="pname">我現在在哪</span>
+      <button class="copy" data-t="c6">複製</button></div>
+    <pre id="c6">pwd</pre>
+  </div>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Win</span><span class="pname">我現在在哪</span>
+      <button class="copy" data-t="c7">複製</button></div>
+    <pre id="c7">cd</pre>
+  </div>
+  <p>它回給你的那串路徑，結尾應該是 <code>day1</code>。是的話就對了 —— <b>在這個視窗裡打 <code>codex</code>，它就看得到這個資料夾裡的東西。</b></p>
+
+  <div class="ok"><b>STEP 0 全部完成的樣子</b>
+    <ol style="margin:8px 0 0">
+      <li>ChatGPT Plus 已付費</li>
+      <li><code>codex --version</code> 回得出版號</li>
+      <li><code>codex</code> 進得去，能打中文</li>
+      <li>桌面版 App 打得開</li>
+      <li>你人在 <code>day1</code> 資料夾裡</li>
+    </ol>
+  </div>
 
   <div class="teach"><b>講師動作</b>
     <ul>
-      <li>發網址，<b>不要口頭念指令</b>——念一次會被問十遍。</li>
-      <li>一人一人過。卡住的舉手，你走過去；還是不行的午休繼續。</li>
-      <li>雙引號那條<b>當場示範一次</b>，示範完再讓他們自己打。</li>
+      <li><b>只有 35 分鐘（10:15–10:50），六個人。</b>不要等所有人齊，做完的先讓他們去 chatgpt.com 隨便玩。</li>
+      <li>發網址讓他們照著做，<b>不要口頭念指令</b>——念一次會被問十遍。</li>
+      <li>三個必爆點，先示範一次再放他們做：<b>密碼打了沒反應</b>、<b>command not found 要重開視窗</b>、<b>路徑空格中文要雙引號</b>。</li>
+      <li>Windows 學員先舉手點名，指令跟 Mac 不同，別讓他們貼錯那行。</li>
+      <li>刷卡失敗是最可能的單點故障——問清楚有沒有能刷國外的卡，沒有的先借用你的帳號撐過上午。</li>
       <li>順手把備援池設定也裝上（Codex 週額度可能 Day2 見底，別等燒光才弄）。</li>
+      <li>更詳細的終端機圖文（開視窗、cd）可參考 <a href="https://temmo1004.github.io/claude-terminal-guide/" target="_blank" rel="noopener">終端機新手指南</a>——<b>只看第 1、2 步</b>，第 3 步那個 <code>claude</code> 指令今天不用。</li>
     </ul>
   </div>
 </section>
@@ -422,7 +570,7 @@ Text must never cover the face.</pre>
   <hr>
 
   <h3>抽卡</h3>
-  <div class="say"><b>這段一定要講</b>
+  <div class="say"><b class="lab">這段一定要講</b>
     現在的生圖就跟<b>抽卡</b>一樣，非常不穩定。<br>
     想抽到好的只有兩條路：<b>一是把提示詞改得更完美，二是增加抽卡次數。</b><br>
     剛剛叫你們裝的第二個版本，就是為了第二條路。</div>
@@ -547,7 +695,7 @@ Text must never cover the face.</pre>
   <div class="steptag">STEP 3</div>
   <h2>你的數位名片</h2>
 
-  <div class="say"><b>轉場</b>
+  <div class="say"><b class="lab">轉場</b>
     這份履歷還不夠。<br>我們要有一張<b>能跟別人互動的名片</b>。</div>
 
   <p><b>先想一下 —— 名片上要有什麼？</b></p>
@@ -676,7 +824,7 @@ Text must never cover the face.</pre>
     <tr><td>網頁打不開／一片空白</td><td>用 STEP 4 那段 SOS 提示詞，照實描述你看到什麼。</td></tr>
   </table></div>
 
-  <div class="say"><b>今天唯一的規則</b>
+  <div class="say"><b class="lab">今天唯一的規則</b>
     改壞了可以重來。這裡沒有笨問題。<br>
     <b>你每問一次，就是幫全班問一次。</b></div>
 </section>
