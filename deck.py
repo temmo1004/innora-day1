@@ -29,8 +29,13 @@ body.deck .slide.on{
   background:var(--card);border:1px solid var(--line);border-radius:20px;
   box-shadow:0 18px 40px -18px rgba(0,0,0,.22);
   padding:34px 46px;overflow-y:auto;overscroll-behavior:contain}
+/* flex 子元素預設會 shrink，長內容會被壓扁裁掉而不是讓外框捲動 */
+body.deck .slide.on>*{flex-shrink:0}
 body.deck .slide.on>*:first-child{margin-top:0}
 body.deck .slide.on>*:last-child{margin-bottom:0}
+/* flex column 會把 inline-block 的膠囊拉滿整行 */
+body.deck .slide.on>.steptag{align-self:flex-start}
+#dk[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 body.deck .crumb{display:block;font-size:12px;font-weight:700;letter-spacing:.12em;
   text-transform:uppercase;color:var(--ink3);margin:0 0 18px;flex:none}
 .crumb{display:none}
@@ -39,6 +44,11 @@ body.deck h3{font-size:clamp(20px,2.4vw,27px);margin-top:0}
 body.deck .say{font-size:clamp(18px,2.1vw,24px)}
 body.deck pre{font-size:clamp(13px,1.25vw,17px)}
 body.deck table{font-size:clamp(15px,1.5vw,19px)}
+/* 時間軸 12 列，用一般行高在 1080p 會捲掉後幾列＝投影時看不到 */
+body.deck #timeline table{font-size:clamp(14px,1.15vw,17px)}
+body.deck #timeline th,body.deck #timeline td{padding:6px 12px}
+body.deck #timeline h2{margin-bottom:4px}
+body.deck #timeline .sub{margin-bottom:12px}
 body.deck .oc b{font-size:17px}
 body.deck .hero .lede{font-size:clamp(18px,2.4vw,26px)}
 
@@ -147,7 +157,7 @@ JS = r"""
     }
   }
 
-  /* --- 3. 切換鈕（放在講師模式鈕旁邊） --- */
+  /* --- 3. 模式切換鈕（掛在 nav 的按鈕列） --- */
   var dbtn=document.createElement('button');
   dbtn.className='tbtn'; dbtn.id='dk'; dbtn.setAttribute('aria-pressed','false');
   dbtn.textContent='簡報模式';

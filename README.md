@@ -1,9 +1,22 @@
 # INNORA AI 人才培育 — Day 1 上課網頁
 
-- `index.html` — **講師全版**（含講師備忘／時間提醒／待決事項）。本機開，不發布。
-- `docs/index.html` — **學員版**，由 `build.py` 產生，講師區從原始碼整段移除。
-- `python3 build.py` — 改完 `index.html` 後跑這個，再 push。
-
 線上（學員）：https://temmo1004.github.io/innora-day1/
 
-完全離線可用：單一 HTML，無外部資源，存檔或列印都行。
+## 兩種讀法，同一份內容
+- **文件模式** — 捲動長頁。學員自己看、可搜尋、可列印。
+- **簡報模式** — 一次一張投影片。投影用。右上切換或按 `P`；`←/→`、空白鍵翻頁，`F` 全螢幕，`Esc` 回文件。
+
+## 檔案
+- `index.html` — **講師全版**（含講師備忘、時間軸決策紀錄）。本機開，不發布。
+- `docs/index.html` — **學員版**，產生物，不要手改。
+- `build.py` — 產生學員版：把 `.teach` / `.tnote` / `.slot` 從**原始碼**整段剝掉（不是 CSS 藏），並擋下人名外洩。
+- `deck.py` — 注入簡報模式（冪等，可重跑）。
+
+## 改完怎麼發
+```bash
+python3 deck.py     # 只有改動 index.html 結構時才需要重跑
+python3 build.py
+git add -A && git commit -m "..." && git push
+```
+
+完全離線可用：單一 HTML、零外部資源，場地斷網照樣開。
