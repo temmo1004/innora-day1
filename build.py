@@ -4,7 +4,7 @@
 講師區 <div class="teach">…</div>、<span class="tnote">…</span> 與講師模式按鈕
 會整段從輸出的原始碼移除——不是用 CSS 藏，學員 view-source 也看不到。
 """
-import re, pathlib, sys
+import re, pathlib, shutil, sys
 
 SRC = pathlib.Path(__file__).parent / "index.html"
 OUT = pathlib.Path(__file__).parent / "docs" / "index.html"
@@ -43,6 +43,14 @@ def main():
 
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(html, encoding="utf-8")
+
+    # skills/ 原封複製到 docs/，學員用 curl 直接抓得到
+    src = SRC.parent / "skills"
+    if src.is_dir():
+        dst = OUT.parent / "skills"
+        shutil.rmtree(dst, ignore_errors=True)
+        shutil.copytree(src, dst)
+        print(f"    skills/ → {dst}")
     print(f"OK  {len(SRC.read_text(encoding='utf-8')):,} → {len(html):,} bytes  →  {OUT}")
 
 if __name__ == "__main__":
