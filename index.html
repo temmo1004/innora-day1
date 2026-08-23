@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 1・用 AI 做出你自己 — INNORA AI 人才培育</title>
+<style>
+:root{
+  --bg:#fbfaf8; --card:#fff; --ink:#16181d; --ink2:#4a5058; --ink3:#7b828c;
+  --line:#e4e2dd; --accent:#0b57d0; --accent-soft:#eaf1fd;
+  --warn:#b45309; --warn-soft:#fff7ed; --ok:#0f7b4f; --ok-soft:#eafaf2;
+  --code-bg:#1c1f26; --code-ink:#e8eaef;
+  --teach:#7c3aed; --teach-soft:#f5f0ff;
+  --f: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --m: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);
+  font-size:17px;line-height:1.75;-webkit-text-size-adjust:100%}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;background:rgba(251,250,248,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.navin{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;
+  gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:700;font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.brand span{color:var(--ink3);font-weight:500}
+.navlinks{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
+.navlinks a{font-size:14px;color:var(--ink2);text-decoration:none;
+  padding:5px 10px;border-radius:7px;white-space:nowrap}
+.navlinks a:hover{background:var(--accent-soft);color:var(--accent)}
+.tbtn{font:inherit;font-size:13px;font-weight:600;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);color:var(--ink2);
+  padding:6px 12px;border-radius:999px;white-space:nowrap}
+.tbtn[aria-pressed="true"]{background:var(--teach);border-color:var(--teach);color:#fff}
+
+/* ---------- layout ---------- */
+main{max-width:1080px;margin:0 auto;padding:0 20px 120px}
+header.hero{padding:56px 0 40px;border-bottom:1px solid var(--line);margin-bottom:44px}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:14px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.2;margin:0 0 18px;letter-spacing:-.02em}
+.lede{font-size:clamp(17px,2.2vw,20px);color:var(--ink2);max-width:56ch;margin:0}
+.outcomes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:12px;margin-top:32px}
+.oc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.oc b{display:block;font-size:15px;margin-bottom:4px}
+.oc span{font-size:14px;color:var(--ink3);line-height:1.6}
+
+section{margin:0 0 64px;scroll-margin-top:70px}
+.steptag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;
+  color:#fff;background:var(--ink);padding:4px 11px;border-radius:999px;margin-bottom:14px}
+h2{font-size:clamp(24px,3.4vw,32px);line-height:1.25;margin:0 0 10px;letter-spacing:-.015em}
+h3{font-size:19px;margin:32px 0 10px;letter-spacing:-.01em}
+h4{font-size:16px;margin:22px 0 8px;color:var(--ink2)}
+p{margin:0 0 14px}
+.sub{color:var(--ink3);font-size:15px;margin:-4px 0 22px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+a{color:var(--accent)}
+
+/* ---------- blocks ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:22px 24px;margin:20px 0}
+.say{background:var(--accent-soft);border-left:4px solid var(--accent);
+  border-radius:0 12px 12px 0;padding:18px 22px;margin:20px 0;font-size:18px;line-height:1.7}
+.say b{display:block;font-size:12px;letter-spacing:.1em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.warn{background:var(--warn-soft);border-left:4px solid var(--warn);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0;font-size:16px}
+.warn b{color:var(--warn)}
+.ok{background:var(--ok-soft);border-left:4px solid var(--ok);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0;font-size:16px}
+.ok b{color:var(--ok)}
+
+/* teacher-only */
+.teach{display:none;background:var(--teach-soft);border:1px dashed var(--teach);
+  border-radius:12px;padding:16px 20px;margin:18px 0;font-size:15px}
+body.teaching .teach{display:block}
+.teach>b:first-child{display:block;font-size:11px;letter-spacing:.12em;color:var(--teach);
+  text-transform:uppercase;margin-bottom:8px}
+.teach ul{margin-bottom:0}
+.tnote{display:none;font-size:13px;color:var(--teach);font-weight:600;margin-left:8px}
+body.teaching .tnote{display:inline}
+
+/* ---------- prompt box ---------- */
+.prompt{border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  margin:18px 0;background:var(--code-bg)}
+.phead{display:flex;align-items:center;gap:12px;padding:11px 16px;
+  background:#252932;border-bottom:1px solid #333844}
+.pname{font-size:14px;font-weight:600;color:#fff;flex:1;min-width:0}
+.pnum{font-size:11px;font-weight:700;letter-spacing:.08em;color:#9aa3b2;
+  border:1px solid #3d434f;padding:3px 8px;border-radius:999px}
+.copy{font:inherit;font-size:13px;font-weight:600;cursor:pointer;border:0;
+  background:#3b82f6;color:#fff;padding:7px 15px;border-radius:8px;white-space:nowrap}
+.copy:hover{background:#2563eb}
+.copy.done{background:var(--ok)}
+pre{margin:0;padding:18px 16px;overflow-x:auto;font-family:var(--m);
+  font-size:14.5px;line-height:1.65;color:var(--code-ink);white-space:pre-wrap;
+  word-break:break-word}
+pre em{font-style:normal;color:#fbbf24;font-weight:600}
+pre .cm{color:#7f8899}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:20px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15.5px;background:var(--card)}
+th,td{border:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top}
+th{background:#f4f2ee;font-weight:700;font-size:14px}
+td b{color:var(--ink)}
+
+/* ---------- misc ---------- */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.five{counter-reset:f;list-style:none;padding:0}
+.five li{counter-increment:f;position:relative;padding-left:44px;margin-bottom:14px}
+.five li::before{content:counter(f);position:absolute;left:0;top:1px;
+  width:29px;height:29px;border-radius:50%;background:var(--ink);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:700}
+.five b{display:block}
+.five span{color:var(--ink3);font-size:15px}
+code{background:#eeece7;padding:2px 6px;border-radius:5px;
+  font-family:var(--m);font-size:.9em}
+.slot{border:2px dashed var(--warn);background:var(--warn-soft);border-radius:12px;
+  padding:14px 18px;margin:16px 0;font-size:15px;color:var(--warn);font-weight:600}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink3);font-size:14px}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  main{padding:0 16px 80px}
+  .navlinks{display:none}
+  .card{padding:18px}
+}
+@media print{
+  nav,.teach,.tbtn{display:none!important}
+  body{background:#fff;font-size:12pt}
+  .prompt{background:#fff;border:1px solid #999}
+  pre{color:#000;background:#f4f4f4}
+  .phead{background:#eee;border-bottom:1px solid #999}
+  .pname{color:#000}
+  section{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="navin">
+    <div class="brand">INNORA <span>／ Day 1</span></div>
+    <div class="navlinks">
+      <a href="#setup">0 裝機</a>
+      <a href="#cover">1 封面</a>
+      <a href="#resume">2 履歷</a>
+      <a href="#card">3 名片</a>
+      <a href="#fix">4 修好它</a>
+      <a href="#ref">速查</a>
+      <a href="#stuck">卡住了</a>
+    </div>
+    <button class="tbtn" id="tt" aria-pressed="false">講師模式</button>
+  </div>
+</nav>
+
+<main>
+
+<header class="hero">
+  <div class="kicker">AI 人才培育・第一天</div>
+  <h1>今天，你要用 AI 做出「你自己」</h1>
+  <p class="lede">你不會學任何程式語法。你要學的是把話講清楚——講得夠清楚，AI 就會幫你把東西做出來。</p>
+  <div class="outcomes">
+    <div class="oc"><b>① 一張雜誌封面</b><span>你自己的 Vogue 封面，會印出來</span></div>
+    <div class="oc"><b>② 一份數位履歷</b><span>不是 PDF，是網頁</span></div>
+    <div class="oc"><b>③ 一張數位名片</b><span>有網址，傳給誰都打得開</span></div>
+    <div class="oc"><b>④ 修好它的能力</b><span>壞掉了，你自己救得回來</span></div>
+  </div>
+
+  <div class="teach"><b>講師備忘</b>
+    <ul>
+      <li><b>上午時間會爆</b>：報到＋開場＋簽約 45＋冷讀 30＋裝機 30–60＋封面 60＋互介 30＋性向測驗 45 ＝ 240–270 分，但只有 180 分。開課前跟白羊決定：測驗移到午休後 / 封面移回下午 / 裝機併進報到那 45 分。</li>
+      <li>你的封面成品、履歷示範站、下午任務題目 —— 今晚要生出來。</li>
+      <li>學員 6 人（會議數字，同意書仍照 10 份印）。</li>
+      <li>場地網路不穩 → 本頁完全離線可用，存檔或印出來都行。</li>
+    </ul>
+  </div>
+</header>
+
+<!-- ============ 0 ============ -->
+<section id="setup">
+  <div class="steptag">STEP 0</div>
+  <h2>先把工具裝起來</h2>
+  <p class="sub">兩個版本都要裝。等一下你會知道為什麼。</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4 style="margin-top:0">GUI 版</h4>
+      <p style="margin:0">有畫面、看得懂、好上手。<br>今天早上先用它。</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">CLI 版（終端機）</h4>
+      <p style="margin:0">黑底白字，看起來很難。<br>但它能做 GUI 做不到的事。</p>
+    </div>
+  </div>
+
+  <p>終端機怎麼開、怎麼進資料夾、怎麼啟動 —— 照這份走：</p>
+  <p><a href="https://temmo1004.github.io/claude-terminal-guide/" target="_blank" rel="noopener"><b>→ 終端機新手指南（另開）</b></a></p>
+
+  <div class="ok"><b>裝好了沒？</b> 你的終端機上出現 <code>cwd:</code>，而且後面那串路徑是你自己的資料夾 —— 就算裝好了。</div>
+
+  <div class="warn"><b>最常見的坑：</b>資料夾名稱有<b>空格</b>或<b>中文</b>，路徑要用雙引號包起來。
+  例：<code>cd "/Users/你的名字/我的 專案"</code></div>
+
+  <div class="teach"><b>講師動作</b>
+    <ul>
+      <li>發網址，<b>不要口頭念指令</b>——念一次會被問十遍。</li>
+      <li>一人一人過。卡住的舉手，你走過去；還是不行的午休繼續。</li>
+      <li>雙引號那條<b>當場示範一次</b>，示範完再讓他們自己打。</li>
+      <li>順手把備援池設定也裝上（Codex 週額度可能 Day2 見底，別等燒光才弄）。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section id="cover">
+  <div class="steptag">STEP 1</div>
+  <h2>你的雜誌封面</h2>
+  <p class="sub">三份提示詞，挑一份，把它改成你的。</p>
+
+  <div class="teach"><b>講師動作 — 開場先給結果</b>
+    <ul>
+      <li>投出<b>你自己的封面</b>，再投「只改了一個條件」的第二版，讓他們看到差別。</li>
+      <li>發下提示詞的第一句話：<b>「先看提示詞上面的名字是不是自己的，不是就幫我改掉。」</b></li>
+      <li>第二句：<b>「接下來是你們的主色跟字體。你們肯定有自己喜歡的——發揮想像力，改成你的。」</b></li>
+      <li>然後全部送出。有人快有人慢，這是預期內的，不要等齊。</li>
+    </ul>
+  </div>
+
+  <p>提示詞最上面那幾行 <em style="color:var(--warn);font-style:normal;font-weight:700">要改成你自己的</em>。下面那段英文先不要動，等你抽到滿意的圖再回頭調。</p>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">A</span><span class="pname">時尚街頭・Adidas 廣告感</span>
+      <button class="copy" data-t="p1">複製</button></div>
+    <pre id="p1">COVER SUBJECT: <em>王小明</em>            <span class="cm">← 改成你的名字</span>
+MASTHEAD: <em>VOGUE</em>                  <span class="cm">← 刊名，可以換</span>
+MAIN COLOR: <em>#0033A0</em>              <span class="cm">← 改成你喜歡的主色</span>
+TYPEFACE FEEL: <em>bold serif, editorial</em>   <span class="cm">← 字體感覺</span>
+COVER LINES (Traditional Chinese, 3 short lines):
+  <em>「用 AI 重寫我的職涯」</em>
+  <em>「六天，從零到上線」</em>
+  <em>「2026 AI 人才特輯」</em>
+
+Hyper-realistic cinematic fashion photoshoot magazine cover.
+A 20-year-old subject with a refined slim face, lean and elegant physique.
+Seated casually on a deep white bean bag, wearing bold all-dark chocolate
+oversized streetwear: a stylish trench coat over a clean white inner t-shirt,
+wide white pants, chunky sneakers, and a silver watch.
+The background is minimal with an aesthetic grey tone.
+The atmosphere reflects powerful drip vibes, like an Adidas campaign editorial,
+with dramatic studio lighting and a modern urban touch.
+Keep the face 100% accurate and realistic.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Subject centred. Text must never cover the face.</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">B</span><span class="pname">藝術肖像・多重曝光</span>
+      <button class="copy" data-t="p2">複製</button></div>
+    <pre id="p2">COVER SUBJECT: <em>王小明</em>            <span class="cm">← 改成你的名字</span>
+MASTHEAD: <em>VOGUE</em>
+MAIN COLOR: <em>#0033A0 → #00CCFF</em>    <span class="cm">← 漸層兩端，可以換</span>
+TYPEFACE FEEL: <em>thin sans, gallery poster</em>
+COVER LINES (Traditional Chinese, 3 short lines):
+  <em>「我在學怎麼跟機器說話」</em>
+  <em>「第一天」</em>
+  <em>「INNORA 2026」</em>
+
+High-fashion cinematic half-length portrait, dreamlike editorial style.
+Multi-exposure motion blur with ghosting and vertical streaks.
+Clean gradient background from deep azure (#0033A0) to cyan (#00CCFF).
+Subject in a plain white oversized T-shirt with soft folds catching coloured lights.
+Dramatic lighting: cool blue wash plus orange/yellow edge glow from camera-left backlight.
+Expression neutral and introspective, eyes softly lit or shadowed.
+Shot on 50-85mm f/1.8, shallow depth, cinematic blur and chromatic separation.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Text must never cover the face.</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">C</span><span class="pname">電影氛圍・月台列車</span>
+      <button class="copy" data-t="p3">複製</button></div>
+    <pre id="p3">COVER SUBJECT: <em>王小明</em>            <span class="cm">← 改成你的名字</span>
+MASTHEAD: <em>VOGUE</em>
+MAIN COLOR: <em>warm gold + deep black</em>
+TYPEFACE FEEL: <em>condensed serif, cinematic</em>
+COVER LINES (Traditional Chinese, 3 short lines):
+  <em>「離開原本那條路」</em>
+  <em>「六天之後我要交出什麼」</em>
+  <em>「2026 秋」</em>
+
+A hyperrealistic cinematic photograph capturing a fleeting, intimate moment
+on a dimly lit underground platform. The central subject stands at a slight
+slant angle — not fully in profile, not fully frontal — face turned slightly,
+giving subtle intrigue. Perfectly still, a serene figure amidst the chaos,
+dressed in an elegant long black coat. In stark contrast, a vibrant yellow
+train rushes past in the background, its speed rendered as a brilliant,
+dynamic streak of motion blur. The scene is enveloped in warm, moody
+atmospheric lighting from the station, casting soft golden glows onto the
+arched tiled ceiling.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Text must never cover the face.</pre>
+  </div>
+
+  <hr>
+
+  <h3>抽卡</h3>
+  <div class="say"><b>這段一定要講</b>
+    現在的生圖就跟<b>抽卡</b>一樣，非常不穩定。<br>
+    想抽到好的只有兩條路：<b>一是把提示詞改得更完美，二是增加抽卡次數。</b><br>
+    剛剛叫你們裝的第二個版本，就是為了第二條路。</div>
+
+  <p><b>問題來了：如果我要一次生十張，從十張裡面挑一張，該怎麼做？</b></p>
+
+  <div class="tw"><table>
+    <tr><th></th><th>GUI 版</th><th>CLI 版</th></tr>
+    <tr><td><b>生十張</b></td><td>叫它生十張 → 畫質會掉；要它一張一張生 → 你得貼十次</td><td>一次生十張，直接落進資料夾</td></tr>
+    <tr><td><b>挑圖</b></td><td>在對話裡一張一張往上捲</td><td>開資料夾，十張並排比</td></tr>
+    <tr><td><b>再修</b></td><td>整段重貼</td><td>改一個字重跑</td></tr>
+  </table></div>
+
+  <p>換到 CLI，把你的圖重生一遍：</p>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">CLI</span><span class="pname">一次抽十張</span>
+      <button class="copy" data-t="p4">複製</button></div>
+    <pre id="p4">用下面這段提示詞，一次生成 10 張不同的版本，
+存成 cover-01.png 到 cover-10.png，放在 ./covers 資料夾裡。
+生完之後把檔案清單列出來給我。
+
+<span class="cm">（把你剛才改好的那份提示詞整段貼在這裡）</span></pre>
+  </div>
+
+  <div class="ok"><b>目標</b>：生到第 30 張左右，選一張你最喜歡的。</div>
+
+  <h3>選完之後，找旁邊的人</h3>
+  <ul>
+    <li>你這張是怎麼設計出來的？</li>
+    <li>你用了什麼小巧思？</li>
+    <li>你丟了什麼參考圖給它？</li>
+  </ul>
+
+  <div class="say">
+    不一樣的來源、不一樣的做法，會碰出不一樣的東西。<br>
+    而這些<b>都需要你原本就有的知識</b>才做得出來 ——
+    AI 是<b>賦予能力、賦予價值</b>的產物，不是替代你的東西。</div>
+
+  <div class="teach"><b>講師動作 — 問答（抓 15–20 分鐘）</b>
+    <ul>
+      <li>最常見那題：「我要文字在人的前面怎麼辦？」→ <b>「你有沒有對標的圖片？有的話一併丟給它。」</b></li>
+      <li>同一題被問<b>第二次</b>：把那兩個人配在一起，讓他們互相講。</li>
+      <li>其他問題套下面〈提示詞四種常見錯誤〉分類回答。</li>
+      <li>收攏 → 印出來 → 交給早上盲描你的那個人 → 上台互相介紹（白羊接手）。</li>
+      <li><b>印表機</b>：場地網路裝不了，接手機熱點或你自己的網路。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="resume">
+  <div class="steptag">STEP 2</div>
+  <h2>你的數位履歷</h2>
+  <p class="sub">不是 PDF。是一個別人打得開的網頁。</p>
+
+  <h3>先準備素材（15 分鐘）</h3>
+  <ul>
+    <li>你做過的事、學過的東西、待過的地方</li>
+    <li>照片</li>
+    <li>你 IG／作品／任何能證明你做過什麼的東西</li>
+  </ul>
+
+  <div class="teach"><b>講師節奏</b>
+    <ul>
+      <li>先給 <b>10 分鐘</b>備素材。</li>
+      <li>時間快到時喊一次：<b>「都準備好了嗎？有沒有忘記什麼？」</b></li>
+      <li><b>再給 5 分鐘</b>。這 5 分鐘是關鍵，多數人在這時候才真的想起東西。</li>
+    </ul>
+  </div>
+
+  <h3>第一次：故意隨便講</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">1</span><span class="pname">先這樣丟給它</span>
+      <button class="copy" data-t="p5">複製</button></div>
+    <pre id="p5">幫我做一個簡歷</pre>
+  </div>
+
+  <p>出來的東西，長得跟別人的一模一樣。<b>這是故意的。</b></p>
+
+  <div class="teach"><b>講師</b> — 這一步是設計好的下限。不要跳過，落差出來，五大要素就不用背了。</div>
+
+  <h3>第二次：用 skill</h3>
+  <ol>
+    <li>重新開一個新的對話</li>
+    <li>去下載網路上做好的<b>簡歷 skill</b></li>
+    <li>用這份 skill 重做一次</li>
+  </ol>
+
+  <div class="slot">⬜ 講師今晚補上：簡歷 skill 的下載網址／安裝方式（明天要貼在這裡）</div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">2</span><span class="pname">這次講清楚</span>
+      <button class="copy" data-t="p6">複製</button></div>
+    <pre id="p6">用剛才下載的簡歷 skill，把下面這些資料變成我的專屬數位履歷網頁。
+
+我的資料：
+  姓名：<em>王小明</em>
+  一句話介紹：<em>正在轉行做 AI 的餐飲業儲備幹部</em>
+  經歷：<em>（把你準備的東西貼進來）</em>
+  想找的方向：<em>（你希望別人看完來找你談什麼）</em>
+
+設計要求：
+  主色：<em>#2C3E50</em>，輔色：<em>#3498DB</em>
+  風格：<em>簡約專業</em>          <span class="cm">← 或：創意活潑 / 極簡文青</span>
+  版面：單頁式，手機上也要好看
+  互動：滑鼠移到連結上要有變化
+
+技術要求：
+  純 HTML + CSS，可以直接用瀏覽器打開
+  程式碼要有註解，方便我看懂
+  圖片先用佔位圖，我之後自己換</pre>
+  </div>
+
+  <div class="ok"><b>差在哪？</b>兩次的提示詞放在一起看 —— 你剛剛已經學會提示詞工程了。<a href="#ref">往下看五大要素 →</a></div>
+
+  <div class="teach"><b>講師動作</b> — 一個一個拉出來辨識：「原來你之前做過這個，要不要分享一下你的經驗？」這段是把履歷內容變成互動的地方，不要趕。</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="card">
+  <div class="steptag">STEP 3</div>
+  <h2>你的數位名片</h2>
+
+  <div class="say"><b>轉場</b>
+    這份履歷還不夠。<br>我們要有一張<b>能跟別人互動的名片</b>。</div>
+
+  <p><b>先想一下 —— 名片上要有什麼？</b></p>
+  <ul>
+    <li>要不要能給別人「感應」？</li>
+    <li>怎麼傳給對方最方便？</li>
+    <li>網站要怎麼呈現才不會像履歷的縮小版？</li>
+  </ul>
+
+  <div class="teach"><b>講師</b> — 這裡讓全場舉手回答，不要自己講完。答案越亂越好，等一下他們會發現「亂」就是提示詞不夠具體。
+    <br>懷舊梗（會有笑點，照講）：<b>「有點像以前的無名小站——要不要加櫻花在飄？打開會不會自動播一首專屬音樂？雖然很老套。」</b></div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">3</span><span class="pname">名片</span>
+      <button class="copy" data-t="p7">複製</button></div>
+    <pre id="p7">幫我做一張數位名片網頁。它跟履歷不一樣：
+履歷是給人看完整的我，名片是給人<em>三秒鐘記住我</em>。
+
+必須有：
+  名字、一句話介紹、聯絡方式（email／IG／LINE）
+  一鍵複製聯絡方式的按鈕
+  手機打開就是全螢幕，不用縮放
+
+設計：
+  主色 <em>#2C3E50</em>，一頁到底，不要捲動
+  <em>（想加什麼特效就寫在這裡，例如：背景有櫻花緩慢飄落）</em>
+
+技術要求：
+  純 HTML + CSS，單一檔案
+  程式碼有註解
+  手機優先</pre>
+  </div>
+
+  <h3>把它掛上網</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">4</span><span class="pname">部署</span>
+      <button class="copy" data-t="p8">複製</button></div>
+    <pre id="p8">幫我把這個網頁放到 GitHub Pages 上，讓別人可以用網址打開。
+我沒有用過 GitHub，請一步一步告訴我要做什麼，
+每一步都告訴我要點哪裡、要打什麼。</pre>
+  </div>
+
+  <div class="ok"><b>完成標準</b>：你有一個網址，傳給旁邊的人，他手機打得開。</div>
+
+  <div class="teach"><b>講師</b> — 一人一個網址，收進 LINE 群。這是 Day 1 唯一的硬產出，其他都可以打折，這個不行。</div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="fix">
+  <div class="steptag">STEP 4</div>
+  <h2>我會把它弄壞。你要修回來。</h2>
+  <p class="sub">這才是重點。做得出來不稀奇，壞掉救得回來才是能力。</p>
+
+  <ol>
+    <li>我會走到你的電腦前，把你的網頁弄壞</li>
+    <li>你用 AI 把它修回來</li>
+    <li>修好的人去看隔壁怎麼修</li>
+  </ol>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">SOS</span><span class="pname">壞掉了怎麼講</span>
+      <button class="copy" data-t="p9">複製</button></div>
+    <pre id="p9">我的網頁壞掉了。
+
+我看到的狀況是：<em>（照實描述，例如：整個變成白底黑字，排版全跑掉了）</em>
+錯誤訊息：<em>（有的話貼上來，沒有就寫「沒有錯誤訊息」）</em>
+
+請先告訴我「哪裡壞了、為什麼壞」，再幫我修。
+我想看懂，不要只給我改好的檔案。</pre>
+  </div>
+
+  <div class="say">
+    講不清楚壞在哪，AI 就修不好 ——<br>
+    這跟你早上抽不到好圖，是<b>同一件事</b>。</div>
+
+  <div class="teach"><b>講師 — 待你決定怎麼弄壞</b>
+    <ul>
+      <li>你在會上說的是「<b>直接砍掉一段 code</b>」＝硬。</li>
+      <li>Joe 質疑過：「做簡歷好像沒有弄爆的問題？」——純靜態頁砍 JS 幾乎沒感覺。</li>
+      <li><b>建議砍 CSS 區塊</b>：畫面立刻崩、視覺衝擊大、但一定修得回來，不會卡死人。</li>
+      <li>執行表把這列為待拍板 #3，今晚定下來。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ REF ============ -->
+<section id="ref">
+  <div class="steptag">速查</div>
+  <h2>提示詞五大要素</h2>
+  <ol class="five">
+    <li><b>明確的目標</b><span>你要做什麼？「做一個網頁版貪食蛇」而不是「做個遊戲」</span></li>
+    <li><b>具體的細節</b><span>它長什麼樣？有什麼規則？「用方向鍵控制，吃到食物會變長」</span></li>
+    <li><b>格式要求</b><span>給我什麼樣的東西？「一個 HTML 檔，能直接用瀏覽器打開」</span></li>
+    <li><b>範例或參考</b><span>像什麼一樣？「像 Apple 官網那樣的簡約風格」</span></li>
+    <li><b>約束條件</b><span>有什麼限制？「不要用外部框架，程式碼要有註解」</span></li>
+  </ol>
+
+  <h3>四種常見錯誤</h3>
+  <div class="tw"><table>
+    <tr><th>錯誤</th><th>長這樣</th><th>為什麼不行</th></tr>
+    <tr><td><b>過於簡短</b></td><td>「寫個網站」</td><td>AI 不知道你要什麼，只好給你平均值</td></tr>
+    <tr><td><b>過度複雜</b></td><td>「做個電商，要有 20 個功能…」</td><td>一次做不完 → 拆成階段</td></tr>
+    <tr><td><b>缺乏上下文</b></td><td>「改成藍色」</td><td>AI 不知道要改<b>什麼</b>東西</td></tr>
+    <tr><td><b>模糊形容詞</b></td><td>「網站要好看」</td><td>「好看」太主觀 → 給具體描述或參考圖</td></tr>
+  </table></div>
+
+  <h3>三個比喻（看不懂程式的時候想這個）</h3>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">HTML</h4><p style="margin:0">房子的<b>結構</b><br>牆壁、門、窗</p></div>
+    <div class="card"><h4 style="margin-top:0">CSS</h4><p style="margin:0">房子的<b>裝潢</b><br>顏色、擺設、風格</p></div>
+    <div class="card"><h4 style="margin-top:0">JavaScript</h4><p style="margin:0">房子的<b>功能</b><br>開關燈、開門</p></div>
+  </div>
+</section>
+
+<!-- ============ STUCK ============ -->
+<section id="stuck">
+  <div class="steptag">卡住了</div>
+  <h2>先看這裡，再舉手</h2>
+  <div class="tw"><table>
+    <tr><th>狀況</th><th>怎麼辦</th></tr>
+    <tr><td>打指令說「command not found」</td><td>裝的時候有一步沒跑完。回終端機指南從第 3 步重來。</td></tr>
+    <tr><td><code>cd</code> 進不去資料夾</td><td>路徑有空格或中文 → 用雙引號包起來：<code>cd "路徑"</code></td></tr>
+    <tr><td>AI 看不到我的檔案</td><td>你的 <code>cwd:</code> 不在那個資料夾。先 <code>cd</code> 過去再啟動。</td></tr>
+    <tr><td>生出來的圖完全不像我要的</td><td>正常。這是抽卡。改一個條件再抽，或丟一張參考圖給它。</td></tr>
+    <tr><td>它一直做錯同一件事</td><td>別再重講一次同樣的話。改成：「你剛才做的是 A，我要的是 B，差別在 C。」</td></tr>
+    <tr><td>網頁打不開／一片空白</td><td>用 STEP 4 那段 SOS 提示詞，照實描述你看到什麼。</td></tr>
+  </table></div>
+
+  <div class="say"><b>今天唯一的規則</b>
+    改壞了可以重來。這裡沒有笨問題。<br>
+    <b>你每問一次，就是幫全班問一次。</b></div>
+</section>
+
+<footer>
+  INNORA AI 人才培育・Day 1（2026-08-24 梯）<br>
+  這一頁完全離線可用 —— 存下來、印出來都行。
+</footer>
+
+</main>
+
+<script>
+// 講師模式
+(function(){
+  var b=document.getElementById('tt'),on=false;
+  try{ on = localStorage.getItem('teach')==='1'; }catch(e){}
+  function set(v){
+    on=v;
+    document.body.classList.toggle('teaching',on);
+    b.setAttribute('aria-pressed',on?'true':'false');
+    try{ localStorage.setItem('teach',on?'1':'0'); }catch(e){}
+  }
+  set(on);
+  b.addEventListener('click',function(){ set(!on); });
+  // T 鍵切換（不在輸入框時）
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='t'&&e.key!=='T') return;
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    var t=e.target.tagName;
+    if(t==='INPUT'||t==='TEXTAREA'||e.target.isContentEditable) return;
+    set(!on);
+  });
+})();
+
+// 複製提示詞：取純文字，把註解欄（← 改成…）整段拿掉
+(function(){
+  function clean(el){
+    var c=el.cloneNode(true);
+    c.querySelectorAll('.cm').forEach(function(n){ n.remove(); });
+    return c.textContent.split('\n').map(function(l){ return l.replace(/\s+$/,''); }).join('\n').trim();
+  }
+  function fallback(txt){
+    var ta=document.createElement('textarea');
+    ta.value=txt; ta.setAttribute('readonly','');
+    ta.style.cssText='position:fixed;top:-9999px;left:-9999px';
+    document.body.appendChild(ta); ta.select();
+    var ok=false;
+    try{ ok=document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    return ok;
+  }
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var src=document.getElementById(btn.dataset.t);
+      if(!src) return;
+      var txt=clean(src);
+      function done(ok){
+        btn.textContent = ok ? '已複製 ✓' : '請手動選取';
+        btn.classList.toggle('done',ok);
+        setTimeout(function(){ btn.textContent='複製'; btn.classList.remove('done'); },1800);
+      }
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(fallback(txt));});
+      } else {
+        done(fallback(txt));
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
