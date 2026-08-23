@@ -583,6 +583,31 @@ Text must never cover the face.</pre>
 
   <hr>
 
+  <h3>想要更多風格？裝一個現成的風格庫</h3>
+  <p>上面三份是給你起步用的。有人把 <b>470 多個實際案例</b>逆向工程成一套風格庫，
+  免費、開源，裝上去之後你可以直接叫它「用某某風格幫我做」。</p>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">兩者皆同</span><span class="pname">安裝風格庫</span>
+      <button class="copy" data-t="c8">複製</button></div>
+    <pre id="c8">npx -y gpt-image-2-style-library install codex</pre>
+  </div>
+
+  <div class="warn"><b>裝完一樣要重開 Codex</b>（<code>/exit</code> 再打 <code>codex</code>），而且<b>要叫得出它的名字</b>。</div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">用法</span><span class="pname">點名叫它</span>
+      <button class="copy" data-t="c9">複製</button></div>
+    <pre id="c9">用 gpt-image-2-style-library 技能，幫我生成一張 Vogue 風格的雜誌封面圖，
+主角叫王小明，刊頭 VOGUE，主色 #0033A0，三行繁體中文封面標題。
+直式 3:4。存成 cover.png。</pre>
+  </div>
+
+  <p style="font-size:14px;color:var(--ink3)">風格庫來自
+  <a href="https://github.com/freestylefly/awesome-gpt-image-2" target="_blank" rel="noopener">freestylefly/awesome-gpt-image-2</a>（MIT 授權，12k+ ★）。不是我們做的，感謝原作者。</p>
+
+  <hr>
+
   <h3>抽卡</h3>
   <div class="say"><b class="lab">這段一定要講</b>
     現在的生圖就跟<b>抽卡</b>一樣，非常不穩定。<br>
@@ -631,6 +656,9 @@ Text must never cover the face.</pre>
       <li>其他問題套下面〈提示詞四種常見錯誤〉分類回答。</li>
       <li>收攏 → 印出來 → 交給早上盲描你的那個人 → 上台互相介紹（白羊接手）。</li>
       <li><b>印表機</b>：場地網路裝不了，接手機熱點或你自己的網路。</li>
+      <li>風格庫（awesome-gpt-image-2，MIT）我實測過：3:4、繁中三行標題、指定主色都正確，
+      成品品質比我們自己寫的那三份還好。<b>但它是加碼，不要一開始就發</b>——
+      先讓他們用三份基本款體會「抽卡」，再拿風格庫當獎勵。</li>
     </ul>
   </div>
 </section>
@@ -681,13 +709,13 @@ Text must never cover the face.</pre>
   <div class="prompt">
     <div class="phead"><span class="pnum">Mac</span><span class="pname">安裝 digital-resume skill</span>
       <button class="copy" data-t="s1">複製</button></div>
-    <pre id="s1">mkdir -p ~/.agents/skills/digital-resume && curl -fsSL https://temmo1004.github.io/innora-day1/skills/digital-resume/SKILL.md -o ~/.agents/skills/digital-resume/SKILL.md</pre>
+    <pre id="s1">mkdir -p ~/.codex/skills/digital-resume && curl -fsSL https://temmo1004.github.io/innora-day1/skills/digital-resume/SKILL.md -o ~/.codex/skills/digital-resume/SKILL.md</pre>
   </div>
 
   <div class="prompt">
     <div class="phead"><span class="pnum">Win</span><span class="pname">安裝 digital-resume skill</span>
       <button class="copy" data-t="s2">複製</button></div>
-    <pre id="s2">mkdir "$HOME\.agents\skills\digital-resume" -Force; irm https://temmo1004.github.io/innora-day1/skills/digital-resume/SKILL.md -OutFile "$HOME\.agents\skills\digital-resume\SKILL.md"</pre>
+    <pre id="s2">mkdir "$HOME\.codex\skills\digital-resume" -Force; irm https://temmo1004.github.io/innora-day1/skills/digital-resume/SKILL.md -OutFile "$HOME\.codex\skills\digital-resume\SKILL.md"</pre>
   </div>
 
   <div class="warn"><b>裝完一定要重開 Codex。</b>
