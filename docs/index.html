@@ -634,17 +634,21 @@ Text must never cover the face.</pre>
   <div class="warn"><b>裝完一定要重開 Codex。</b>
   在 Codex 裡打 <code>/exit</code> 離開，再打一次 <code>codex</code> 進去 —— 不重開它讀不到新的 skill。</div>
 
-  <p><b>第二步：重新開一個新的對話，然後就講剛才那句一模一樣的話。</b></p>
+  <p><b>第二步：重新開一個新的對話，這次<u>把 skill 的名字叫出來</u>。</b></p>
 
   <div class="prompt">
-    <div class="phead"><span class="pnum">2</span><span class="pname">再講一次同樣的話</span>
+    <div class="phead"><span class="pnum">2</span><span class="pname">這次點名要它用 skill</span>
       <button class="copy" data-t="p5b">複製</button></div>
-    <pre id="p5b">幫我做一個簡歷</pre>
+    <pre id="p5b">用 digital-resume skill 幫我做一個簡歷</pre>
   </div>
 
   <div class="ok"><b>這次它的反應會完全不一樣。</b>
-  它不會直接吐一份套版給你 —— 它會<b>先問你三個問題</b>，而且你沒講的東西它一個字都不會編。
-  同樣一句話，因為裝了 skill，結果差這麼多。</div>
+  它不會吐套版給你 —— 它會<b>只問你三個問題</b>，而且你沒講的東西它<b>一個字都不會編</b>。</div>
+
+  <div class="warn"><b>怎麼知道它「沒吃到」skill？</b>
+  如果它一次問你<b>七八個問題</b>、或問你「要輸出成 Word 還是純文字」——那就是沒吃到。<br>
+  <b>解法：把 <code>用 digital-resume skill</code> 這幾個字加在句子最前面，再講一次。</b>
+  光把檔案放進去它不一定會自己想到要用，<b>你要叫得出它的名字。</b></div>
 
 
   <p><b>第三步：把資料交給它。</b>它問你的那三題，可以一題一題回，也可以直接用下面這張表一次講完。</p>
@@ -672,7 +676,7 @@ Text must never cover the face.</pre>
 
   <div class="ok"><b>你剛剛做了兩件事</b>
     <ol style="margin:8px 0 0">
-      <li><b>裝了一個能力</b> —— 同樣一句話，結果完全不同</li>
+      <li><b>裝了一個能力，並且叫得出它的名字</b> —— 差別就在這一句話</li>
       <li><b>把話講清楚了</b> —— 你給的資料越具體，它做出來的越像你</li>
     </ol>
     第二件事有名字，叫<b>提示詞工程</b>。<a href="#ref">往下看五大要素 →</a>
@@ -804,6 +808,7 @@ Text must never cover the face.</pre>
     <tr><td>AI 看不到我的檔案</td><td>你的 <code>cwd:</code> 不在那個資料夾。先 <code>cd</code> 過去再啟動。</td></tr>
     <tr><td>生出來的圖完全不像我要的</td><td>正常。這是抽卡。改一個條件再抽，或丟一張參考圖給它。</td></tr>
     <tr><td>它一直做錯同一件事</td><td>別再重講一次同樣的話。改成：「你剛才做的是 A，我要的是 B，差別在 C。」</td></tr>
+    <tr><td>裝了 skill 但它好像沒在用</td><td>句子開頭加上「<b>用 digital-resume skill</b>」再講一次。它問超過三題就是沒吃到。</td></tr>
     <tr><td>網頁打不開／一片空白</td><td>用 STEP 4 那段 SOS 提示詞，照實描述你看到什麼。</td></tr>
   </table></div>
 
