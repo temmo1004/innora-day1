@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<title>真龍滷味・自動販賣機</title>
+<style>
+:root{
+  --bg:#14100e; --panel:#1f1815; --edge:#3a2c25; --ink:#f6efe8; --dim:#a89282;
+  --gold:#e8a33d; --hot:#d1442f; --ok:#4a9d5f; --steam:#f0e6dc;
+  --f:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);
+  overflow:hidden;user-select:none;display:flex;align-items:center;justify-content:center}
+#machine{position:relative;width:100%;max-width:440px;height:100dvh;max-height:940px;
+  background:linear-gradient(180deg,#241b17,#171210);overflow:hidden;
+  display:flex;flex-direction:column}
+.scr{position:absolute;inset:0;display:none;flex-direction:column;padding:18px}
+.scr.on{display:flex}
+
+/* ---------- 招牌 ---------- */
+.sign{text-align:center;padding:20px 0 8px;flex:none}
+.sign .zh{font-size:31px;font-weight:800;letter-spacing:.16em;color:var(--gold);
+  text-shadow:0 0 22px rgba(232,163,61,.34)}
+.sign .en{font-size:11px;letter-spacing:.42em;color:var(--dim);margin-top:6px}
+.lamp{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--hot);
+  margin:0 9px;vertical-align:middle;animation:blink 1.6s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ---------- 待機／掃碼 ---------- */
+#idle{align-items:center;justify-content:center;text-align:center}
+.qr{width:186px;height:186px;background:#fff;border-radius:14px;padding:13px;
+  margin:26px auto 20px;cursor:pointer;transition:transform .15s}
+.qr:active{transform:scale(.96)}
+.qr svg{display:block;width:100%;height:100%}
+.tap{font-size:17px;color:var(--gold);font-weight:700}
+.tap small{display:block;color:var(--dim);font-weight:400;font-size:13px;margin-top:7px}
+
+/* ---------- 點餐 ---------- */
+.bar{display:flex;align-items:baseline;gap:9px;padding:2px 2px 12px;flex:none}
+.bar h2{font-size:19px;margin:0;font-weight:700}
+.bar span{font-size:12px;color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;overflow-y:auto;
+  flex:0 1 auto;align-content:start;padding-bottom:6px}
+.it{background:var(--panel);border:1px solid var(--edge);border-radius:13px;
+  padding:11px 6px 9px;text-align:center;cursor:pointer;position:relative;
+  transition:transform .1s,border-color .15s}
+.it:active{transform:scale(.93);border-color:var(--gold)}
+.it .em{font-size:29px;line-height:1.15;display:block}
+.it .nm{font-size:13px;margin-top:5px;font-weight:600}
+.it .mn{font-size:10.5px;color:var(--dim);margin-top:2px}
+.it .qty{position:absolute;top:4px;right:4px;min-width:22px;height:22px;
+  border-radius:11px;background:var(--gold);color:#20160c;font-size:12px;font-weight:800;
+  display:none;align-items:center;justify-content:center;padding:0 5px}
+.it.has .qty{display:flex}
+
+/* ---------- 籃子 ---------- */
+#basket{flex:none;height:112px;margin-top:10px;border-radius:13px;position:relative;
+  background:linear-gradient(180deg,#2b211b,#1b1512);border:1px solid var(--edge);
+  overflow:hidden}
+#basket .hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#6d5a4e;font-size:13px}
+.blob{position:absolute;font-size:25px;transition:none;will-change:transform}
+@keyframes drop{from{transform:translateY(-130px) rotate(0deg)}
+  to{transform:translateY(0) rotate(var(--r))}}
+
+.pay{flex:none;margin-top:11px;display:flex;gap:9px;align-items:center}
+.total{flex:1;font-size:15px}
+.total b{font-size:25px;color:var(--gold);margin-left:5px}
+button.go{font:inherit;font-size:17px;font-weight:800;border:0;border-radius:13px;
+  padding:15px 24px;background:var(--gold);color:#20160c;cursor:pointer}
+button.go:disabled{background:#4a3d33;color:#8a7767;cursor:default}
+button.go:active:not(:disabled){transform:scale(.97)}
+.clr{background:none;border:0;color:var(--dim);font:inherit;font-size:13px;
+  cursor:pointer;padding:6px}
+
+/* ---------- 煮 ---------- */
+#cook{align-items:center;justify-content:center;text-align:center}
+.pot{width:214px;height:214px;border-radius:50%;position:relative;margin:6px auto 18px;
+  background:radial-gradient(circle at 50% 38%,#7a4a1e,#42260f 70%,#2a1708);
+  border:7px solid #5b4436;overflow:hidden;box-shadow:0 0 46px rgba(209,68,47,.28)}
+.soup{position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 50% 40%,#8a5220,#4a2a10 72%)}
+.spin{position:absolute;inset:0;animation:spin 3.1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin i{position:absolute;font-size:26px;font-style:normal}
+.bub{position:absolute;bottom:-16px;border-radius:50%;background:rgba(255,236,205,.5);
+  animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) scale(.5);opacity:0}
+  18%{opacity:.85}100%{transform:translateY(-176px) scale(1.25);opacity:0}}
+.clock{font-size:52px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.cooking{color:var(--dim);font-size:14px;margin-top:8px;min-height:20px}
+
+/* ---------- 取餐 ---------- */
+#done{align-items:center;justify-content:center;text-align:center}
+.bag{font-size:86px;animation:pop .5s cubic-bezier(.2,1.5,.4,1)}
+@keyframes pop{from{transform:scale(.2) rotate(-14deg);opacity:0}to{transform:none;opacity:1}}
+#done h2{font-size:27px;margin:16px 0 6px}
+.recv{background:var(--panel);border:1px dashed var(--edge);border-radius:13px;
+  padding:14px 18px;margin:16px auto 0;max-width:290px;text-align:left;font-size:14px;
+  line-height:1.85;color:var(--dim)}
+.recv b{color:var(--ink)}
+.foot{flex:none;text-align:center;color:#5d4d43;font-size:11px;padding-top:10px;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div id="machine">
+
+  <!-- 1 待機 -->
+  <div class="scr on" id="idle">
+    <div class="sign">
+      <div class="zh"><span class="lamp"></span>真龍滷味<span class="lamp"></span></div>
+      <div class="en">AI-FIRST VENDING</div>
+    </div>
+    <div class="qr" id="qr" role="button" tabindex="0" aria-label="掃碼開始點餐"></div>
+    <div class="tap">掃碼開始點餐
+      <small>（示範用：直接點一下 QR）</small></div>
+    <div style="flex:1"></div>
+    <div class="foot">INNORA · AI 人才培育 Day 2 示範</div>
+  </div>
+
+  <!-- 2 點餐 -->
+  <div class="scr" id="order">
+    <div class="bar"><h2>選你的料</h2><span>點一下加一坨</span></div>
+    <div class="grid" id="grid"></div>
+    <div style="flex:1;min-height:8px"></div>
+    <div id="basket"><div class="hint">籃子是空的</div></div>
+    <div class="pay">
+      <div class="total">小計<b id="total">0</b></div>
+      <button class="clr" id="clear">清空</button>
+      <button class="go" id="pay" disabled>一鍵付款</button>
+    </div>
+  </div>
+
+  <!-- 3 煮 -->
+  <div class="scr" id="cook">
+    <div class="pot">
+      <div class="soup"></div>
+      <div class="spin" id="spin"></div>
+      <div id="bubbles"></div>
+    </div>
+    <div class="clock" id="clock">0:00</div>
+    <div class="cooking" id="cookmsg">下鍋中…</div>
+  </div>
+
+  <!-- 4 取餐 -->
+  <div class="scr" id="done">
+    <div class="bag">🥡</div>
+    <h2>好了，拿走吧</h2>
+    <div style="color:var(--dim);font-size:14px">小心燙</div>
+    <div class="recv" id="recv"></div>
+    <div style="margin-top:22px">
+      <button class="go" id="again">再來一份</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* 料：分鐘數是 Shon 講的「青菜三分鐘、豬耳朵八分鐘」那條線 */
+var MENU=[
+  {k:'水蓮', em:'🌿', p:30, m:3},
+  {k:'高麗菜', em:'🥬', p:30, m:3},
+  {k:'金針菇', em:'🍄', p:30, m:3},
+  {k:'王子麵', em:'🍜', p:25, m:2},
+  {k:'香菇',  em:'🍄‍🟫', p:40, m:5},
+  {k:'豆干',  em:'🟫', p:35, m:6},
+  {k:'米血',  em:'🟥', p:35, m:6},
+  {k:'豬耳朵', em:'🐷', p:60, m:8},
+  {k:'鴨翅',  em:'🦆', p:70, m:8},
+];
+var cart={}, TICK=null;
+var $=function(id){return document.getElementById(id)};
+
+/* ---- 假 QR（純程式畫，不連外） ---- */
+(function(){
+  var n=21, cell=160/n, s='<svg viewBox="0 0 160 160">';
+  var seed=7; function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff}
+  function eye(x,y){
+    s+='<rect x="'+x+'" y="'+y+'" width="'+cell*7+'" height="'+cell*7+'" fill="#000"/>';
+    s+='<rect x="'+(x+cell)+'" y="'+(y+cell)+'" width="'+cell*5+'" height="'+cell*5+'" fill="#fff"/>';
+    s+='<rect x="'+(x+cell*2)+'" y="'+(y+cell*2)+'" width="'+cell*3+'" height="'+cell*3+'" fill="#000"/>';
+  }
+  for(var r=0;r<n;r++)for(var c=0;c<n;c++){
+    var inEye=(r<7&&c<7)||(r<7&&c>n-8)||(r>n-8&&c<7);
+    if(inEye) continue;
+    if(rnd()>0.52) s+='<rect x="'+(c*cell)+'" y="'+(r*cell)+'" width="'+cell+'" height="'+cell+'" fill="#000"/>';
+  }
+  eye(0,0); eye((n-7)*cell,0); eye(0,(n-7)*cell);
+  $('qr').innerHTML=s+'</svg>';
+})();
+
+/* ---- 選料 ---- */
+MENU.forEach(function(it,i){
+  var d=document.createElement('div');
+  d.className='it'; d.dataset.i=i;
+  d.innerHTML='<span class="em">'+it.em+'</span><span class="nm">'+it.k+'</span>'
+            + '<span class="mn">$'+it.p+'　'+it.m+'分</span><span class="qty">0</span>';
+  d.onclick=function(){ add(i,d) };
+  $('grid').appendChild(d);
+});
+
+/* 一坨掉下來：點一次掉一坨，不是掉一根 —— Shon：「點一百根水蓮就有一百根水蓮掉下來」很怪 */
+function add(i,el){
+  var it=MENU[i];
+  cart[it.k]=(cart[it.k]||0)+1;
+  el.classList.add('has');
+  el.querySelector('.qty').textContent=cart[it.k];
+  dropBlob(it.em);
+  render();
+}
+function dropBlob(em){
+  var b=$('basket'), h=b.querySelector('.hint');
+  if(h) h.remove();
+  var n=b.querySelectorAll('.blob').length;
+  var e=document.createElement('span');
+  e.className='blob'; e.textContent=em;
+  var col=n%9, row=Math.floor(n/9);
+  e.style.left=(7+col*44)+'px';
+  e.style.bottom=(7+row*25)+'px';
+  e.style.setProperty('--r',(Math.random()*44-22)+'deg');
+  e.style.animation='drop .42s cubic-bezier(.35,1.5,.5,1) both';
+  b.appendChild(e);
+}
+function render(){
+  var t=0; for(var k in cart){ t+=cart[k]*MENU.filter(function(m){return m.k===k})[0].p }
+  $('total').textContent=t;
+  $('pay').disabled = t===0;
+}
+$('clear').onclick=function(){
+  cart={}; $('basket').innerHTML='<div class="hint">籃子是空的</div>';
+  [].forEach.call(document.querySelectorAll('.it'),function(d){
+    d.classList.remove('has'); d.querySelector('.qty').textContent='0'; });
+  render();
+};
+
+/* ---- 畫面切換 ---- */
+function show(id){
+  [].forEach.call(document.querySelectorAll('.scr'),function(s){s.classList.remove('on')});
+  $(id).classList.add('on');
+}
+$('qr').onclick=function(){ show('order') };
+
+/* ---- 煮 ---- */
+$('pay').onclick=function(){
+  var mins=0, items=[];
+  for(var k in cart){
+    var m=MENU.filter(function(x){return x.k===k})[0];
+    mins=Math.max(mins,m.m); items.push({k:k,n:cart[k],em:m.em});
+  }
+  // 鍋裡轉的東西＝你點的東西
+  var sp=$('spin'); sp.innerHTML='';
+  var all=[]; items.forEach(function(it){ for(var j=0;j<Math.min(it.n,4);j++) all.push(it.em) });
+  all.slice(0,10).forEach(function(em,idx){
+    var a=idx/Math.min(all.length,10)*Math.PI*2, R=62;
+    var i2=document.createElement('i');
+    i2.textContent=em;
+    i2.style.left=(107+Math.cos(a)*R-13)+'px';
+    i2.style.top=(107+Math.sin(a)*R-13)+'px';
+    sp.appendChild(i2);
+  });
+  // 泡泡
+  var bb=$('bubbles'); bb.innerHTML='';
+  for(var i=0;i<11;i++){
+    var s2=document.createElement('span'); s2.className='bub';
+    var sz=5+Math.random()*11;
+    s2.style.width=s2.style.height=sz+'px';
+    s2.style.left=(26+Math.random()*160)+'px';
+    s2.style.animationDuration=(1.5+Math.random()*1.7)+'s';
+    s2.style.animationDelay=(Math.random()*1.7)+'s';
+    bb.appendChild(s2);
+  }
+  show('cook');
+  countdown(mins,items);
+};
+
+/* 倒數：顯示的是「分鐘」，但示範要在台上跑得完，所以壓縮成秒 */
+var SPEED=22;   // 真實 1 分鐘 → 畫面約 2.7 秒
+function countdown(mins,items){
+  var left=mins*60, msgs=['下鍋中…','滾了滾了…','再一下下…','快好了…'];
+  $('cookmsg').textContent=msgs[0];
+  clearInterval(TICK);
+  TICK=setInterval(function(){
+    left-=SPEED;
+    if(left<=0){
+      clearInterval(TICK); $('clock').textContent='0:00';
+      setTimeout(function(){ finish(items) },420); return;
+    }
+    var m=Math.floor(left/60), s=left%60;
+    $('clock').textContent=m+':'+(s<10?'0':'')+s;
+    var pct=1-left/(mins*60);
+    $('cookmsg').textContent=msgs[Math.min(3,Math.floor(pct*4))];
+  },120);
+  $('clock').textContent=mins+':00';
+}
+function finish(items){
+  var html='';
+  items.forEach(function(it){ html+='<div>'+it.em+' <b>'+it.k+'</b> ×'+it.n+' 坨</div>' });
+  html+='<div style="margin-top:9px;border-top:1px solid #3a2c25;padding-top:9px">'
+      + '合計 <b>$'+$('total').textContent+'</b>　已付款</div>';
+  $('recv').innerHTML=html;
+  show('done');
+}
+$('again').onclick=function(){ $('clear').onclick(); show('idle') };
+</script>
+</body>
+</html>

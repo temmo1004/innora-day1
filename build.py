@@ -52,6 +52,13 @@ def main():
         shutil.copytree(src, dst)
         # 沒有 .nojekyll，GitHub Pages 會把 .md 轉成 .html，curl 原檔會 404
         (OUT.parent / ".nojekyll").touch()
+
+    # 滷味自動販賣機（Day2 示範，純靜態）一併帶進 docs
+    lw = SRC.parent / "luwei" / "index.html"
+    if lw.exists():
+        (OUT.parent / "luwei").mkdir(exist_ok=True)
+        shutil.copy(lw, OUT.parent / "luwei" / "index.html")
+        print("    luwei/ → docs/luwei/")
         print(f"    skills/ → {dst}")
     print(f"OK  {len(SRC.read_text(encoding='utf-8')):,} → {len(html):,} bytes  →  {OUT}")
 
