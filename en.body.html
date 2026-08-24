@@ -11,9 +11,8 @@
       <a href="#git">5 GitHub</a>
       <a href="#ref">Cheatsheet</a>
       <a href="#stuck">Stuck?</a>
-      <a href="../vi/" style="color:var(--accent);font-weight:600">VI</a>
-      <a href="../" style="color:var(--accent);font-weight:600">中文</a>
     </div>
+    <span class="langsw"><a href="../">中文</a><a href="../en/" aria-current="page">EN</a><a href="../vi/">VI</a></span>
   </div>
 </nav>
 
@@ -24,7 +23,7 @@
   <h1>Today you build <em style="font-style:normal">yourself</em>, with AI</h1>
   <p class="lede">You will not learn any programming syntax. What you will learn is how to say what you mean — clearly enough that the AI can build it for you.</p>
   <div class="outcomes">
-    <div class="oc"><b>① A magazine cover</b><span>Your own Vogue-style cover — we print it</span></div>
+    <div class="oc"><b>① A magazine cover</b><span>Your own Vogue-style cover — we print it out for you</span></div>
     <div class="oc"><b>② A digital résumé</b><span>Not a PDF. A web page.</span></div>
     <div class="oc"><b>③ A digital name card</b><span>With a URL anyone can open</span></div>
     <div class="oc"><b>④ The ability to fix it</b><span>When it breaks, you get it back</span></div>
@@ -122,7 +121,7 @@
 
   <h3>④ Check it really installed</h3>
   <div class="prompt">
-    <div class="phead"><span class="pnum">Both</span><span class="pname">Check the version</span>
+    <div class="phead"><span class="pnum">Mac &amp; Win</span><span class="pname">Check the version</span>
       <button class="copy" data-t="e3">Copy</button></div>
     <pre id="e3">codex --version</pre>
   </div>
@@ -135,7 +134,7 @@
 
   <h3>⑤ Sign in</h3>
   <div class="prompt">
-    <div class="phead"><span class="pnum">Both</span><span class="pname">Start and sign in</span>
+    <div class="phead"><span class="pnum">Mac &amp; Win</span><span class="pname">Start and sign in</span>
       <button class="copy" data-t="e4">Copy</button></div>
     <pre id="e4">codex</pre>
   </div>
@@ -144,13 +143,13 @@
     <li><b>Your browser opens by itself</b> → sign in with the account from step ① → approve</li>
     <li>When it says you're signed in, <b>go back to the terminal window</b></li>
   </ol>
-  <div class="ok"><b>Success looks like:</b> an input box at the bottom of the terminal. Type <code>hello</code> and press Enter — it answers you. <b>English is fine here.</b></div>
+  <div class="ok"><b>Success looks like:</b> an input box at the bottom of the terminal. Type <code>hello</code> and press Enter — it answers you. <b>You can talk to it in English or Vietnamese.</b></div>
 
   <hr>
 
   <h3>⑥ Now install the desktop version</h3>
   <div class="prompt">
-    <div class="phead"><span class="pnum">Both</span><span class="pname">Install the desktop app</span>
+    <div class="phead"><span class="pnum">Mac &amp; Win</span><span class="pname">Install the desktop app</span>
       <button class="copy" data-t="e5">Copy</button></div>
     <pre id="e5">codex app</pre>
   </div>
@@ -163,7 +162,7 @@
     This is where most people get stuck.<br>
     The terminal version <b>only sees the folder you are currently standing in</b>. If you don't walk it there, it finds nothing.
   </div>
-  <p>Make a folder on your desktop called <code>day1</code> (<b>no spaces, English only</b>). Then:</p>
+  <p>Make a folder on your desktop called <code>day1</code> (<b>letters and numbers only, no spaces</b>). Then:</p>
   <div class="grid2">
     <div class="card"><h4 style="margin-top:0">Mac: drag it in</h4>
       <p style="margin:0 0 8px">Type <code>cd</code> then <b>a space</b>, then <b>drag the folder into the terminal window</b> — the path fills itself in. Press Enter.</p>
@@ -172,8 +171,8 @@
       <p style="margin:0">In File Explorer, <b>right-click the folder</b> → <b>Open in Terminal</b>.<br>That window already starts inside the folder.</p></div>
   </div>
   <div class="warn"><b>If you type the path by hand:</b> a folder name with <b>spaces</b> or <b>non-English characters</b> must be wrapped in <b>double quotes</b>, or it reads as two separate things.<br>
-  ❌ <code>cd /Users/ninh/my project</code><br>
-  ✅ <code>cd "/Users/ninh/my project"</code></div>
+  ❌ <code>cd /Users/me/my project</code><br>
+  ✅ <code>cd "/Users/me/my project"</code></div>
 
   <p>Check where you are:</p>
   <div class="prompt">
@@ -219,7 +218,7 @@
   <h3>Want more styles? Install a ready-made style library</h3>
   <p>The three below get you started. Someone reverse-engineered <b>470+ real cases</b> into a free, open-source style library. Once installed you can just ask for a named style.</p>
   <div class="prompt">
-    <div class="phead"><span class="pnum">Both</span><span class="pname">Install the style library</span>
+    <div class="phead"><span class="pnum">Mac &amp; Win</span><span class="pname">Install the style library</span>
       <button class="copy" data-t="e8">Copy</button></div>
     <pre id="e8">npx -y gpt-image-2-style-library install codex</pre>
   </div>
@@ -312,9 +311,9 @@ Text must never cover the face.</pre>
 
   <hr>
 
-  <h3>Pulling cards</h3>
+  <h3>It is a lottery</h3>
   <div class="say"><b class="lab">Say this out loud to yourself</b>
-    Image generation right now is <b>like pulling cards in a gacha</b>. It is not stable.<br>
+    Image generation right now is <b>a lottery</b> — a gacha pull. It is not stable.<br>
     There are only two ways to get a good one: <b>write a better prompt, or pull more times.</b><br>
     The second tool you installed exists for the second route.</div>
 
@@ -348,9 +347,9 @@ List the files when you're done.
   </ul>
 
   <div class="say">
-    Different sources and different choices collide into different results.<br>
+    Different sources and different choices produce different results.<br>
     And all of it <b>needs the knowledge you already had</b> —
-    AI <b>grants capability and adds value</b>. It does not replace you.</div>
+    AI <b>gives you capability and adds value</b> — it does not replace you.</div>
 
   <div class="warn"><b>Most asked question:</b> "How do I get the text in front of the person?"<br>
   <b>Answer: do you have a reference image? Give it to the model along with the prompt.</b></div>
@@ -365,7 +364,7 @@ List the files when you're done.
   <ul>
     <li>Things you've done, places you've been, things you've learned</li>
     <li>A photo</li>
-    <li>Your Instagram, portfolio, anything that shows you did the thing</li>
+    <li>Your Instagram, portfolio, anything that proves you did it</li>
   </ul>
 
   <h3>First attempt: be deliberately vague</h3>
@@ -447,7 +446,7 @@ Technical:
   <div class="steptag">STEP 3</div>
   <h2>Your digital name card</h2>
 
-  <div class="say"><b class="lab">the turn</b>
+  <div class="say"><b class="lab">next</b>
     A résumé isn't enough.<br>You need something people can <b>interact with</b> — a card.</div>
 
   <p><b>Think for a second — what belongs on a name card?</b></p>
@@ -478,7 +477,7 @@ Technical:
   Mobile first</pre>
   </div>
 
-  <div class="ok"><b>Done means:</b> open it on a phone, full screen, readable in three seconds.
+  <div class="ok"><b>Done means:</b> it opens full screen on a phone, and it reads in three seconds.
   <b>No URL yet — that's STEP 5.</b></div>
 </section>
 
@@ -652,7 +651,7 @@ Tell me step by step what to click and type next. I have never used GitHub.</pre
     <tr><td>"command not found"</td><td>A step didn't finish. Close the terminal, open a new one, try again.</td></tr>
     <tr><td><code>cd</code> won't enter the folder</td><td>Spaces or non-English characters in the path → wrap it in double quotes: <code>cd "path"</code></td></tr>
     <tr><td>The AI can't see my files</td><td>Your terminal isn't in that folder. <code>cd</code> there first, then start <code>codex</code>.</td></tr>
-    <tr><td>The image is nothing like what I asked for</td><td>Normal. This is gacha. Change one condition and pull again, or give it a reference image.</td></tr>
+    <tr><td>The image is nothing like what I asked for</td><td>Normal — it is a lottery. Change one condition and try again, or give it a reference image.</td></tr>
     <tr><td>It keeps making the same mistake</td><td>Stop repeating yourself. Say: "you did A, I want B, the difference is C."</td></tr>
     <tr><td>I installed the skill but it isn't using it</td><td>Put "<b>use the digital-resume skill</b>" at the front and say it again. More than three questions means it didn't load.</td></tr>
     <tr><td>The page won't open / is blank</td><td>Use the SOS prompt in STEP 4 and describe exactly what you see.</td></tr>

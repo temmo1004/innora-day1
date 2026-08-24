@@ -123,14 +123,26 @@ JS = r"""
   var slides=[].slice.call(main.querySelectorAll('.slide'));
   if(!slides.length) return;
 
+  /* --- 0. 依頁面語言取字 --- */
+  var L = (document.documentElement.lang || 'zh').slice(0,2);
+  var T = {
+    zh:{deck:'簡報模式',doc:'文件模式',prev:'上一張（←）',next:'下一張（→ 或空白鍵）',
+        exit:'回到文件模式（Esc）',hint:'← → 切換　F 全螢幕　Esc 回文件'},
+    en:{deck:'Slides',doc:'Document',prev:'Previous (←)',next:'Next (→ or Space)',
+        exit:'Back to document (Esc)',hint:'← → move　F fullscreen　Esc exit'},
+    vi:{deck:'Trình chiếu',doc:'Tài liệu',prev:'Trang trước (←)',next:'Trang sau (→ hoặc Space)',
+        exit:'Về chế độ tài liệu (Esc)',hint:'← → chuyển　F toàn màn hình　Esc thoát'}
+  }[L] || null;
+  if(!T) T = {deck:'Slides',doc:'Document',prev:'Previous',next:'Next',exit:'Exit',hint:''};
+
   /* --- 2. 控制列 --- */
   var prog=document.createElement('div'); prog.className='dkprog'; prog.style.width='0';
   var bar=document.createElement('div'); bar.className='dkbar';
-  bar.innerHTML='<button data-d="-1" title="上一張（←）">&lsaquo;</button>'+
-    '<button data-d="1" title="下一張（→ 或空白鍵）">&rsaquo;</button>'+
+  bar.innerHTML='<button data-d="-1" title="'+T.prev+'">&lsaquo;</button>'+
+    '<button data-d="1" title="'+T.next+'">&rsaquo;</button>'+
     '<span class="dkcount"></span><span class="dkwhere"></span>'+
-    '<span class="dkhint">← → 切換　F 全螢幕　Esc 回文件</span>'+
-    '<button data-x="1" title="回到文件模式（Esc）">&times;</button>';
+    '<span class="dkhint">'+T.hint+'</span>'+
+    '<button data-x="1" title="'+T.exit+'">&times;</button>';
   document.body.appendChild(prog); document.body.appendChild(bar);
   var cnt=bar.querySelector('.dkcount'), where=bar.querySelector('.dkwhere');
   var pv=bar.querySelector('[data-d="-1"]'), nx=bar.querySelector('[data-d="1"]');
@@ -149,7 +161,7 @@ JS = r"""
   function setDeck(v){
     on=v; document.body.classList.toggle('deck',on);
     dbtn.setAttribute('aria-pressed',on?'true':'false');
-    dbtn.textContent=on?'文件模式':'簡報模式';
+    dbtn.textContent=on?T.doc:T.deck;
     try{ localStorage.setItem('deck',on?'1':'0'); }catch(e){}
     if(on){ show(i); } else {
       slides.forEach(function(s){ s.classList.remove('on'); });
@@ -160,7 +172,7 @@ JS = r"""
   /* --- 3. 模式切換鈕（掛在 nav 的按鈕列） --- */
   var dbtn=document.createElement('button');
   dbtn.className='tbtn'; dbtn.id='dk'; dbtn.setAttribute('aria-pressed','false');
-  dbtn.textContent='簡報模式';
+  dbtn.textContent=T.deck;
   var tt=document.getElementById('tt');
   if(tt&&tt.parentNode) tt.parentNode.insertBefore(dbtn,tt);
   else document.querySelector('.navin').appendChild(dbtn);
