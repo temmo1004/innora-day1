@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ngày 1 · Dùng AI tạo nên chính bạn — INNORA</title>
+<style>
+:root{
+  --bg:#fbfaf8; --card:#fff; --ink:#16181d; --ink2:#4a5058; --ink3:#7b828c;
+  --line:#e4e2dd; --accent:#0b57d0; --accent-soft:#eaf1fd;
+  --warn:#b45309; --warn-soft:#fff7ed; --ok:#0f7b4f; --ok-soft:#eafaf2;
+  --code-bg:#1c1f26; --code-ink:#e8eaef;
+  --teach:#7c3aed; --teach-soft:#f5f0ff;
+  --f: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --m: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);
+  font-size:17px;line-height:1.75;-webkit-text-size-adjust:100%}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;background:rgba(251,250,248,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.navin{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;
+  gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:700;font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.brand span{color:var(--ink3);font-weight:500}
+.navlinks{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
+.navlinks a{font-size:14px;color:var(--ink2);text-decoration:none;
+  padding:5px 10px;border-radius:7px;white-space:nowrap}
+.navlinks a:hover{background:var(--accent-soft);color:var(--accent)}
+.tbtn{font:inherit;font-size:13px;font-weight:600;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);color:var(--ink2);
+  padding:6px 12px;border-radius:999px;white-space:nowrap}
+.tbtn[aria-pressed="true"]{background:var(--teach);border-color:var(--teach);color:#fff}
+
+/* ---------- layout ---------- */
+main{max-width:1080px;margin:0 auto;padding:0 20px 120px}
+header.hero{padding:56px 0 40px;border-bottom:1px solid var(--line);margin-bottom:44px}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:14px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.2;margin:0 0 18px;letter-spacing:-.02em}
+.lede{font-size:clamp(17px,2.2vw,20px);color:var(--ink2);max-width:56ch;margin:0}
+.outcomes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:12px;margin-top:32px}
+.oc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.oc b{display:block;font-size:15px;margin-bottom:4px}
+.oc span{font-size:14px;color:var(--ink3);line-height:1.6}
+
+section{margin:0 0 64px;scroll-margin-top:70px}
+.steptag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;
+  color:#fff;background:var(--ink);padding:4px 11px;border-radius:999px;margin-bottom:14px}
+h2{font-size:clamp(24px,3.4vw,32px);line-height:1.25;margin:0 0 10px;letter-spacing:-.015em}
+h3{font-size:19px;margin:32px 0 10px;letter-spacing:-.01em}
+h4{font-size:16px;margin:22px 0 8px;color:var(--ink2)}
+p{margin:0 0 14px}
+.sub{color:var(--ink3);font-size:15px;margin:-4px 0 22px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+a{color:var(--accent)}
+
+/* ---------- blocks ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:22px 24px;margin:20px 0}
+.say{background:var(--accent-soft);border-left:4px solid var(--accent);
+  border-radius:0 12px 12px 0;padding:18px 22px;margin:20px 0;font-size:18px;line-height:1.7}
+.say b.lab{display:block;font-size:12px;letter-spacing:.1em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.say b{font-weight:700}   /* 句中的粗體維持行內；只有 .lab 才是標籤 */
+.warn{background:var(--warn-soft);border-left:4px solid var(--warn);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0;font-size:16px}
+.warn b{color:var(--warn)}
+.ok{background:var(--ok-soft);border-left:4px solid var(--ok);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0;font-size:16px}
+.ok b{color:var(--ok)}
+
+/* teacher-only */
+.teach{display:none;background:var(--teach-soft);border:1px dashed var(--teach);
+  border-radius:12px;padding:16px 20px;margin:18px 0;font-size:15px}
+body.teaching .teach{display:block}
+.teach>b:first-child{display:block;font-size:11px;letter-spacing:.12em;color:var(--teach);
+  text-transform:uppercase;margin-bottom:8px}
+.teach ul{margin-bottom:0}
+.tnote{display:none;font-size:13px;color:var(--teach);font-weight:600;margin-left:8px}
+body.teaching .tnote{display:inline}
+
+/* ---------- prompt box ---------- */
+.prompt{border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  margin:18px 0;background:var(--code-bg)}
+.phead{display:flex;align-items:center;gap:12px;padding:11px 16px;
+  background:#252932;border-bottom:1px solid #333844}
+.pname{font-size:14px;font-weight:600;color:#fff;flex:1;min-width:0}
+.pnum{font-size:11px;font-weight:700;letter-spacing:.08em;color:#9aa3b2;
+  border:1px solid #3d434f;padding:3px 8px;border-radius:999px}
+.copy{font:inherit;font-size:13px;font-weight:600;cursor:pointer;border:0;
+  background:#3b82f6;color:#fff;padding:7px 15px;border-radius:8px;white-space:nowrap}
+.copy:hover{background:#2563eb}
+.copy.done{background:var(--ok)}
+pre{margin:0;padding:18px 16px;overflow-x:auto;font-family:var(--m);
+  font-size:14.5px;line-height:1.65;color:var(--code-ink);white-space:pre-wrap;
+  word-break:break-word}
+pre em{font-style:normal;color:#fbbf24;font-weight:600}
+pre .cm{color:#7f8899}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:20px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15.5px;background:var(--card)}
+th,td{border:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top}
+th{background:#f4f2ee;font-weight:700;font-size:14px}
+td b{color:var(--ink)}
+
+/* ---------- misc ---------- */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.five{counter-reset:f;list-style:none;padding:0}
+.five li{counter-increment:f;position:relative;padding-left:44px;margin-bottom:14px}
+.five li::before{content:counter(f);position:absolute;left:0;top:1px;
+  width:29px;height:29px;border-radius:50%;background:var(--ink);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:700}
+.five b{display:block}
+.five span{color:var(--ink3);font-size:15px}
+code{background:#eeece7;padding:2px 6px;border-radius:5px;
+  font-family:var(--m);font-size:.9em}
+.slot{border:2px dashed var(--warn);background:var(--warn-soft);border-radius:12px;
+  padding:14px 18px;margin:16px 0;font-size:15px;color:var(--warn);font-weight:600}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink3);font-size:14px}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  main{padding:0 16px 80px}
+  .navlinks{display:none}
+  .card{padding:18px}
+}
+@media print{
+  nav,.teach,.tbtn{display:none!important}
+  body{background:#fff;font-size:12pt}
+  .prompt{background:#fff;border:1px solid #999}
+  pre{color:#000;background:#f4f4f4}
+  .phead{background:#eee;border-bottom:1px solid #999}
+  .pname{color:#000}
+  section{page-break-inside:avoid}
+}
+/* ===== deck mode ===== */
+.slide{display:contents}
+.dkbar{display:none}
+body.deck{overflow:hidden}
+body.deck nav{position:fixed;top:0;left:0;right:0}
+body.deck main{max-width:none;padding:0}
+body.deck header.hero,body.deck section{margin:0;padding:0;border:0}
+body.deck footer{display:none}   /* footer 不在切片裡，簡報模式會裸露在背景 */
+body.deck .slide{display:none}
+body.deck .slide.on{
+  display:flex;flex-direction:column;
+  position:fixed;top:60px;bottom:62px;left:0;right:0;
+  width:min(1180px,100% - 40px);margin:0 auto;
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.22);
+  padding:34px 46px;overflow-y:auto;overscroll-behavior:contain}
+/* flex 子元素預設會 shrink，長內容會被壓扁裁掉而不是讓外框捲動 */
+body.deck .slide.on>*{flex-shrink:0}
+body.deck .slide.on>*:first-child{margin-top:0}
+body.deck .slide.on>*:last-child{margin-bottom:0}
+/* flex column 會把 inline-block 的膠囊拉滿整行 */
+body.deck .slide.on>.steptag{align-self:flex-start}
+#dk[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+body.deck .crumb{display:block;font-size:12px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);margin:0 0 18px;flex:none}
+.crumb{display:none}
+body.deck h2{font-size:clamp(26px,3.6vw,40px)}
+body.deck h3{font-size:clamp(20px,2.4vw,27px);margin-top:0}
+body.deck .say{font-size:clamp(18px,2.1vw,24px)}
+body.deck pre{font-size:clamp(13px,1.25vw,17px)}
+body.deck table{font-size:clamp(15px,1.5vw,19px)}
+/* 時間軸 12 列，用一般行高在 1080p 會捲掉後幾列＝投影時看不到 */
+body.deck #timeline table{font-size:clamp(14px,1.15vw,17px)}
+body.deck #timeline th,body.deck #timeline td{padding:6px 12px}
+body.deck #timeline h2{margin-bottom:4px}
+body.deck #timeline .sub{margin-bottom:12px}
+body.deck .oc b{font-size:17px}
+body.deck .hero .lede{font-size:clamp(18px,2.4vw,26px)}
+
+body.deck .dkbar{display:flex;position:fixed;bottom:0;left:0;right:0;height:62px;
+  align-items:center;gap:14px;padding:0 20px;background:rgba(251,250,248,.96);
+  backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:60}
+.dkbar button{font:inherit;font-size:19px;line-height:1;cursor:pointer;
+  width:42px;height:42px;border-radius:11px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink)}
+.dkbar button:hover:not(:disabled){background:var(--accent-soft);
+  border-color:var(--accent);color:var(--accent)}
+.dkbar button:disabled{opacity:.32;cursor:default}
+.dkcount{font-size:14px;font-weight:700;color:var(--ink2);
+  min-width:66px;text-align:center;font-variant-numeric:tabular-nums}
+.dkwhere{font-size:14px;color:var(--ink3);flex:1;min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.dkhint{font-size:12px;color:var(--ink3);white-space:nowrap}
+.dkprog{position:fixed;left:0;bottom:62px;height:3px;background:var(--accent);
+  z-index:61;transition:width .18s ease;display:none}
+body.deck .dkprog{display:block}
+@media (max-width:720px){
+  body.deck .slide.on{padding:22px 20px;top:56px}
+  .dkhint{display:none}
+}
+@media print{ body.deck{overflow:visible}
+  body.deck .slide,body.deck .slide.on{display:contents;position:static}
+  .dkbar,.dkprog,.crumb{display:none!important} }
+/* ===== /deck mode ===== */
+</style>
+</head>
+<body>
+<nav>
+  <div class="navin">
+    <div class="brand">INNORA <span>／ Ngày 1</span></div>
+    <div class="navlinks">
+      <a href="#timeline">Lịch</a>
+      <a href="#setup">0 Cài đặt</a>
+      <a href="#cover">1 Bìa tạp chí</a>
+      <a href="#resume">2 Hồ sơ</a>
+      <a href="#card">3 Danh thiếp</a>
+      <a href="#fix">4 Sửa lại</a>
+      <a href="#git">5 GitHub</a>
+      <a href="#ref">Tra nhanh</a>
+      <a href="#stuck">Bị kẹt?</a>
+      <a href="../en/" style="color:var(--accent);font-weight:600">EN</a>
+      <a href="../" style="color:var(--accent);font-weight:600">中文</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<header class="hero">
+  <div class="kicker">Chương trình AI Talent · Ngày 1</div>
+  <h1>Hôm nay bạn dùng AI để tạo nên <em style="font-style:normal">chính bạn</em></h1>
+  <p class="lede">Bạn sẽ không phải học cú pháp lập trình nào. Thứ bạn học là cách nói cho rõ ràng — rõ đến mức AI có thể làm ra thứ bạn muốn.</p>
+  <div class="outcomes">
+    <div class="oc"><b>① Một bìa tạp chí</b><span>Bìa kiểu Vogue của riêng bạn — sẽ được in ra</span></div>
+    <div class="oc"><b>② Một hồ sơ số</b><span>Không phải PDF. Là một trang web.</span></div>
+    <div class="oc"><b>③ Một danh thiếp số</b><span>Có đường link ai cũng mở được</span></div>
+    <div class="oc"><b>④ Khả năng sửa nó</b><span>Khi hỏng, bạn tự lấy lại được</span></div>
+  </div>
+  <div class="warn" style="margin-top:26px"><b>Về ngôn ngữ:</b> bài giảng và thảo luận nhóm bằng tiếng Trung.
+  Trang này để bạn tự theo được từng bước, tự sao chép mọi câu lệnh, và tự kiểm tra kết quả bằng tiếng Việt.
+  <b>Mất mạch thì cứ giơ tay — điều đó là bình thường, không phải vấn đề.</b></div>
+</header>
+
+<section id="timeline">
+  <div class="steptag">LỊCH</div>
+  <h2>Hôm nay diễn ra thế nào</h2>
+  <p class="sub">Những dòng màu xanh là phần bạn tự làm. Bấm vào để nhảy tới.</p>
+  <div class="tw"><table>
+    <tr><th>Giờ</th><th>Nội dung</th><th>Bạn nhận được gì</th></tr>
+    <tr><td>09:00–09:45</td><td>Điểm danh · khai mạc · ký hai văn bản</td><td>—</td></tr>
+    <tr><td>09:45–10:15</td><td><b>Phá băng · đọc nguội</b>: quan sát một người bạn chưa quen, viết ra bạn đoán họ là người thế nào</td><td>Một ghi chú đọc nguội</td></tr>
+    <tr><td>10:15–10:50</td><td><b>BƯỚC 0</b> <a href="#setup">Cài công cụ</a> (Codex GUI + CLI)</td><td>Môi trường chạy được</td></tr>
+    <tr><td>10:50–11:50</td><td><b>BƯỚC 1</b> <a href="#cover">Bìa tạp chí của bạn</a></td><td>Một tấm bìa của riêng bạn</td></tr>
+    <tr><td>11:50–12:10</td><td>In ra → đưa cho người đã đọc nguội bạn → đổi chỗ ngồi → lên giới thiệu nhau</td><td>Bạn quen cả lớp</td></tr>
+    <tr><td>12:10–13:10</td><td>Ăn trưa (13:10 về, 13:15 bắt đầu)</td><td>—</td></tr>
+    <tr><td>13:15–14:00</td><td>Trắc nghiệm năng lực AI + cùng nhìn lại</td><td>Báo cáo năng lực của bạn</td></tr>
+    <tr><td>14:00–15:00</td><td><b>BƯỚC 2</b> <a href="#resume">Hồ sơ số của bạn</a></td><td>Một trang hồ sơ</td></tr>
+    <tr><td>15:00–15:45</td><td><b>BƯỚC 3</b> <a href="#card">Danh thiếp số của bạn</a></td><td>Một trang danh thiếp</td></tr>
+    <tr><td>15:45–16:05</td><td><b>BƯỚC 4</b> <a href="#fix">Chúng tôi làm hỏng, bạn sửa lại</a></td><td>Khả năng phục hồi</td></tr>
+    <tr><td>16:05–16:45</td><td><b>BƯỚC 5</b> <a href="#git">Git và GitHub</a> + đưa lên mạng</td><td><b>Một đường link công khai</b></td></tr>
+    <tr><td>16:45–17:00</td><td>Tổng kết, bài về nhà, giới thiệu ngày mai</td><td>—</td></tr>
+    <tr><td style="color:var(--ink3)">Nếu còn giờ</td><td style="color:var(--ink3)"><b>BƯỚC 6</b> <a href="#db">Nếu có người muốn liên hệ bạn thì sao?</a> (cơ sở dữ liệu)</td><td style="color:var(--ink3)">Chỉ khái niệm</td></tr>
+  </table></div>
+</section>
+
+<section id="setup">
+  <div class="steptag">BƯỚC 0</div>
+  <h2>Cài công cụ trước đã</h2>
+  <p class="sub">Bảy bước, làm từng bước một. Kẹt thì giơ tay, đừng tự chịu.</p>
+
+  <div class="say">
+    Bạn sẽ cài <b>hai thứ</b>. Chúng là hai khuôn mặt của cùng một công cụ:<br>
+    <b>bản để bàn</b> (có giao diện, bấm chuột) và <b>bản dòng lệnh</b> (màn hình đen, gõ chữ).<br>
+    Sáng nay dùng bản để bàn. Chiều nay bạn sẽ hiểu vì sao cần bản kia.
+  </div>
+
+  <div class="warn"><b>Nói trước một câu:</b> cái cửa sổ đen đó <b>không làm hỏng máy của bạn được</b>.
+  Gõ sai thì nó chỉ trả về một dòng tiếng Anh khó hiểu. Gõ lại là xong.
+  Hôm nay bạn sẽ gõ sai nhiều lần. Đó là chuyện bình thường.</div>
+
+  <hr>
+
+  <h3>① Có một tài khoản ChatGPT (loại trả phí)</h3>
+  <ol>
+    <li>Mở <b>chatgpt.com</b></li>
+    <li>Đăng ký — <b>dùng tài khoản Google là nhanh nhất</b>, khỏi nhớ thêm mật khẩu</li>
+    <li>Bấm <b>tên bạn ở góc dưới bên trái</b> → "Upgrade plan" → chọn <b>Plus</b> → thanh toán</li>
+  </ol>
+  <p>Plus khoảng <b>20 USD / tháng</b>. Khoản này bạn tự trả, không nằm trong học phí.</p>
+  <div class="ok"><b>Biết là xong khi:</b> quay lại chatgpt.com, <b>góc trên bên trái có ô chọn model</b>. Thấy nó là đã nâng cấp thành công.</div>
+
+  <hr>
+
+  <h3>② Mở cửa sổ dòng lệnh (terminal)</h3>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">Mac</h4>
+      <ol style="margin-bottom:0"><li>Bấm <b>⌘ + Space</b></li><li>Gõ <code>terminal</code></li><li>Bấm <b>Enter</b></li></ol></div>
+    <div class="card"><h4 style="margin-top:0">Windows</h4>
+      <ol style="margin-bottom:0"><li>Bấm <b>Win + X</b></li><li>Chọn <b>Terminal</b><br><span style="color:var(--ink3);font-size:14px">(không có thì chọn PowerShell)</span></li></ol></div>
+  </div>
+  <p>Một cửa sổ hiện ra, có một dòng chữ và một ô vuông nhấp nháy. Ô nhấp nháy đó là con trỏ — nó đang đợi bạn gõ.</p>
+
+  <hr>
+
+  <h3>③ Dán một dòng lệnh để cài bản dòng lệnh</h3>
+  <p>Tìm dòng dành cho <b>máy của bạn</b>, bấm Sao chép, dán vào terminal, bấm <b>Enter</b>.</p>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Mac</span><span class="pname">Lệnh cài đặt</span>
+      <button class="copy" data-t="v1">Sao chép</button></div>
+    <pre id="v1">curl -fsSL https://chatgpt.com/codex/install.sh | sh</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Win</span><span class="pname">Lệnh cài đặt</span>
+      <button class="copy" data-t="v2">Sao chép</button></div>
+    <pre id="v2">powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</pre>
+  </div>
+
+  <p><b>Cách dán:</b> Mac bấm <b>⌘ + V</b>; Windows bấm <b>Ctrl + V</b> hoặc <b>bấm chuột phải</b>.</p>
+
+  <div class="warn"><b>🔑 Nó có thể hỏi mật khẩu đăng nhập máy của bạn.</b>
+  Lúc gõ, <b>màn hình sẽ không hiện gì cả</b> — không chấm, không dấu sao. Trông như bị treo.
+  <b>Đó là bình thường, máy vẫn nhận.</b> Cứ gõ hết rồi bấm Enter.</div>
+
+  <p>Sau đó một loạt chữ chạy qua, khoảng một hai phút. <b>Khi chữ dừng và con trỏ nhấp nháy trở lại là xong.</b></p>
+
+  <hr>
+
+  <h3>④ Kiểm tra đã cài thật chưa</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Cả hai</span><span class="pname">Kiểm tra phiên bản</span>
+      <button class="copy" data-t="v3">Sao chép</button></div>
+    <pre id="v3">codex --version</pre>
+  </div>
+  <div class="ok"><b>Thành công trông như:</b> nó in ra một dòng kiểu <code>codex-cli 0.149.0</code>. Số có thể khác — có số là được.</div>
+  <div class="warn"><b>Nếu nó báo "command not found":</b>
+  <b>đóng hẳn cửa sổ terminal rồi mở cái mới</b>, gõ lại <code>codex --version</code>.
+  Chín trên mười người làm vậy là xong — công cụ vừa cài cần cửa sổ mới.</div>
+
+  <hr>
+
+  <h3>⑤ Đăng nhập</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Cả hai</span><span class="pname">Khởi động và đăng nhập</span>
+      <button class="copy" data-t="v4">Sao chép</button></div>
+    <pre id="v4">codex</pre>
+  </div>
+  <ol>
+    <li>Nó đưa vài lựa chọn — chọn <b>Sign in with ChatGPT</b> (phím mũi tên để di chuyển, Enter để chọn)</li>
+    <li><b>Trình duyệt sẽ tự mở</b> → đăng nhập bằng tài khoản ở bước ① → bấm đồng ý</li>
+    <li>Thấy báo đăng nhập thành công thì <b>quay lại cửa sổ terminal</b></li>
+  </ol>
+  <div class="ok"><b>Thành công trông như:</b> phía dưới terminal có một ô nhập. Gõ <code>xin chào</code> rồi Enter — nó sẽ trả lời bạn. <b>Tiếng Việt và tiếng Anh đều được.</b></div>
+
+  <hr>
+
+  <h3>⑥ Giờ cài bản để bàn</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Cả hai</span><span class="pname">Cài ứng dụng để bàn</span>
+      <button class="copy" data-t="v5">Sao chép</button></div>
+    <pre id="v5">codex app</pre>
+  </div>
+  <p>Nó tự tải và cài, xong tự mở. Từ sau cứ mở từ <b>Launchpad (Mac)</b> hoặc <b>Start menu (Windows)</b>, không cần gõ lệnh nữa.</p>
+
+  <hr>
+
+  <h3>⑦ Cho nó thấy được file của bạn</h3>
+  <div class="say">
+    Đây là chỗ nhiều người kẹt nhất.<br>
+    Bản dòng lệnh <b>chỉ nhìn thấy thư mục bạn đang đứng trong đó</b>. Bạn không dẫn nó tới thì nó không tìm thấy gì.
+  </div>
+  <p>Tạo trên desktop một thư mục tên <code>day1</code> (<b>không dấu, không khoảng trắng</b>). Rồi:</p>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">Mac: kéo thả là nhanh nhất</h4>
+      <p style="margin:0 0 8px">Gõ <code>cd</code> rồi <b>một dấu cách</b>, sau đó <b>kéo thẳng thư mục vào cửa sổ terminal</b> — đường dẫn tự hiện ra. Bấm Enter.</p>
+      <p style="margin:0;color:var(--ink3);font-size:14px">Hoặc: chuột phải vào thư mục trong Finder → Services → New Terminal at Folder</p></div>
+    <div class="card"><h4 style="margin-top:0">Windows: chuột phải là nhanh nhất</h4>
+      <p style="margin:0">Trong File Explorer, <b>chuột phải vào thư mục</b> → <b>Open in Terminal</b>.<br>Cửa sổ đó mở ra là đã nằm sẵn trong thư mục.</p></div>
+  </div>
+  <div class="warn"><b>Nếu bạn tự gõ đường dẫn:</b> tên thư mục có <b>khoảng trắng</b> hoặc <b>chữ có dấu</b> thì phải bọc trong <b>dấu nháy kép</b>, không thì nó đọc thành hai thứ.<br>
+  ❌ <code>cd /Users/ninh/du an</code><br>
+  ✅ <code>cd "/Users/ninh/du an"</code></div>
+
+  <p>Kiểm tra bạn đang đứng ở đâu:</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Mac</span><span class="pname">Tôi đang ở đâu</span>
+      <button class="copy" data-t="v6">Sao chép</button></div>
+    <pre id="v6">pwd</pre>
+  </div>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Win</span><span class="pname">Tôi đang ở đâu</span>
+      <button class="copy" data-t="v7">Sao chép</button></div>
+    <pre id="v7">cd</pre>
+  </div>
+  <p>Đường dẫn nó in ra phải kết thúc bằng <code>day1</code>. Đúng vậy là được — <b>gõ <code>codex</code> trong cửa sổ này, nó sẽ thấy mọi thứ trong thư mục đó.</b></p>
+
+  <div class="ok"><b>BƯỚC 0 hoàn tất trông như thế này</b>
+    <ol style="margin:8px 0 0">
+      <li>Đã trả tiền ChatGPT Plus</li>
+      <li><code>codex --version</code> in ra được phiên bản</li>
+      <li><code>codex</code> chạy được và trả lời bạn</li>
+      <li>Ứng dụng để bàn mở được</li>
+      <li>Bạn đang đứng trong thư mục <code>day1</code></li>
+    </ol>
+  </div>
+</section>
+
+<section id="cover">
+  <div class="steptag">BƯỚC 1</div>
+  <h2>Bìa tạp chí của bạn</h2>
+  <p class="sub">Ba câu lệnh. Chọn một. Sửa thành của bạn.</p>
+
+  <h3 style="margin-top:22px">Đây là thứ bạn sẽ làm ra</h3>
+  <p class="sub" style="margin-bottom:14px">Tạo từ câu lệnh A bên dưới, không chỉnh sửa gì thêm.</p>
+  <figure style="margin:0 0 22px">
+    <img src="../cover-demo.jpg" alt="Bìa tạp chí kiểu Vogue tạo từ câu lệnh A"
+         style="display:block;width:100%;max-width:400px;height:auto;border-radius:12px;border:1px solid var(--line)">
+    <figcaption style="font-size:14px;color:var(--ink3);margin-top:8px">
+      Khổ dọc 3:4, tên tạp chí, ba dòng tiêu đề, màu chủ đạo chỉ định — tất cả đều viết sẵn trong câu lệnh, không hậu kỳ.
+    </figcaption>
+  </figure>
+
+  <hr>
+
+  <h3>Muốn nhiều phong cách hơn? Cài thư viện có sẵn</h3>
+  <p>Ba câu lệnh dưới đây là để bắt đầu. Có người đã phân tích ngược <b>hơn 470 trường hợp thật</b> thành một thư viện phong cách miễn phí, mã nguồn mở. Cài xong bạn chỉ cần gọi tên phong cách.</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Cả hai</span><span class="pname">Cài thư viện phong cách</span>
+      <button class="copy" data-t="v8">Sao chép</button></div>
+    <pre id="v8">npx -y gpt-image-2-style-library install codex</pre>
+  </div>
+  <div class="warn"><b>Cài xong phải khởi động lại Codex</b> (<code>/exit</code> rồi gõ <code>codex</code>), và <b>phải gọi đúng tên</b> thì nó mới dùng.</div>
+  <p style="font-size:14px;color:var(--ink3)">Thư viện từ
+  <a href="https://github.com/freestylefly/awesome-gpt-image-2" target="_blank" rel="noopener">freestylefly/awesome-gpt-image-2</a> (giấy phép MIT). Không phải của chúng tôi — cảm ơn tác giả.</p>
+
+  <hr>
+
+  <p>Mấy dòng trên đầu mỗi câu lệnh là <em style="color:var(--warn);font-style:normal;font-weight:700">phần bạn phải sửa</em>. Đoạn tiếng Anh phía dưới thì để nguyên, tới khi ra được tấm ảnh ưng ý rồi hãy chỉnh.</p>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">A</span><span class="pname">Đường phố · cảm giác quảng cáo Adidas</span>
+      <button class="copy" data-t="va">Sao chép</button></div>
+    <pre id="va">COVER SUBJECT: <em>Tên của bạn</em>            <span class="cm">← tên bạn</span>
+MASTHEAD: <em>VOGUE</em>                    <span class="cm">← đổi tên tạp chí nếu muốn</span>
+MAIN COLOR: <em>#0033A0</em>                <span class="cm">← màu chủ đạo bạn thích</span>
+TYPEFACE FEEL: <em>bold serif, editorial</em>
+COVER LINES (3 short lines):
+  <em>"Viết lại sự nghiệp bằng AI"</em>
+  <em>"Sáu ngày, từ số không đến trực tuyến"</em>
+  <em>"Chuyên đề Nhân tài AI 2026"</em>
+
+Hyper-realistic cinematic fashion photoshoot magazine cover.
+A 20-year-old subject with a refined slim face, lean and elegant physique.
+Seated casually on a deep white bean bag, wearing bold all-dark chocolate
+oversized streetwear: a stylish trench coat over a clean white inner t-shirt,
+wide white pants, chunky sneakers, and a silver watch.
+The background is minimal with an aesthetic grey tone.
+The atmosphere reflects powerful drip vibes, like an Adidas campaign editorial,
+with dramatic studio lighting and a modern urban touch.
+Keep the face 100% accurate and realistic.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Subject centred. Text must never cover the face.</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">B</span><span class="pname">Chân dung nghệ thuật · phơi sáng chồng</span>
+      <button class="copy" data-t="vb">Sao chép</button></div>
+    <pre id="vb">COVER SUBJECT: <em>Tên của bạn</em>            <span class="cm">← tên bạn</span>
+MASTHEAD: <em>VOGUE</em>
+MAIN COLOR: <em>#0033A0 → #00CCFF</em>      <span class="cm">← hai đầu của dải màu</span>
+TYPEFACE FEEL: <em>thin sans, gallery poster</em>
+COVER LINES (3 short lines):
+  <em>"Đang học cách nói chuyện với máy"</em>
+  <em>"Ngày đầu tiên"</em>
+  <em>"INNORA 2026"</em>
+
+High-fashion cinematic half-length portrait, dreamlike editorial style.
+Multi-exposure motion blur with ghosting and vertical streaks.
+Clean gradient background from deep azure (#0033A0) to cyan (#00CCFF).
+Subject in a plain white oversized T-shirt with soft folds catching coloured lights.
+Dramatic lighting: cool blue wash plus orange/yellow edge glow from camera-left backlight.
+Expression neutral and introspective, eyes softly lit or shadowed.
+Shot on 50-85mm f/1.8, shallow depth, cinematic blur and chromatic separation.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Text must never cover the face.</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">C</span><span class="pname">Điện ảnh · sân ga tàu điện</span>
+      <button class="copy" data-t="vc">Sao chép</button></div>
+    <pre id="vc">COVER SUBJECT: <em>Tên của bạn</em>            <span class="cm">← tên bạn</span>
+MASTHEAD: <em>VOGUE</em>
+MAIN COLOR: <em>warm gold + deep black</em>
+TYPEFACE FEEL: <em>condensed serif, cinematic</em>
+COVER LINES (3 short lines):
+  <em>"Rời khỏi con đường cũ"</em>
+  <em>"Sáu ngày nữa tôi sẽ có gì"</em>
+  <em>"Thu 2026"</em>
+
+A hyperrealistic cinematic photograph capturing a fleeting, intimate moment
+on a dimly lit underground platform. The central subject stands at a slight
+slant angle — not fully in profile, not fully frontal — face turned slightly,
+giving subtle intrigue. Perfectly still, a serene figure amidst the chaos,
+dressed in an elegant long black coat. In stark contrast, a vibrant yellow
+train rushes past in the background, its speed rendered as a brilliant,
+dynamic streak of motion blur. The scene is enveloped in warm, moody
+atmospheric lighting from the station, casting soft golden glows onto the
+arched tiled ceiling.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Text must never cover the face.</pre>
+  </div>
+
+  <hr>
+
+  <h3>Rút thẻ</h3>
+  <div class="say"><b class="lab">tự nói câu này ra</b>
+    Tạo ảnh bằng AI hiện nay <b>giống như rút thẻ gacha</b>. Nó không ổn định.<br>
+    Chỉ có hai cách để ra được tấm đẹp: <b>viết câu lệnh tốt hơn, hoặc rút nhiều lần hơn.</b><br>
+    Công cụ thứ hai bạn vừa cài là để phục vụ cách thứ hai.</div>
+
+  <p><b>Vậy: muốn ra mười tấm một lượt rồi chọn một, làm sao?</b></p>
+
+  <div class="tw"><table>
+    <tr><th></th><th>Bản để bàn</th><th>Bản dòng lệnh</th></tr>
+    <tr><td><b>Mười tấm</b></td><td>Bảo nó làm mười → chất lượng giảm; làm từng tấm → bạn dán mười lần</td><td>Mười tấm một lượt, rơi thẳng vào thư mục</td></tr>
+    <tr><td><b>Chọn ảnh</b></td><td>Cuộn ngược lên trong khung chat</td><td>Mở thư mục, xem cạnh nhau</td></tr>
+    <tr><td><b>Chỉnh lại</b></td><td>Dán lại cả đoạn</td><td>Sửa một chữ, chạy lại</td></tr>
+  </table></div>
+
+  <p>Chuyển sang bản dòng lệnh, tạo lại:</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">CLI</span><span class="pname">Rút mười tấm một lượt</span>
+      <button class="copy" data-t="vd">Sao chép</button></div>
+    <pre id="vd">Dùng câu lệnh bên dưới, tạo 10 phiên bản khác nhau.
+Lưu thành cover-01.png tới cover-10.png trong thư mục ./covers.
+Xong thì liệt kê danh sách file cho tôi.
+
+<span class="cm">(dán câu lệnh bạn đã sửa vào đây)</span></pre>
+  </div>
+
+  <div class="ok"><b>Mục tiêu:</b> tạo tới khoảng 30 tấm, rồi chọn một tấm bạn thích nhất.</div>
+
+  <h3>Chọn xong rồi thì quay sang người bên cạnh</h3>
+  <ul>
+    <li>Tấm này bạn thiết kế thế nào?</li>
+    <li>Bạn cài cắm ý tưởng nhỏ nào vào đó?</li>
+    <li>Bạn đưa cho nó ảnh tham khảo nào?</li>
+  </ul>
+
+  <div class="say">
+    Nguồn khác nhau, cách làm khác nhau, va vào nhau ra kết quả khác nhau.<br>
+    Và tất cả những thứ đó <b>đều cần kiến thức bạn vốn đã có</b> —
+    AI là thứ <b>trao thêm năng lực và tạo thêm giá trị</b>, không phải thứ thay thế bạn.</div>
+
+  <div class="warn"><b>Câu được hỏi nhiều nhất:</b> "Làm sao để chữ nằm phía trước người?"<br>
+  <b>Trả lời: bạn có ảnh tham khảo không? Có thì đưa luôn cho nó cùng với câu lệnh.</b></div>
+</section>
+
+<section id="resume">
+  <div class="steptag">BƯỚC 2</div>
+  <h2>Hồ sơ số của bạn</h2>
+  <p class="sub">Không phải PDF. Là một trang web người khác mở được.</p>
+
+  <h3>Chuẩn bị tư liệu trước (15 phút)</h3>
+  <ul>
+    <li>Những việc bạn đã làm, nơi bạn đã ở, thứ bạn đã học</li>
+    <li>Một tấm ảnh</li>
+    <li>Instagram, tác phẩm, bất cứ thứ gì chứng minh bạn đã làm việc đó</li>
+  </ul>
+
+  <h3>Lần một: cố tình nói qua loa</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">1</span><span class="pname">Ném câu này vào</span>
+      <button class="copy" data-t="ve">Sao chép</button></div>
+    <pre id="ve">làm cho tôi một bản CV</pre>
+  </div>
+  <p>Thứ trả về giống hệt của mọi người khác. <b>Đó là cố ý.</b></p>
+
+  <h3>Lần hai: dùng skill</h3>
+  <div class="say"><b class="lab">skill là gì</b>
+    Một bản hướng dẫn công việc viết sẵn. Cài vào rồi thì AI làm việc đó theo đúng bản hướng dẫn —
+    bạn không phải giải thích lại mỗi lần.<br>
+    <b>Nó là một file. Tải được, chia sẻ được. Năng lực là thứ cài thêm được.</b></div>
+
+  <p><b>Bước một: cài skill.</b> Tìm dòng cho máy của bạn, sao chép, dán vào terminal, Enter.</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Mac</span><span class="pname">Cài skill digital-resume</span>
+      <button class="copy" data-t="vf">Sao chép</button></div>
+    <pre id="vf">mkdir -p ~/.codex/skills/digital-resume && curl -fsSL https://temmo1004.github.io/innora-day1/skills/digital-resume/SKILL.md -o ~/.codex/skills/digital-resume/SKILL.md</pre>
+  </div>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Win</span><span class="pname">Cài skill digital-resume</span>
+      <button class="copy" data-t="vg">Sao chép</button></div>
+    <pre id="vg">mkdir "$HOME\.codex\skills\digital-resume" -Force; irm https://temmo1004.github.io/innora-day1/skills/digital-resume/SKILL.md -OutFile "$HOME\.codex\skills\digital-resume\SKILL.md"</pre>
+  </div>
+
+  <div class="warn"><b>Cài xong bắt buộc phải khởi động lại Codex.</b>
+  Gõ <code>/exit</code> để thoát, rồi gõ <code>codex</code> để vào lại — không làm vậy nó không thấy skill mới.</div>
+
+  <p><b>Bước hai: mở một cuộc trò chuyện mới và <u>gọi đúng tên skill</u>.</b></p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">2</span><span class="pname">Lần này gọi tên skill</span>
+      <button class="copy" data-t="vh">Sao chép</button></div>
+    <pre id="vh">dùng skill digital-resume để làm CV cho tôi</pre>
+  </div>
+
+  <div class="ok"><b>Phản hồi lần này sẽ khác hẳn.</b>
+  Không có mẫu sẵn. Nó <b>chỉ hỏi bạn đúng ba câu</b>, và <b>không bịa ra một chữ nào</b> bạn chưa nói.</div>
+
+  <div class="warn"><b>Làm sao biết nó KHÔNG dùng skill?</b>
+  Nếu nó hỏi bạn <b>bảy tám câu</b>, hoặc hỏi bạn muốn xuất ra Word hay văn bản thuần — là nó không dùng.<br>
+  <b>Cách sửa: đưa "<code>dùng skill digital-resume</code>" lên đầu câu rồi nói lại.</b>
+  Có file trong máy là chưa đủ — <b>bạn phải gọi đúng tên nó.</b></div>
+
+  <p><b>Bước ba: đưa tư liệu cho nó.</b> Trả lời ba câu nó hỏi, hoặc dùng mẫu dưới đây để nói một lượt.</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">3</span><span class="pname">Đưa hết một lượt</span>
+      <button class="copy" data-t="vi">Sao chép</button></div>
+    <pre id="vi">Thông tin của tôi:
+  Tên: <em>Tên của bạn</em>
+  Một câu giới thiệu: <em>(ví dụ: đang chuyển từ ngành dịch vụ sang AI)</em>
+  Kinh nghiệm: <em>(dán những gì bạn đã chuẩn bị)</em>
+  Tôi đang tìm gì: <em>(bạn muốn người ta liên hệ để bàn chuyện gì)</em>
+
+Thiết kế:
+  Màu chính: <em>#2C3E50</em>, màu phụ: <em>#3498DB</em>
+  Phong cách: <em>gọn gàng, chuyên nghiệp</em>      <span class="cm">← hoặc: trẻ trung / tối giản</span>
+  Bố cục: một trang, phải đẹp trên điện thoại
+  Tương tác: rê chuột vào link thì đổi màu
+
+Yêu cầu kỹ thuật:
+  HTML + CSS thuần, mở thẳng bằng trình duyệt được
+  Có chú thích trong code để tôi đọc hiểu
+  Ảnh dùng ảnh tạm, tôi tự thay sau</pre>
+  </div>
+
+  <div class="ok"><b>Bạn vừa làm hai việc</b>
+    <ol style="margin:8px 0 0">
+      <li><b>Cài thêm một năng lực, và gọi đúng tên nó</b> — khác biệt nằm ở đúng một câu đó</li>
+      <li><b>Nói cho rõ ràng</b> — bạn đưa càng cụ thể, kết quả càng giống bạn</li>
+    </ol>
+    Việc thứ hai có tên gọi: <b>prompt engineering</b>. <a href="#ref">Xem năm yếu tố →</a>
+  </div>
+</section>
+
+<section id="card">
+  <div class="steptag">BƯỚC 3</div>
+  <h2>Danh thiếp số của bạn</h2>
+
+  <div class="say"><b class="lab">chuyển đoạn</b>
+    Bản CV vẫn chưa đủ.<br>Bạn cần một thứ người ta <b>tương tác được</b> — một tấm danh thiếp.</div>
+
+  <p><b>Thử nghĩ xem — trên danh thiếp cần có gì?</b></p>
+  <ul>
+    <li>Có cần chạm/quét được không?</li>
+    <li>Cách nào đưa cho người ta là tiện nhất?</li>
+    <li>Trình bày thế nào để nó không chỉ là bản CV thu nhỏ?</li>
+  </ul>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">4</span><span class="pname">Danh thiếp</span>
+      <button class="copy" data-t="vj">Sao chép</button></div>
+    <pre id="vj">Làm cho tôi một trang danh thiếp số. Nó không phải bản CV thu nhỏ:
+CV cho người ta thấy toàn bộ về tôi, danh thiếp làm người ta <em>nhớ tôi trong ba giây</em>.
+
+Bắt buộc có:
+  Tên, một câu giới thiệu, cách liên hệ (email / IG / LINE)
+  Một nút bấm một lần là sao chép được thông tin liên hệ
+  Trên điện thoại là full màn hình, không phải phóng to thu nhỏ
+
+Thiết kế:
+  Màu chính <em>#2C3E50</em>, một màn hình, không cuộn
+  <em>(muốn thêm một hiệu ứng nhỏ thì viết vào đây — ví dụ: cánh hoa bay nhẹ ở nền)</em>
+
+Yêu cầu kỹ thuật:
+  HTML + CSS thuần, một file duy nhất
+  Code có chú thích
+  Ưu tiên điện thoại</pre>
+  </div>
+
+  <div class="ok"><b>Xong nghĩa là:</b> mở trên điện thoại, full màn hình, ba giây đọc hết.
+  <b>Chưa có link — cái đó là BƯỚC 5.</b></div>
+</section>
+
+<section id="fix">
+  <div class="steptag">BƯỚC 4</div>
+  <h2>Chúng tôi làm hỏng. Bạn sửa lại.</h2>
+  <p class="sub">Đây mới là trọng tâm. Làm ra được không có gì ghê. Lấy lại được mới ghê.</p>
+
+  <ol>
+    <li>Giảng viên sẽ tới máy bạn và làm hỏng trang của bạn</li>
+    <li>Bạn dùng AI sửa lại</li>
+    <li>Ai xong trước thì sang xem người bên cạnh sửa thế nào</li>
+  </ol>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">SOS</span><span class="pname">Mô tả chỗ hỏng thế nào</span>
+      <button class="copy" data-t="vk">Sao chép</button></div>
+    <pre id="vk">Trang web của tôi bị hỏng.
+
+Tôi đang thấy: <em>(tả thật, ví dụ: tất cả thành chữ đen trên nền trắng, bố cục mất hết)</em>
+Thông báo lỗi: <em>(có thì dán vào, không thì ghi "không có thông báo lỗi")</em>
+
+Hãy nói cho tôi biết hỏng ở đâu và vì sao trước, rồi mới sửa.
+Tôi muốn hiểu, không phải chỉ nhận lại file đã sửa.</pre>
+  </div>
+
+  <div class="say">
+    Bạn không nói rõ được chỗ hỏng thì AI không sửa được —<br>
+    chuyện này <b>giống hệt</b> việc sáng nay bạn không rút được tấm ảnh ưng ý.</div>
+
+  <div class="warn"><b>Hai quy tắc. Phạm một cái là coi như làm công cốc:</b>
+    <ol style="margin:8px 0 0">
+      <li><b>Không được bấm Ctrl+Z / ⌘Z.</b> Đó không phải sửa, đó là chạy trốn.</li>
+      <li><b>Không được bảo AI "làm lại toàn bộ".</b> Phải bắt nó <b>tìm ra chỗ hỏng</b> và chỉ sửa chỗ đó.</li>
+    </ol>
+  </div>
+
+  <div class="ok"><b>Sửa xong nghĩa là:</b> trang trở lại đúng thiết kế của bạn, <b>và bạn nói ra được vừa nãy hỏng ở đâu</b>.
+  Nói không ra thì hỏi AI thêm một câu: "vậy vấn đề thật sự vừa rồi là gì?"</div>
+</section>
+
+<section id="git">
+  <div class="steptag">BƯỚC 5</div>
+  <h2>Git và GitHub</h2>
+  <p class="sub">Giải thích hai từ, rồi đưa danh thiếp của bạn lên mạng.</p>
+
+  <h3>Git là gì</h3>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">Quản lý phiên bản</h4>
+      <p style="margin:0">Mỗi lần sửa là lưu lại một ảnh chụp lúc đó.<br>Hôm nay làm hỏng? Quay về bản hôm qua.</p></div>
+    <div class="card"><h4 style="margin-top:0">Sao lưu</h4>
+      <p style="margin:0">Đồ của bạn không chỉ nằm trên cái máy này.<br>Mất máy, file vẫn còn.</p></div>
+  </div>
+  <p>Chỗ chứa đồ của bạn gọi là <b>repository</b> — ai cũng gọi tắt là "repo". Một dự án, một repo.</p>
+
+  <div class="say"><b class="lab">nói cho dễ hiểu</b>
+    Git là <b>chức năng lưu game</b>. GitHub là <b>ổ đĩa đám mây giữ các bản lưu đó</b> — và tiện thể biến trang của bạn thành một đường link thật.</div>
+
+  <h3>Ba câu hỏi (nghĩ trước, đọc sau)</h3>
+  <div class="tw"><table>
+    <tr><th>Câu hỏi</th><th>Trả lời</th></tr>
+    <tr><td><b>GitHub là gì?</b></td><td>Nơi kỹ sư toàn thế giới để code. Đưa repo lên đó, nó vừa giữ hộ vừa xuất bản thành website.</td></tr>
+    <tr><td><b>Sao phải "công khai" mới xem được?</b></td><td>Tài khoản miễn phí thì GitHub Pages <b>chỉ xuất bản từ repo công khai</b>. Để riêng tư là link ngừng hoạt động.</td></tr>
+    <tr><td><b>Có cách nào vừa riêng tư vừa cho người ta xem?</b></td><td>Có, nhưng cách nào cũng phải đánh đổi: gói trả phí xuất bản được từ repo riêng tư, hoặc dùng dịch vụ khác. <b>Câu này để cả lớp cùng nghĩ.</b></td></tr>
+  </table></div>
+
+  <div class="warn"><b>Vậy nên: mọi thứ bạn đưa lên hôm nay cả thế giới đều xem được.</b>
+  Số CMND/CCCD, số điện thoại, địa chỉ nhà — <b>đừng đưa lên</b>. Email hoặc Instagram là đủ.</div>
+
+  <hr>
+
+  <h3>Đưa danh thiếp lên mạng (lấy link của bạn)</h3>
+  <p class="sub">Không cần lệnh Git nào. Toàn bộ là bấm chuột trên web.</p>
+  <ol>
+    <li><b>Đăng ký GitHub</b>: mở <b>github.com</b> → Sign up → email, mật khẩu, chọn một username.
+      <br><span style="color:var(--warn)"><b>Username sẽ thành đường link của bạn, chọn cho kỹ</b> (chữ thường, không gạch dưới).</span></li>
+    <li><b>Tạo một repo</b>: góc trên bên phải <b>+</b> → <b>New repository</b>
+      <ul>
+        <li>Repository name: <code>tênusername.github.io</code> (<b>chính xác như vậy, gồm cả .github.io</b>)</li>
+        <li>Chọn <b>Public</b></li>
+        <li>Bấm <b>Create repository</b></li>
+      </ul>
+    </li>
+    <li><b>Tải file lên</b>: <b>Add file</b> → <b>Upload files</b> → <b>kéo thẳng file vào</b> → bấm <b>Commit changes</b> ở dưới
+      <br><span style="color:var(--warn)">File <b>bắt buộc phải tên là <code>index.html</code></b>, tên khác sẽ ra trang trắng.</span></li>
+    <li><b>Bật Pages</b>: <b>Settings</b> → <b>Pages</b> ở menu bên trái → Source chọn <b>Deploy from a branch</b> → Branch chọn <b>main</b> và <b>/ (root)</b> → <b>Save</b></li>
+    <li><b>Đợi một chút</b>, rồi mở <code>https://tênusername.github.io</code></li>
+  </ol>
+
+  <div class="warn"><b>Nó không hiện ra ngay đâu.</b> GitHub nói lâu nhất là <b>10 phút</b>.
+  Lần đầu thấy 404 là bình thường — đi rót cốc nước, quay lại tải lại trang.</div>
+
+  <div class="ok"><b>Đây là việc quan trọng nhất hôm nay</b>
+    Bạn có một đường link. Gửi cho người bên cạnh và nhờ họ <b>mở bằng điện thoại</b>.<br>
+    Họ mở được — thứ bạn làm hôm nay đã nằm trên internet.</div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">SOS</span><span class="pname">Kẹt chỗ nào thì hỏi nó</span>
+      <button class="copy" data-t="vl">Sao chép</button></div>
+    <pre id="vl">Tôi đang đưa trang web lên GitHub Pages và bị kẹt.
+
+Tôi làm tới đâu: <em>(ví dụ: đã tạo repo, đã tải file lên)</em>
+Tôi đang thấy: <em>(ví dụ: mở link ra thì hiện 404)</em>
+
+Hãy chỉ tôi từng bước một: bấm vào đâu, gõ cái gì. Tôi chưa dùng GitHub bao giờ.</pre>
+  </div>
+</section>
+
+<section id="db">
+  <div class="steptag">BƯỚC 6</div>
+  <h2>Nếu có người muốn liên hệ bạn thì sao?</h2>
+  <p class="sub">Chỉ làm nếu còn thời gian.</p>
+
+  <div class="say">
+    CV của bạn đã lên mạng.<br>
+    <b>Sẽ có ai đọc xong rồi muốn liên hệ bạn không?</b> — chắc chắn có.<br>
+    Vậy nếu muốn làm một cái form họ điền vào và bạn nhận được, ta có những cách nào?</div>
+
+  <h3>Thử nghĩ: bình thường bạn cất thông tin ở đâu?</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Có phải là một cách lưu trữ không?</th></tr>
+    <tr><td><b>Excel</b></td><td>Có. Từng ô, có cột, sắp xếp được — đó chính là một cái bảng.</td></tr>
+    <tr><td><b>File txt</b></td><td>Cũng có. Chỉ là không có cột, mọi thứ trộn lẫn.</td></tr>
+    <tr><td><b>Sổ tay giấy</b></td><td>Cũng có. Nhưng người khác không điền vào được, và bạn không tìm kiếm được.</td></tr>
+  </table></div>
+
+  <div class="say"><b class="lab">vậy nên</b>
+    Khác biệt không nằm ở <i>có lưu được hay không</i>, mà ở
+    <b>ai cùng ghi được một lúc, tìm ra ngay được không, và dữ liệu có bị loạn không</b>.<br>
+    Thứ sinh ra để giải quyết ba việc đó gọi là <b>cơ sở dữ liệu</b>.</div>
+
+  <h3>Supabase</h3>
+  <p>Một cơ sở dữ liệu đám mây, có gói miễn phí. Bạn không phải dựng máy chủ; trang web ghi thẳng vào đó được.</p>
+  <p>Với bản CV hôm nay, nghĩa là: <b>có người để lại thông tin liên hệ trên trang của bạn, và bạn xem được trong trang quản trị.</b></p>
+  <div class="warn"><b>Hôm nay không làm xong đâu.</b> Phần này bạn chỉ cần hiểu <i>vì sao</i> cần cơ sở dữ liệu — bắt tay làm thật là chuyện của mấy ngày sau.</div>
+</section>
+
+<section id="ref">
+  <div class="steptag">TRA NHANH</div>
+  <h2>Năm yếu tố của một câu lệnh tốt</h2>
+  <ol class="five">
+    <li><b>Mục tiêu rõ ràng</b><span>Bạn muốn gì? "Một game rắn săn mồi chạy trên web", không phải "một cái game"</span></li>
+    <li><b>Chi tiết cụ thể</b><span>Nó trông thế nào? Luật ra sao? "Dùng phím mũi tên, ăn mồi thì dài ra"</span></li>
+    <li><b>Định dạng</b><span>Trả về cho tôi cái gì? "Một file HTML mở thẳng bằng trình duyệt"</span></li>
+    <li><b>Ví dụ hoặc tham chiếu</b><span>Giống cái gì? "Gọn gàng như trang chủ Apple"</span></li>
+    <li><b>Ràng buộc</b><span>Giới hạn là gì? "Không dùng framework ngoài, code phải có chú thích"</span></li>
+  </ol>
+
+  <h3>Bốn lỗi thường gặp</h3>
+  <div class="tw"><table>
+    <tr><th>Lỗi</th><th>Trông như</th><th>Vì sao hỏng</th></tr>
+    <tr><td><b>Quá ngắn</b></td><td>"làm một cái web"</td><td>Nó không biết bạn muốn gì nên trả về mức trung bình</td></tr>
+    <tr><td><b>Quá nhiều một lúc</b></td><td>"làm một sàn thương mại với 20 tính năng…"</td><td>Không làm hết một lượt được → chia thành từng giai đoạn</td></tr>
+    <tr><td><b>Thiếu ngữ cảnh</b></td><td>"đổi sang màu xanh"</td><td>Nó không biết đổi <b>cái gì</b> sang màu xanh</td></tr>
+    <tr><td><b>Tính từ mơ hồ</b></td><td>"làm cho đẹp"</td><td>"Đẹp" là chủ quan → hãy tả ra, hoặc đưa ảnh tham khảo</td></tr>
+  </table></div>
+
+  <h3>Ba phép ví von (lúc nhìn code mà không hiểu gì)</h3>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">HTML</h4><p style="margin:0"><b>Kết cấu</b> của ngôi nhà<br>tường, cửa ra vào, cửa sổ</p></div>
+    <div class="card"><h4 style="margin-top:0">CSS</h4><p style="margin:0"><b>Trang trí</b><br>màu sắc, đồ đạc, phong cách</p></div>
+    <div class="card"><h4 style="margin-top:0">JavaScript</h4><p style="margin:0"><b>Chức năng</b><br>bật đèn, mở cửa</p></div>
+  </div>
+</section>
+
+<section id="stuck">
+  <div class="steptag">BỊ KẸT?</div>
+  <h2>Xem chỗ này trước, rồi hãy giơ tay</h2>
+  <div class="tw"><table>
+    <tr><th>Tình huống</th><th>Làm gì</th></tr>
+    <tr><td>Báo "command not found"</td><td>Có một bước chưa chạy xong. Đóng terminal, mở cái mới, thử lại.</td></tr>
+    <tr><td><code>cd</code> không vào được thư mục</td><td>Đường dẫn có khoảng trắng hoặc chữ có dấu → bọc trong dấu nháy kép: <code>cd "đường dẫn"</code></td></tr>
+    <tr><td>AI không thấy file của tôi</td><td>Terminal của bạn không ở trong thư mục đó. <code>cd</code> tới đó trước, rồi mới chạy <code>codex</code>.</td></tr>
+    <tr><td>Ảnh ra chẳng giống thứ tôi muốn</td><td>Bình thường. Đây là rút thẻ. Đổi một điều kiện rồi rút lại, hoặc đưa nó ảnh tham khảo.</td></tr>
+    <tr><td>Nó cứ làm sai đúng một chỗ</td><td>Đừng nhắc lại y nguyên. Hãy nói: "bạn vừa làm A, tôi muốn B, khác nhau ở C."</td></tr>
+    <tr><td>Cài skill rồi mà nó không dùng</td><td>Đưa "<b>dùng skill digital-resume</b>" lên đầu câu rồi nói lại. Hỏi quá ba câu là nó chưa nạp.</td></tr>
+    <tr><td>Trang không mở được / trắng tinh</td><td>Dùng câu lệnh SOS ở BƯỚC 4 và tả đúng thứ bạn đang thấy.</td></tr>
+  </table></div>
+
+  <div class="say"><b class="lab">quy tắc duy nhất hôm nay</b>
+    Làm hỏng thì làm lại. Ở đây không có câu hỏi nào là ngu ngốc.<br>
+    <b>Mỗi lần bạn hỏi là bạn hỏi thay cho cả lớp.</b></div>
+</section>
+
+<footer>
+  INNORA AI Talent Programme · Ngày 1 (24/08/2026) · v2<br>
+  Trang này dùng được hoàn toàn offline — lưu lại hoặc in ra đều được.
+  <a href="../en/" style="margin-left:10px">English</a>
+  <a href="../" style="margin-left:10px">中文</a>
+</footer>
+
+</main>
+
+<script>
+// 複製提示詞：取純文字，把註解欄（← 改成…）整段拿掉
+(function(){
+  function clean(el){
+    var c=el.cloneNode(true);
+    c.querySelectorAll('.cm').forEach(function(n){ n.remove(); });
+    return c.textContent.split('\n').map(function(l){ return l.replace(/\s+$/,''); }).join('\n').trim();
+  }
+  function fallback(txt){
+    var ta=document.createElement('textarea');
+    ta.value=txt; ta.setAttribute('readonly','');
+    ta.style.cssText='position:fixed;top:-9999px;left:-9999px';
+    document.body.appendChild(ta); ta.select();
+    var ok=false;
+    try{ ok=document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    return ok;
+  }
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var src=document.getElementById(btn.dataset.t);
+      if(!src) return;
+      var txt=clean(src);
+      function done(ok){
+        btn.textContent = ok ? '已複製 ✓' : '請手動選取';
+        btn.classList.toggle('done',ok);
+        setTimeout(function(){ btn.textContent='複製'; btn.classList.remove('done'); },1800);
+      }
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(fallback(txt));});
+      } else {
+        done(fallback(txt));
+      }
+    });
+  });
+})();
+
+/* ===== deck mode ===== */
+(function(){
+  var main=document.querySelector('main');
+  if(!main) return;
+
+  /* --- 1. 自動切片：每個 section 依 h3 / .prompt / .say 斷開 --- */
+  function isBreak(el){
+    if(el.nodeType!==1) return false;
+    if(el.tagName==='H3') return true;
+    return el.classList.contains('prompt')||el.classList.contains('say');
+  }
+  /* 標題類節點不算「實質內容」——只有標題的片不該獨立成一張空投影片 */
+  function heavy(n){
+    if(n.nodeType!==1) return n.textContent.trim().length>0;
+    if(n.tagName==='H2'||n.tagName==='H3') return false;
+    return !(n.classList.contains('steptag')||n.classList.contains('sub'));
+  }
+  function chunk(host,label){
+    var kids=[].slice.call(host.childNodes), groups=[], cur=null, hasBody=false;
+    kids.forEach(function(n){
+      if(n.nodeType===3 && !n.textContent.trim()) return;      // 純空白略過
+      if(!cur || (hasBody && isBreak(n))){ cur=[]; groups.push(cur); hasBody=false; }
+      cur.push(n);
+      if(heavy(n)) hasBody=true;
+    });
+    groups.forEach(function(g){
+      var d=document.createElement('div');
+      d.className='slide';
+      var c=document.createElement('b'); c.className='crumb'; c.textContent=label;
+      d.appendChild(c);
+      host.insertBefore(d,g[0]);
+      g.forEach(function(n){ d.appendChild(n); });
+    });
+  }
+  var hero=main.querySelector('header.hero');
+  if(hero) chunk(hero,'Day 1');
+  [].forEach.call(main.querySelectorAll('section'),function(s){
+    var h=s.querySelector('h2');
+    chunk(s,h?h.textContent.trim():'');
+  });
+
+  var slides=[].slice.call(main.querySelectorAll('.slide'));
+  if(!slides.length) return;
+
+  /* --- 2. 控制列 --- */
+  var prog=document.createElement('div'); prog.className='dkprog'; prog.style.width='0';
+  var bar=document.createElement('div'); bar.className='dkbar';
+  bar.innerHTML='<button data-d="-1" title="上一張（←）">&lsaquo;</button>'+
+    '<button data-d="1" title="下一張（→ 或空白鍵）">&rsaquo;</button>'+
+    '<span class="dkcount"></span><span class="dkwhere"></span>'+
+    '<span class="dkhint">← → 切換　F 全螢幕　Esc 回文件</span>'+
+    '<button data-x="1" title="回到文件模式（Esc）">&times;</button>';
+  document.body.appendChild(prog); document.body.appendChild(bar);
+  var cnt=bar.querySelector('.dkcount'), where=bar.querySelector('.dkwhere');
+  var pv=bar.querySelector('[data-d="-1"]'), nx=bar.querySelector('[data-d="1"]');
+
+  var i=0, on=false;
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){ s.classList.toggle('on',k===i); });
+    cnt.textContent=(i+1)+' / '+slides.length;
+    var c=slides[i].querySelector('.crumb');
+    where.textContent=c?c.textContent:'';
+    prog.style.width=((i+1)/slides.length*100)+'%';
+    pv.disabled=(i===0); nx.disabled=(i===slides.length-1);
+    slides[i].scrollTop=0;
+  }
+  function setDeck(v){
+    on=v; document.body.classList.toggle('deck',on);
+    dbtn.setAttribute('aria-pressed',on?'true':'false');
+    dbtn.textContent=on?'文件模式':'簡報模式';
+    try{ localStorage.setItem('deck',on?'1':'0'); }catch(e){}
+    if(on){ show(i); } else {
+      slides.forEach(function(s){ s.classList.remove('on'); });
+      if(slides[i]) slides[i].scrollIntoView({block:'start'});
+    }
+  }
+
+  /* --- 3. 模式切換鈕（掛在 nav 的按鈕列） --- */
+  var dbtn=document.createElement('button');
+  dbtn.className='tbtn'; dbtn.id='dk'; dbtn.setAttribute('aria-pressed','false');
+  dbtn.textContent='簡報模式';
+  var tt=document.getElementById('tt');
+  if(tt&&tt.parentNode) tt.parentNode.insertBefore(dbtn,tt);
+  else document.querySelector('.navin').appendChild(dbtn);
+
+  dbtn.addEventListener('click',function(){ setDeck(!on); });
+  bar.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    if(b.dataset.x) return setDeck(false);
+    show(i+(+b.dataset.d));
+  });
+
+  document.addEventListener('keydown',function(e){
+    var t=e.target.tagName;
+    if(t==='INPUT'||t==='TEXTAREA'||e.target.isContentEditable) return;
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    if((e.key==='p'||e.key==='P')&&!on){ e.preventDefault(); return setDeck(true); }
+    if(!on) return;
+    switch(e.key){
+      case 'ArrowRight': case 'PageDown': case ' ': e.preventDefault(); show(i+1); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); show(i-1); break;
+      case 'Home': e.preventDefault(); show(0); break;
+      case 'End': e.preventDefault(); show(slides.length-1); break;
+      case 'Escape': e.preventDefault(); setDeck(false); break;
+      case 'f': case 'F': e.preventDefault();
+        if(document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();
+        break;
+    }
+  });
+
+  /* nav 連結在簡報模式下 = 跳到那一節的第一張 */
+  [].forEach.call(document.querySelectorAll('.navlinks a'),function(a){
+    a.addEventListener('click',function(e){
+      if(!on) return;
+      var tgt=document.querySelector(a.getAttribute('href')); if(!tgt) return;
+      e.preventDefault();
+      var first=tgt.classList.contains('slide')?tgt:tgt.querySelector('.slide');
+      var k=slides.indexOf(first);
+      if(k>=0) show(k);
+    });
+  });
+
+  try{ if(localStorage.getItem('deck')==='1') setDeck(true); }catch(e){}
+})();
+/* ===== /deck mode ===== */
+</script>
+</body></html>

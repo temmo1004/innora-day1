@@ -20,3 +20,8 @@ git add -A && git commit -m "..." && git push
 ```
 
 完全離線可用：單一 HTML、零外部資源，場地斷網照樣開。
+
+## 多語版
+- `en.body.html` / `vi.body.html` — 英文／越南語學員版的 body（共用 index.html 的 CSS）
+- `python3 build_i18n.py` — 產生 `docs/en/` 與 `docs/vi/`，並注入簡報模式
+- 英文與越南語是**給越南籍學員 Ninh** 的：她中文還在學、英文無礙，聽課仍是中文

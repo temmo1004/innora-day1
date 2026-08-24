@@ -1,0 +1,1049 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 1 · Build yourself with AI — INNORA</title>
+<style>
+:root{
+  --bg:#fbfaf8; --card:#fff; --ink:#16181d; --ink2:#4a5058; --ink3:#7b828c;
+  --line:#e4e2dd; --accent:#0b57d0; --accent-soft:#eaf1fd;
+  --warn:#b45309; --warn-soft:#fff7ed; --ok:#0f7b4f; --ok-soft:#eafaf2;
+  --code-bg:#1c1f26; --code-ink:#e8eaef;
+  --teach:#7c3aed; --teach-soft:#f5f0ff;
+  --f: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --m: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);
+  font-size:17px;line-height:1.75;-webkit-text-size-adjust:100%}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;background:rgba(251,250,248,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.navin{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;
+  gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:700;font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.brand span{color:var(--ink3);font-weight:500}
+.navlinks{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
+.navlinks a{font-size:14px;color:var(--ink2);text-decoration:none;
+  padding:5px 10px;border-radius:7px;white-space:nowrap}
+.navlinks a:hover{background:var(--accent-soft);color:var(--accent)}
+.tbtn{font:inherit;font-size:13px;font-weight:600;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);color:var(--ink2);
+  padding:6px 12px;border-radius:999px;white-space:nowrap}
+.tbtn[aria-pressed="true"]{background:var(--teach);border-color:var(--teach);color:#fff}
+
+/* ---------- layout ---------- */
+main{max-width:1080px;margin:0 auto;padding:0 20px 120px}
+header.hero{padding:56px 0 40px;border-bottom:1px solid var(--line);margin-bottom:44px}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:14px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.2;margin:0 0 18px;letter-spacing:-.02em}
+.lede{font-size:clamp(17px,2.2vw,20px);color:var(--ink2);max-width:56ch;margin:0}
+.outcomes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:12px;margin-top:32px}
+.oc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.oc b{display:block;font-size:15px;margin-bottom:4px}
+.oc span{font-size:14px;color:var(--ink3);line-height:1.6}
+
+section{margin:0 0 64px;scroll-margin-top:70px}
+.steptag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;
+  color:#fff;background:var(--ink);padding:4px 11px;border-radius:999px;margin-bottom:14px}
+h2{font-size:clamp(24px,3.4vw,32px);line-height:1.25;margin:0 0 10px;letter-spacing:-.015em}
+h3{font-size:19px;margin:32px 0 10px;letter-spacing:-.01em}
+h4{font-size:16px;margin:22px 0 8px;color:var(--ink2)}
+p{margin:0 0 14px}
+.sub{color:var(--ink3);font-size:15px;margin:-4px 0 22px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+a{color:var(--accent)}
+
+/* ---------- blocks ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:22px 24px;margin:20px 0}
+.say{background:var(--accent-soft);border-left:4px solid var(--accent);
+  border-radius:0 12px 12px 0;padding:18px 22px;margin:20px 0;font-size:18px;line-height:1.7}
+.say b.lab{display:block;font-size:12px;letter-spacing:.1em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.say b{font-weight:700}   /* 句中的粗體維持行內；只有 .lab 才是標籤 */
+.warn{background:var(--warn-soft);border-left:4px solid var(--warn);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0;font-size:16px}
+.warn b{color:var(--warn)}
+.ok{background:var(--ok-soft);border-left:4px solid var(--ok);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin:20px 0;font-size:16px}
+.ok b{color:var(--ok)}
+
+/* teacher-only */
+.teach{display:none;background:var(--teach-soft);border:1px dashed var(--teach);
+  border-radius:12px;padding:16px 20px;margin:18px 0;font-size:15px}
+body.teaching .teach{display:block}
+.teach>b:first-child{display:block;font-size:11px;letter-spacing:.12em;color:var(--teach);
+  text-transform:uppercase;margin-bottom:8px}
+.teach ul{margin-bottom:0}
+.tnote{display:none;font-size:13px;color:var(--teach);font-weight:600;margin-left:8px}
+body.teaching .tnote{display:inline}
+
+/* ---------- prompt box ---------- */
+.prompt{border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  margin:18px 0;background:var(--code-bg)}
+.phead{display:flex;align-items:center;gap:12px;padding:11px 16px;
+  background:#252932;border-bottom:1px solid #333844}
+.pname{font-size:14px;font-weight:600;color:#fff;flex:1;min-width:0}
+.pnum{font-size:11px;font-weight:700;letter-spacing:.08em;color:#9aa3b2;
+  border:1px solid #3d434f;padding:3px 8px;border-radius:999px}
+.copy{font:inherit;font-size:13px;font-weight:600;cursor:pointer;border:0;
+  background:#3b82f6;color:#fff;padding:7px 15px;border-radius:8px;white-space:nowrap}
+.copy:hover{background:#2563eb}
+.copy.done{background:var(--ok)}
+pre{margin:0;padding:18px 16px;overflow-x:auto;font-family:var(--m);
+  font-size:14.5px;line-height:1.65;color:var(--code-ink);white-space:pre-wrap;
+  word-break:break-word}
+pre em{font-style:normal;color:#fbbf24;font-weight:600}
+pre .cm{color:#7f8899}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:20px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:15.5px;background:var(--card)}
+th,td{border:1px solid var(--line);padding:11px 14px;text-align:left;vertical-align:top}
+th{background:#f4f2ee;font-weight:700;font-size:14px}
+td b{color:var(--ink)}
+
+/* ---------- misc ---------- */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.five{counter-reset:f;list-style:none;padding:0}
+.five li{counter-increment:f;position:relative;padding-left:44px;margin-bottom:14px}
+.five li::before{content:counter(f);position:absolute;left:0;top:1px;
+  width:29px;height:29px;border-radius:50%;background:var(--ink);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:700}
+.five b{display:block}
+.five span{color:var(--ink3);font-size:15px}
+code{background:#eeece7;padding:2px 6px;border-radius:5px;
+  font-family:var(--m);font-size:.9em}
+.slot{border:2px dashed var(--warn);background:var(--warn-soft);border-radius:12px;
+  padding:14px 18px;margin:16px 0;font-size:15px;color:var(--warn);font-weight:600}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--ink3);font-size:14px}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  main{padding:0 16px 80px}
+  .navlinks{display:none}
+  .card{padding:18px}
+}
+@media print{
+  nav,.teach,.tbtn{display:none!important}
+  body{background:#fff;font-size:12pt}
+  .prompt{background:#fff;border:1px solid #999}
+  pre{color:#000;background:#f4f4f4}
+  .phead{background:#eee;border-bottom:1px solid #999}
+  .pname{color:#000}
+  section{page-break-inside:avoid}
+}
+/* ===== deck mode ===== */
+.slide{display:contents}
+.dkbar{display:none}
+body.deck{overflow:hidden}
+body.deck nav{position:fixed;top:0;left:0;right:0}
+body.deck main{max-width:none;padding:0}
+body.deck header.hero,body.deck section{margin:0;padding:0;border:0}
+body.deck footer{display:none}   /* footer 不在切片裡，簡報模式會裸露在背景 */
+body.deck .slide{display:none}
+body.deck .slide.on{
+  display:flex;flex-direction:column;
+  position:fixed;top:60px;bottom:62px;left:0;right:0;
+  width:min(1180px,100% - 40px);margin:0 auto;
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  box-shadow:0 18px 40px -18px rgba(0,0,0,.22);
+  padding:34px 46px;overflow-y:auto;overscroll-behavior:contain}
+/* flex 子元素預設會 shrink，長內容會被壓扁裁掉而不是讓外框捲動 */
+body.deck .slide.on>*{flex-shrink:0}
+body.deck .slide.on>*:first-child{margin-top:0}
+body.deck .slide.on>*:last-child{margin-bottom:0}
+/* flex column 會把 inline-block 的膠囊拉滿整行 */
+body.deck .slide.on>.steptag{align-self:flex-start}
+#dk[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+body.deck .crumb{display:block;font-size:12px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink3);margin:0 0 18px;flex:none}
+.crumb{display:none}
+body.deck h2{font-size:clamp(26px,3.6vw,40px)}
+body.deck h3{font-size:clamp(20px,2.4vw,27px);margin-top:0}
+body.deck .say{font-size:clamp(18px,2.1vw,24px)}
+body.deck pre{font-size:clamp(13px,1.25vw,17px)}
+body.deck table{font-size:clamp(15px,1.5vw,19px)}
+/* 時間軸 12 列，用一般行高在 1080p 會捲掉後幾列＝投影時看不到 */
+body.deck #timeline table{font-size:clamp(14px,1.15vw,17px)}
+body.deck #timeline th,body.deck #timeline td{padding:6px 12px}
+body.deck #timeline h2{margin-bottom:4px}
+body.deck #timeline .sub{margin-bottom:12px}
+body.deck .oc b{font-size:17px}
+body.deck .hero .lede{font-size:clamp(18px,2.4vw,26px)}
+
+body.deck .dkbar{display:flex;position:fixed;bottom:0;left:0;right:0;height:62px;
+  align-items:center;gap:14px;padding:0 20px;background:rgba(251,250,248,.96);
+  backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:60}
+.dkbar button{font:inherit;font-size:19px;line-height:1;cursor:pointer;
+  width:42px;height:42px;border-radius:11px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink)}
+.dkbar button:hover:not(:disabled){background:var(--accent-soft);
+  border-color:var(--accent);color:var(--accent)}
+.dkbar button:disabled{opacity:.32;cursor:default}
+.dkcount{font-size:14px;font-weight:700;color:var(--ink2);
+  min-width:66px;text-align:center;font-variant-numeric:tabular-nums}
+.dkwhere{font-size:14px;color:var(--ink3);flex:1;min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.dkhint{font-size:12px;color:var(--ink3);white-space:nowrap}
+.dkprog{position:fixed;left:0;bottom:62px;height:3px;background:var(--accent);
+  z-index:61;transition:width .18s ease;display:none}
+body.deck .dkprog{display:block}
+@media (max-width:720px){
+  body.deck .slide.on{padding:22px 20px;top:56px}
+  .dkhint{display:none}
+}
+@media print{ body.deck{overflow:visible}
+  body.deck .slide,body.deck .slide.on{display:contents;position:static}
+  .dkbar,.dkprog,.crumb{display:none!important} }
+/* ===== /deck mode ===== */
+</style>
+</head>
+<body>
+<nav>
+  <div class="navin">
+    <div class="brand">INNORA <span>／ Day 1</span></div>
+    <div class="navlinks">
+      <a href="#timeline">Schedule</a>
+      <a href="#setup">0 Setup</a>
+      <a href="#cover">1 Cover</a>
+      <a href="#resume">2 Résumé</a>
+      <a href="#card">3 Card</a>
+      <a href="#fix">4 Fix it</a>
+      <a href="#git">5 GitHub</a>
+      <a href="#ref">Cheatsheet</a>
+      <a href="#stuck">Stuck?</a>
+      <a href="../vi/" style="color:var(--accent);font-weight:600">VI</a>
+      <a href="../" style="color:var(--accent);font-weight:600">中文</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<header class="hero">
+  <div class="kicker">AI Talent Programme · Day 1</div>
+  <h1>Today you build <em style="font-style:normal">yourself</em>, with AI</h1>
+  <p class="lede">You will not learn any programming syntax. What you will learn is how to say what you mean — clearly enough that the AI can build it for you.</p>
+  <div class="outcomes">
+    <div class="oc"><b>① A magazine cover</b><span>Your own Vogue-style cover — we print it</span></div>
+    <div class="oc"><b>② A digital résumé</b><span>Not a PDF. A web page.</span></div>
+    <div class="oc"><b>③ A digital name card</b><span>With a URL anyone can open</span></div>
+    <div class="oc"><b>④ The ability to fix it</b><span>When it breaks, you get it back</span></div>
+  </div>
+  <div class="warn" style="margin-top:26px"><b>A note on language:</b> the lectures and group discussions are in Mandarin.
+  This page is here so you can follow every step, copy every prompt, and check your own work in English.
+  <b>If you lose the thread, raise your hand — that is expected, not a problem.</b></div>
+</header>
+
+<section id="timeline">
+  <div class="steptag">SCHEDULE</div>
+  <h2>How today runs</h2>
+  <p class="sub">The blue rows are the parts you build. Tap one to jump there.</p>
+  <div class="tw"><table>
+    <tr><th>Time</th><th>What happens</th><th>What you walk away with</th></tr>
+    <tr><td>09:00–09:45</td><td>Check-in · opening · signing two documents</td><td>—</td></tr>
+    <tr><td>09:45–10:15</td><td><b>Ice-breaker · cold read</b>: observe someone you don't know, write down who you think they are</td><td>One cold-read note</td></tr>
+    <tr><td>10:15–10:50</td><td><b>STEP 0</b> <a href="#setup">Get your tools installed</a> (Codex GUI + CLI)</td><td>A working environment</td></tr>
+    <tr><td>10:50–11:50</td><td><b>STEP 1</b> <a href="#cover">Your magazine cover</a></td><td>A cover of your own</td></tr>
+    <tr><td>11:50–12:10</td><td>Print → hand it to the person who cold-read you → swap seats → introduce each other on stage</td><td>You know the room</td></tr>
+    <tr><td>12:10–13:10</td><td>Lunch (back at 13:10, we start 13:15)</td><td>—</td></tr>
+    <tr><td>13:15–14:00</td><td>AI aptitude assessment + debrief</td><td>Your own profile report</td></tr>
+    <tr><td>14:00–15:00</td><td><b>STEP 2</b> <a href="#resume">Your digital résumé</a></td><td>A résumé web page</td></tr>
+    <tr><td>15:00–15:45</td><td><b>STEP 3</b> <a href="#card">Your digital name card</a></td><td>A name card page</td></tr>
+    <tr><td>15:45–16:05</td><td><b>STEP 4</b> <a href="#fix">We break it, you fix it</a></td><td>The ability to recover</td></tr>
+    <tr><td>16:05–16:45</td><td><b>STEP 5</b> <a href="#git">Git and GitHub</a> + going live</td><td><b>A public URL</b></td></tr>
+    <tr><td>16:45–17:00</td><td>Wrap-up, feedback task, tomorrow's preview</td><td>—</td></tr>
+    <tr><td style="color:var(--ink3)">If time allows</td><td style="color:var(--ink3)"><b>STEP 6</b> <a href="#db">What if someone wants to contact you?</a> (databases)</td><td style="color:var(--ink3)">Concept only</td></tr>
+  </table></div>
+</section>
+
+<section id="setup">
+  <div class="steptag">STEP 0</div>
+  <h2>Get your tools installed</h2>
+  <p class="sub">Seven steps. One at a time. Raise your hand instead of struggling alone.</p>
+
+  <div class="say">
+    You are installing <b>two things</b>. They are two faces of the same tool:<br>
+    a <b>desktop app</b> (visual, you click) and a <b>terminal version</b> (black screen, you type).<br>
+    We use the desktop one this morning. This afternoon you'll see why the other exists.
+  </div>
+
+  <div class="warn"><b>First, this:</b> that black terminal window <b>cannot break your computer</b>.
+  If you mistype, it just prints a line of English you don't understand. Type it again.
+  You will mistype many times today. That is normal.</div>
+
+  <hr>
+
+  <h3>① Get a ChatGPT account (the paid one)</h3>
+  <ol>
+    <li>Open <b>chatgpt.com</b></li>
+    <li>Sign up — <b>using your Google account is fastest</b>, no new password to remember</li>
+    <li>Click <b>your name, bottom left</b> → "Upgrade plan" → choose <b>Plus</b> → pay</li>
+  </ol>
+  <p>Plus is about <b>US$20 / month</b>. This one is on you — it is not included in the course.</p>
+  <div class="ok"><b>How you know it worked:</b> back on chatgpt.com, there is a <b>model selector in the top-left</b>. If you can see it, you're upgraded.</div>
+
+  <hr>
+
+  <h3>② Open the terminal</h3>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">Mac</h4>
+      <ol style="margin-bottom:0"><li>Press <b>⌘ + Space</b></li><li>Type <code>terminal</code></li><li>Press <b>Enter</b></li></ol></div>
+    <div class="card"><h4 style="margin-top:0">Windows</h4>
+      <ol style="margin-bottom:0"><li>Press <b>Win + X</b></li><li>Choose <b>Terminal</b><br><span style="color:var(--ink3);font-size:14px">(or PowerShell if that's all you see)</span></li></ol></div>
+  </div>
+  <p>A window opens with a line of text and a blinking block. The blinking block is the cursor — it's waiting for you.</p>
+
+  <hr>
+
+  <h3>③ Paste one line to install the terminal version</h3>
+  <p>Find the line for <b>your</b> computer, hit Copy, paste it into the terminal, press <b>Enter</b>.</p>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Mac</span><span class="pname">Install command</span>
+      <button class="copy" data-t="e1">Copy</button></div>
+    <pre id="e1">curl -fsSL https://chatgpt.com/codex/install.sh | sh</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Win</span><span class="pname">Install command</span>
+      <button class="copy" data-t="e2">Copy</button></div>
+    <pre id="e2">powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</pre>
+  </div>
+
+  <p><b>How to paste:</b> Mac <b>⌘ + V</b>; Windows <b>Ctrl + V</b> or just <b>right-click</b>.</p>
+
+  <div class="warn"><b>🔑 It may ask for your computer's login password.</b>
+  When you type it, <b>nothing appears on screen</b> — no dots, no stars. It looks frozen.
+  <b>That is normal. It is receiving your keystrokes.</b> Type it and press Enter.</div>
+
+  <p>A wall of text scrolls by for a minute or two. <b>When it stops and the cursor blinks again, it's done.</b></p>
+
+  <hr>
+
+  <h3>④ Check it really installed</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Both</span><span class="pname">Check the version</span>
+      <button class="copy" data-t="e3">Copy</button></div>
+    <pre id="e3">codex --version</pre>
+  </div>
+  <div class="ok"><b>Success looks like:</b> it prints something like <code>codex-cli 0.149.0</code>. The numbers may differ — numbers means yes.</div>
+  <div class="warn"><b>If it says "command not found":</b>
+  <b>close the terminal completely and open a new one</b>, then run <code>codex --version</code> again.
+  That fixes it for nine people out of ten — a freshly installed tool needs a fresh window.</div>
+
+  <hr>
+
+  <h3>⑤ Sign in</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Both</span><span class="pname">Start and sign in</span>
+      <button class="copy" data-t="e4">Copy</button></div>
+    <pre id="e4">codex</pre>
+  </div>
+  <ol>
+    <li>It offers a few options — choose <b>Sign in with ChatGPT</b> (arrow keys to move, Enter to pick)</li>
+    <li><b>Your browser opens by itself</b> → sign in with the account from step ① → approve</li>
+    <li>When it says you're signed in, <b>go back to the terminal window</b></li>
+  </ol>
+  <div class="ok"><b>Success looks like:</b> an input box at the bottom of the terminal. Type <code>hello</code> and press Enter — it answers you. <b>English is fine here.</b></div>
+
+  <hr>
+
+  <h3>⑥ Now install the desktop version</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Both</span><span class="pname">Install the desktop app</span>
+      <button class="copy" data-t="e5">Copy</button></div>
+    <pre id="e5">codex app</pre>
+  </div>
+  <p>It downloads and installs itself, then opens. From now on just launch it from <b>Launchpad (Mac)</b> or the <b>Start menu (Windows)</b> — no more typing.</p>
+
+  <hr>
+
+  <h3>⑦ Let it see your files</h3>
+  <div class="say">
+    This is where most people get stuck.<br>
+    The terminal version <b>only sees the folder you are currently standing in</b>. If you don't walk it there, it finds nothing.
+  </div>
+  <p>Make a folder on your desktop called <code>day1</code> (<b>no spaces, English only</b>). Then:</p>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">Mac: drag it in</h4>
+      <p style="margin:0 0 8px">Type <code>cd</code> then <b>a space</b>, then <b>drag the folder into the terminal window</b> — the path fills itself in. Press Enter.</p>
+      <p style="margin:0;color:var(--ink3);font-size:14px">Or: right-click the folder in Finder → Services → New Terminal at Folder</p></div>
+    <div class="card"><h4 style="margin-top:0">Windows: right-click</h4>
+      <p style="margin:0">In File Explorer, <b>right-click the folder</b> → <b>Open in Terminal</b>.<br>That window already starts inside the folder.</p></div>
+  </div>
+  <div class="warn"><b>If you type the path by hand:</b> a folder name with <b>spaces</b> or <b>non-English characters</b> must be wrapped in <b>double quotes</b>, or it reads as two separate things.<br>
+  ❌ <code>cd /Users/ninh/my project</code><br>
+  ✅ <code>cd "/Users/ninh/my project"</code></div>
+
+  <p>Check where you are:</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Mac</span><span class="pname">Where am I</span>
+      <button class="copy" data-t="e6">Copy</button></div>
+    <pre id="e6">pwd</pre>
+  </div>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Win</span><span class="pname">Where am I</span>
+      <button class="copy" data-t="e7">Copy</button></div>
+    <pre id="e7">cd</pre>
+  </div>
+  <p>The path it prints should end in <code>day1</code>. If it does, you're set — <b>run <code>codex</code> in this window and it can see everything in that folder.</b></p>
+
+  <div class="ok"><b>STEP 0 complete looks like this</b>
+    <ol style="margin:8px 0 0">
+      <li>ChatGPT Plus is paid for</li>
+      <li><code>codex --version</code> prints a version</li>
+      <li><code>codex</code> starts and answers you</li>
+      <li>The desktop app opens</li>
+      <li>You are standing in your <code>day1</code> folder</li>
+    </ol>
+  </div>
+</section>
+
+<section id="cover">
+  <div class="steptag">STEP 1</div>
+  <h2>Your magazine cover</h2>
+  <p class="sub">Three prompts. Pick one. Make it yours.</p>
+
+  <h3 style="margin-top:22px">This is what you're making</h3>
+  <p class="sub" style="margin-bottom:14px">Generated from prompt A below, unedited.</p>
+  <figure style="margin:0 0 22px">
+    <img src="../cover-demo.jpg" alt="Example Vogue-style magazine cover generated from prompt A"
+         style="display:block;width:100%;max-width:400px;height:auto;border-radius:12px;border:1px solid var(--line)">
+    <figcaption style="font-size:14px;color:var(--ink3);margin-top:8px">
+      Portrait 3:4, masthead, three cover lines, a specified accent colour — all of it written into the prompt, none of it edited afterwards.
+    </figcaption>
+  </figure>
+
+  <hr>
+
+  <h3>Want more styles? Install a ready-made style library</h3>
+  <p>The three below get you started. Someone reverse-engineered <b>470+ real cases</b> into a free, open-source style library. Once installed you can just ask for a named style.</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Both</span><span class="pname">Install the style library</span>
+      <button class="copy" data-t="e8">Copy</button></div>
+    <pre id="e8">npx -y gpt-image-2-style-library install codex</pre>
+  </div>
+  <div class="warn"><b>Restart Codex afterwards</b> (<code>/exit</code>, then <code>codex</code> again), and <b>call the skill by name</b> or it won't be used.</div>
+  <p style="font-size:14px;color:var(--ink3)">Style library from
+  <a href="https://github.com/freestylefly/awesome-gpt-image-2" target="_blank" rel="noopener">freestylefly/awesome-gpt-image-2</a> (MIT licence). Not ours — thanks to the author.</p>
+
+  <hr>
+
+  <p>The top lines of each prompt are <em style="color:var(--warn);font-style:normal;font-weight:700">the parts you change</em>. Leave the English paragraph alone until you have an image you like.</p>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">A</span><span class="pname">Streetwear · Adidas campaign feel</span>
+      <button class="copy" data-t="ea">Copy</button></div>
+    <pre id="ea">COVER SUBJECT: <em>Your Name</em>              <span class="cm">← your name</span>
+MASTHEAD: <em>VOGUE</em>                    <span class="cm">← change the title if you like</span>
+MAIN COLOR: <em>#0033A0</em>                <span class="cm">← your accent colour</span>
+TYPEFACE FEEL: <em>bold serif, editorial</em>
+COVER LINES (3 short lines):
+  <em>"Rewriting my career with AI"</em>
+  <em>"Six days, zero to live"</em>
+  <em>"2026 AI Talent Issue"</em>
+
+Hyper-realistic cinematic fashion photoshoot magazine cover.
+A 20-year-old subject with a refined slim face, lean and elegant physique.
+Seated casually on a deep white bean bag, wearing bold all-dark chocolate
+oversized streetwear: a stylish trench coat over a clean white inner t-shirt,
+wide white pants, chunky sneakers, and a silver watch.
+The background is minimal with an aesthetic grey tone.
+The atmosphere reflects powerful drip vibes, like an Adidas campaign editorial,
+with dramatic studio lighting and a modern urban touch.
+Keep the face 100% accurate and realistic.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Subject centred. Text must never cover the face.</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">B</span><span class="pname">Art portrait · multiple exposure</span>
+      <button class="copy" data-t="eb">Copy</button></div>
+    <pre id="eb">COVER SUBJECT: <em>Your Name</em>              <span class="cm">← your name</span>
+MASTHEAD: <em>VOGUE</em>
+MAIN COLOR: <em>#0033A0 → #00CCFF</em>      <span class="cm">← the two ends of the gradient</span>
+TYPEFACE FEEL: <em>thin sans, gallery poster</em>
+COVER LINES (3 short lines):
+  <em>"Learning to speak to machines"</em>
+  <em>"Day one"</em>
+  <em>"INNORA 2026"</em>
+
+High-fashion cinematic half-length portrait, dreamlike editorial style.
+Multi-exposure motion blur with ghosting and vertical streaks.
+Clean gradient background from deep azure (#0033A0) to cyan (#00CCFF).
+Subject in a plain white oversized T-shirt with soft folds catching coloured lights.
+Dramatic lighting: cool blue wash plus orange/yellow edge glow from camera-left backlight.
+Expression neutral and introspective, eyes softly lit or shadowed.
+Shot on 50-85mm f/1.8, shallow depth, cinematic blur and chromatic separation.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Text must never cover the face.</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">C</span><span class="pname">Cinematic · train platform</span>
+      <button class="copy" data-t="ec">Copy</button></div>
+    <pre id="ec">COVER SUBJECT: <em>Your Name</em>              <span class="cm">← your name</span>
+MASTHEAD: <em>VOGUE</em>
+MAIN COLOR: <em>warm gold + deep black</em>
+TYPEFACE FEEL: <em>condensed serif, cinematic</em>
+COVER LINES (3 short lines):
+  <em>"Leaving the path I was on"</em>
+  <em>"What will I have in six days"</em>
+  <em>"Autumn 2026"</em>
+
+A hyperrealistic cinematic photograph capturing a fleeting, intimate moment
+on a dimly lit underground platform. The central subject stands at a slight
+slant angle — not fully in profile, not fully frontal — face turned slightly,
+giving subtle intrigue. Perfectly still, a serene figure amidst the chaos,
+dressed in an elegant long black coat. In stark contrast, a vibrant yellow
+train rushes past in the background, its speed rendered as a brilliant,
+dynamic streak of motion blur. The scene is enveloped in warm, moody
+atmospheric lighting from the station, casting soft golden glows onto the
+arched tiled ceiling.
+
+LAYOUT: vertical magazine cover, 3:4 ratio.
+Masthead across the top. Cover lines down the left edge.
+Text must never cover the face.</pre>
+  </div>
+
+  <hr>
+
+  <h3>Pulling cards</h3>
+  <div class="say"><b class="lab">Say this out loud to yourself</b>
+    Image generation right now is <b>like pulling cards in a gacha</b>. It is not stable.<br>
+    There are only two ways to get a good one: <b>write a better prompt, or pull more times.</b><br>
+    The second tool you installed exists for the second route.</div>
+
+  <p><b>So: if I want ten at once and then pick one, how?</b></p>
+
+  <div class="tw"><table>
+    <tr><th></th><th>Desktop app</th><th>Terminal</th></tr>
+    <tr><td><b>Ten images</b></td><td>Ask for ten → quality drops; ask one at a time → you paste ten times</td><td>Ten at once, straight into a folder</td></tr>
+    <tr><td><b>Choosing</b></td><td>Scroll back up through the chat</td><td>Open the folder, compare side by side</td></tr>
+    <tr><td><b>Iterating</b></td><td>Re-paste the whole thing</td><td>Change one word, run again</td></tr>
+  </table></div>
+
+  <p>Switch to the terminal and regenerate:</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">CLI</span><span class="pname">Pull ten at once</span>
+      <button class="copy" data-t="ed">Copy</button></div>
+    <pre id="ed">Using the prompt below, generate 10 different versions.
+Save them as cover-01.png through cover-10.png in a ./covers folder.
+List the files when you're done.
+
+<span class="cm">(paste your edited prompt here)</span></pre>
+  </div>
+
+  <div class="ok"><b>Target:</b> get to about 30 images, then pick the one you like most.</div>
+
+  <h3>Once you've picked, find the person next to you</h3>
+  <ul>
+    <li>How did you design this one?</li>
+    <li>What small idea did you sneak in?</li>
+    <li>What reference image did you give it?</li>
+  </ul>
+
+  <div class="say">
+    Different sources and different choices collide into different results.<br>
+    And all of it <b>needs the knowledge you already had</b> —
+    AI <b>grants capability and adds value</b>. It does not replace you.</div>
+
+  <div class="warn"><b>Most asked question:</b> "How do I get the text in front of the person?"<br>
+  <b>Answer: do you have a reference image? Give it to the model along with the prompt.</b></div>
+</section>
+
+<section id="resume">
+  <div class="steptag">STEP 2</div>
+  <h2>Your digital résumé</h2>
+  <p class="sub">Not a PDF. A web page other people can open.</p>
+
+  <h3>Gather your material first (15 minutes)</h3>
+  <ul>
+    <li>Things you've done, places you've been, things you've learned</li>
+    <li>A photo</li>
+    <li>Your Instagram, portfolio, anything that shows you did the thing</li>
+  </ul>
+
+  <h3>First attempt: be deliberately vague</h3>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">1</span><span class="pname">Throw this at it</span>
+      <button class="copy" data-t="ee">Copy</button></div>
+    <pre id="ee">make me a resume</pre>
+  </div>
+  <p>What comes back looks exactly like everybody else's. <b>That is on purpose.</b></p>
+
+  <h3>Second attempt: use a skill</h3>
+  <div class="say"><b class="lab">what a skill is</b>
+    A written set of working instructions. Once installed, the AI follows it every time —
+    you don't have to re-explain what you want.<br>
+    <b>It is a file. It can be downloaded and shared. Capability is installable.</b></div>
+
+  <p><b>Step one: install the skill.</b> Find your computer's line, copy, paste into the terminal, Enter.</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Mac</span><span class="pname">Install the digital-resume skill</span>
+      <button class="copy" data-t="ef">Copy</button></div>
+    <pre id="ef">mkdir -p ~/.codex/skills/digital-resume && curl -fsSL https://temmo1004.github.io/innora-day1/skills/digital-resume/SKILL.md -o ~/.codex/skills/digital-resume/SKILL.md</pre>
+  </div>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">Win</span><span class="pname">Install the digital-resume skill</span>
+      <button class="copy" data-t="eg">Copy</button></div>
+    <pre id="eg">mkdir "$HOME\.codex\skills\digital-resume" -Force; irm https://temmo1004.github.io/innora-day1/skills/digital-resume/SKILL.md -OutFile "$HOME\.codex\skills\digital-resume\SKILL.md"</pre>
+  </div>
+
+  <div class="warn"><b>You must restart Codex after installing.</b>
+  Type <code>/exit</code> to leave, then <code>codex</code> to come back — it won't see a new skill otherwise.</div>
+
+  <p><b>Step two: start a fresh conversation and <u>call the skill by name</u>.</b></p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">2</span><span class="pname">Name the skill this time</span>
+      <button class="copy" data-t="eh">Copy</button></div>
+    <pre id="eh">use the digital-resume skill to make my resume</pre>
+  </div>
+
+  <div class="ok"><b>The response will be completely different.</b>
+  No template. It <b>asks you exactly three questions</b>, and it will <b>not invent a single thing</b> you didn't tell it.</div>
+
+  <div class="warn"><b>How do you know it did NOT pick up the skill?</b>
+  If it asks you <b>seven or eight questions</b>, or asks whether you want Word or plain text — it didn't.<br>
+  <b>Fix: put <code>use the digital-resume skill</code> at the front of your sentence and say it again.</b>
+  Having the file installed is not enough — <b>you have to call it by name.</b></div>
+
+  <p><b>Step three: hand over your material.</b> Answer its three questions one by one, or use the form below to do it in one go.</p>
+  <div class="prompt">
+    <div class="phead"><span class="pnum">3</span><span class="pname">Give it everything at once</span>
+      <button class="copy" data-t="ei">Copy</button></div>
+    <pre id="ei">My details:
+  Name: <em>Your Name</em>
+  One line about me: <em>(e.g. hospitality supervisor moving into AI)</em>
+  Background: <em>(paste what you prepared)</em>
+  What I'm looking for: <em>(what should someone contact you about)</em>
+
+Design:
+  Main colour: <em>#2C3E50</em>, accent: <em>#3498DB</em>
+  Style: <em>clean and professional</em>        <span class="cm">← or: playful / minimal editorial</span>
+  Layout: single page, must look good on a phone
+  Interaction: links change on hover
+
+Technical:
+  Plain HTML + CSS, opens directly in a browser
+  Comment the code so I can read it
+  Use placeholder images, I'll swap them later</pre>
+  </div>
+
+  <div class="ok"><b>You just did two things</b>
+    <ol style="margin:8px 0 0">
+      <li><b>Installed a capability, and called it by name</b> — that one sentence is the whole difference</li>
+      <li><b>Said what you meant</b> — the more specific you are, the more it looks like you</li>
+    </ol>
+    The second one has a name: <b>prompt engineering</b>. <a href="#ref">See the five elements →</a>
+  </div>
+</section>
+
+<section id="card">
+  <div class="steptag">STEP 3</div>
+  <h2>Your digital name card</h2>
+
+  <div class="say"><b class="lab">the turn</b>
+    A résumé isn't enough.<br>You need something people can <b>interact with</b> — a card.</div>
+
+  <p><b>Think for a second — what belongs on a name card?</b></p>
+  <ul>
+    <li>Should it be tappable / scannable?</li>
+    <li>What's the easiest way to hand it to someone?</li>
+    <li>How should it look so it isn't just a shrunken résumé?</li>
+  </ul>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">4</span><span class="pname">Name card</span>
+      <button class="copy" data-t="ej">Copy</button></div>
+    <pre id="ej">Make me a digital name card web page. It is not a small resume:
+a resume shows someone all of me, a card makes someone <em>remember me in three seconds</em>.
+
+Must have:
+  Name, one line about me, contact (email / IG / LINE)
+  A one-tap "copy my contact details" button
+  Full screen on a phone, no pinching
+
+Design:
+  Main colour <em>#2C3E50</em>, one screen, no scrolling
+  <em>(add one flourish if you want — e.g. cherry blossom drifting in the background)</em>
+
+Technical:
+  Plain HTML + CSS, a single file
+  Commented code
+  Mobile first</pre>
+  </div>
+
+  <div class="ok"><b>Done means:</b> open it on a phone, full screen, readable in three seconds.
+  <b>No URL yet — that's STEP 5.</b></div>
+</section>
+
+<section id="fix">
+  <div class="steptag">STEP 4</div>
+  <h2>We break it. You fix it.</h2>
+  <p class="sub">This is the real point. Making it is not impressive. Getting it back is.</p>
+
+  <ol>
+    <li>An instructor comes to your machine and breaks your page</li>
+    <li>You use AI to fix it</li>
+    <li>Whoever finishes goes and watches how their neighbour did it</li>
+  </ol>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">SOS</span><span class="pname">How to describe a break</span>
+      <button class="copy" data-t="ek">Copy</button></div>
+    <pre id="ek">My web page is broken.
+
+What I see: <em>(describe it plainly, e.g. everything turned into plain black text on white, the layout is gone)</em>
+Error message: <em>(paste it if there is one, otherwise write "no error message")</em>
+
+First tell me what broke and why, then fix it.
+I want to understand it, not just get a fixed file back.</pre>
+  </div>
+
+  <div class="say">
+    If you can't describe what broke, the AI can't fix it —<br>
+    this is <b>the same thing</b> as not getting the image you wanted this morning.</div>
+
+  <div class="warn"><b>Two rules. Break either one and the exercise is wasted:</b>
+    <ol style="margin:8px 0 0">
+      <li><b>No Ctrl+Z / ⌘Z.</b> That isn't fixing it, that's running away.</li>
+      <li><b>Don't ask the AI to "just redo the whole thing".</b> Make it <b>find what broke</b> and fix only that.</li>
+    </ol>
+  </div>
+
+  <div class="ok"><b>Fixed means:</b> the page looks like your design again, <b>and you can say out loud what was broken</b>.
+  If you can't, ask the AI once more: "so what was the actual problem?"</div>
+</section>
+
+<section id="git">
+  <div class="steptag">STEP 5</div>
+  <h2>Git and GitHub</h2>
+  <p class="sub">Two words explained, then your card goes live.</p>
+
+  <h3>What Git is</h3>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">Version control</h4>
+      <p style="margin:0">Every change saves a snapshot of how things were.<br>Broke it today? Go back to yesterday.</p></div>
+    <div class="card"><h4 style="margin-top:0">Backup</h4>
+      <p style="margin:0">Your work isn't only on this laptop.<br>Lose the laptop, keep the files.</p></div>
+  </div>
+  <p>The place your work lives is called a <b>repository</b> — everyone says "repo". One project, one repo.</p>
+
+  <div class="say"><b class="lab">in plain words</b>
+    Git is the <b>save function</b>. GitHub is the <b>cloud drive that holds the saves</b> — and it also turns your page into a real URL.</div>
+
+  <h3>Three questions (think first, then read)</h3>
+  <div class="tw"><table>
+    <tr><th>Question</th><th>Answer</th></tr>
+    <tr><td><b>What is GitHub?</b></td><td>Where the world's engineers keep code. Put your repo there and it stores it — and publishes it as a website.</td></tr>
+    <tr><td><b>Why must it be public to be visible?</b></td><td>On a free account, GitHub Pages <b>only publishes from a public repo</b>. Make it private and the URL stops working.</td></tr>
+    <tr><td><b>Is there a way to keep it private and still show people?</b></td><td>Yes, but every route costs something: paid plans can publish from private repos, or you use a different service. <b>We'll think about this one together in class.</b></td></tr>
+  </table></div>
+
+  <div class="warn"><b>So: everything you put up today is visible to the whole world.</b>
+  National ID number, phone number, home address — <b>do not put them there</b>. Email or Instagram is enough.</div>
+
+  <hr>
+
+  <h3>Put your card online (get your URL)</h3>
+  <p class="sub">No Git commands. All of it is clicking on a web page.</p>
+  <ol>
+    <li><b>Sign up for GitHub</b>: open <b>github.com</b> → Sign up → email, password, pick a username.
+      <br><span style="color:var(--warn)"><b>Your username becomes your URL. Choose well</b> (lowercase, no underscores).</span></li>
+    <li><b>Create a repo</b>: top right <b>+</b> → <b>New repository</b>
+      <ul>
+        <li>Repository name: <code>yourusername.github.io</code> (<b>exactly that, including .github.io</b>)</li>
+        <li>Choose <b>Public</b></li>
+        <li>Click <b>Create repository</b></li>
+      </ul>
+    </li>
+    <li><b>Upload your file</b>: <b>Add file</b> → <b>Upload files</b> → <b>drag your page in</b> → <b>Commit changes</b> at the bottom
+      <br><span style="color:var(--warn)">The file <b>must be named <code>index.html</code></b>, or you'll get a blank page.</span></li>
+    <li><b>Turn Pages on</b>: <b>Settings</b> → <b>Pages</b> in the left menu → Source: <b>Deploy from a branch</b> → Branch: <b>main</b> and <b>/ (root)</b> → <b>Save</b></li>
+    <li><b>Wait a bit</b>, then open <code>https://yourusername.github.io</code></li>
+  </ol>
+
+  <div class="warn"><b>It will not appear immediately.</b> GitHub says up to <b>10 minutes</b>.
+  Seeing a 404 the first time is normal — get some water, come back, refresh.</div>
+
+  <div class="ok"><b>This is the most important thing you do today</b>
+    You have a URL. Send it to the person next to you and ask them to <b>open it on their phone</b>.<br>
+    They can open it — what you made today is on the internet.</div>
+
+  <div class="prompt">
+    <div class="phead"><span class="pnum">SOS</span><span class="pname">Ask it whenever you're stuck</span>
+      <button class="copy" data-t="el">Copy</button></div>
+    <pre id="el">I'm putting a web page on GitHub Pages and I'm stuck.
+
+Where I got to: <em>(e.g. repo created, file uploaded)</em>
+What I see: <em>(e.g. the URL shows 404)</em>
+
+Tell me step by step what to click and type next. I have never used GitHub.</pre>
+  </div>
+</section>
+
+<section id="db">
+  <div class="steptag">STEP 6</div>
+  <h2>What if someone wants to contact you?</h2>
+  <p class="sub">Only if there's time left.</p>
+
+  <div class="say">
+    Your résumé is online.<br>
+    <b>Will anyone read it and want to reach you?</b> — of course.<br>
+    So if we wanted a form they fill in and you receive, what are our options?</div>
+
+  <h3>Think: where do you already keep information?</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Is it a way of storing things?</th></tr>
+    <tr><td><b>Excel</b></td><td>Yes. Cells, columns, sortable — that is a table.</td></tr>
+    <tr><td><b>A text file</b></td><td>Also yes. Just with no columns; everything mixed together.</td></tr>
+    <tr><td><b>A paper notebook</b></td><td>Also yes. But other people can't write into it and you can't search it.</td></tr>
+  </table></div>
+
+  <div class="say"><b class="lab">so</b>
+    The difference isn't <i>whether</i> you can store things. It's
+    <b>who can write at the same time, whether you can find things instantly, and whether the data stays clean</b>.<br>
+    The thing built to solve those three is called a <b>database</b>.</div>
+
+  <h3>Supabase</h3>
+  <p>A cloud database with a free tier. You don't run a server; your page can write straight into it.</p>
+  <p>For your résumé, it means: <b>someone leaves their contact details on your page, and you can see them in a dashboard.</b></p>
+  <div class="warn"><b>We are not finishing this today.</b> All you need from this section is <i>why</i> a database exists — actually building one comes later in the week.</div>
+</section>
+
+<section id="ref">
+  <div class="steptag">CHEATSHEET</div>
+  <h2>The five elements of a good prompt</h2>
+  <ol class="five">
+    <li><b>A clear goal</b><span>What do you want? "A web-based snake game", not "a game"</span></li>
+    <li><b>Concrete detail</b><span>What does it look like? What are the rules? "Arrow keys to steer, it grows when it eats"</span></li>
+    <li><b>Format</b><span>What should I get back? "One HTML file that opens in a browser"</span></li>
+    <li><b>An example or reference</b><span>Like what? "Clean, the way Apple's site is clean"</span></li>
+    <li><b>Constraints</b><span>What are the limits? "No external frameworks, comment the code"</span></li>
+  </ol>
+
+  <h3>Four common mistakes</h3>
+  <div class="tw"><table>
+    <tr><th>Mistake</th><th>Looks like</th><th>Why it fails</th></tr>
+    <tr><td><b>Too short</b></td><td>"make a website"</td><td>It doesn't know what you want, so it gives you the average</td></tr>
+    <tr><td><b>Too much at once</b></td><td>"build a shop with 20 features…"</td><td>Can't be done in one go → break it into stages</td></tr>
+    <tr><td><b>No context</b></td><td>"make it blue"</td><td>It doesn't know <b>what</b> to make blue</td></tr>
+    <tr><td><b>Vague adjectives</b></td><td>"make it look good"</td><td>"Good" is subjective → describe it, or show a reference</td></tr>
+  </table></div>
+
+  <h3>Three metaphors (for when the code stops making sense)</h3>
+  <div class="grid2">
+    <div class="card"><h4 style="margin-top:0">HTML</h4><p style="margin:0">The <b>structure</b> of a house<br>walls, doors, windows</p></div>
+    <div class="card"><h4 style="margin-top:0">CSS</h4><p style="margin:0">The <b>decoration</b><br>colour, furniture, style</p></div>
+    <div class="card"><h4 style="margin-top:0">JavaScript</h4><p style="margin:0">The <b>functions</b><br>light switches, opening the door</p></div>
+  </div>
+</section>
+
+<section id="stuck">
+  <div class="steptag">STUCK?</div>
+  <h2>Look here first, then raise your hand</h2>
+  <div class="tw"><table>
+    <tr><th>What's happening</th><th>What to do</th></tr>
+    <tr><td>"command not found"</td><td>A step didn't finish. Close the terminal, open a new one, try again.</td></tr>
+    <tr><td><code>cd</code> won't enter the folder</td><td>Spaces or non-English characters in the path → wrap it in double quotes: <code>cd "path"</code></td></tr>
+    <tr><td>The AI can't see my files</td><td>Your terminal isn't in that folder. <code>cd</code> there first, then start <code>codex</code>.</td></tr>
+    <tr><td>The image is nothing like what I asked for</td><td>Normal. This is gacha. Change one condition and pull again, or give it a reference image.</td></tr>
+    <tr><td>It keeps making the same mistake</td><td>Stop repeating yourself. Say: "you did A, I want B, the difference is C."</td></tr>
+    <tr><td>I installed the skill but it isn't using it</td><td>Put "<b>use the digital-resume skill</b>" at the front and say it again. More than three questions means it didn't load.</td></tr>
+    <tr><td>The page won't open / is blank</td><td>Use the SOS prompt in STEP 4 and describe exactly what you see.</td></tr>
+  </table></div>
+
+  <div class="say"><b class="lab">the only rule today</b>
+    You can break it and start over. There are no stupid questions here.<br>
+    <b>Every time you ask, you ask on behalf of the whole room.</b></div>
+</section>
+
+<footer>
+  INNORA AI Talent Programme · Day 1 (24 Aug 2026) · v2<br>
+  This page works fully offline — save it or print it.
+  <a href="../" style="margin-left:10px">中文版</a>
+</footer>
+
+</main>
+
+<script>
+// 複製提示詞：取純文字，把註解欄（← 改成…）整段拿掉
+(function(){
+  function clean(el){
+    var c=el.cloneNode(true);
+    c.querySelectorAll('.cm').forEach(function(n){ n.remove(); });
+    return c.textContent.split('\n').map(function(l){ return l.replace(/\s+$/,''); }).join('\n').trim();
+  }
+  function fallback(txt){
+    var ta=document.createElement('textarea');
+    ta.value=txt; ta.setAttribute('readonly','');
+    ta.style.cssText='position:fixed;top:-9999px;left:-9999px';
+    document.body.appendChild(ta); ta.select();
+    var ok=false;
+    try{ ok=document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    return ok;
+  }
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var src=document.getElementById(btn.dataset.t);
+      if(!src) return;
+      var txt=clean(src);
+      function done(ok){
+        btn.textContent = ok ? '已複製 ✓' : '請手動選取';
+        btn.classList.toggle('done',ok);
+        setTimeout(function(){ btn.textContent='複製'; btn.classList.remove('done'); },1800);
+      }
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(fallback(txt));});
+      } else {
+        done(fallback(txt));
+      }
+    });
+  });
+})();
+
+/* ===== deck mode ===== */
+(function(){
+  var main=document.querySelector('main');
+  if(!main) return;
+
+  /* --- 1. 自動切片：每個 section 依 h3 / .prompt / .say 斷開 --- */
+  function isBreak(el){
+    if(el.nodeType!==1) return false;
+    if(el.tagName==='H3') return true;
+    return el.classList.contains('prompt')||el.classList.contains('say');
+  }
+  /* 標題類節點不算「實質內容」——只有標題的片不該獨立成一張空投影片 */
+  function heavy(n){
+    if(n.nodeType!==1) return n.textContent.trim().length>0;
+    if(n.tagName==='H2'||n.tagName==='H3') return false;
+    return !(n.classList.contains('steptag')||n.classList.contains('sub'));
+  }
+  function chunk(host,label){
+    var kids=[].slice.call(host.childNodes), groups=[], cur=null, hasBody=false;
+    kids.forEach(function(n){
+      if(n.nodeType===3 && !n.textContent.trim()) return;      // 純空白略過
+      if(!cur || (hasBody && isBreak(n))){ cur=[]; groups.push(cur); hasBody=false; }
+      cur.push(n);
+      if(heavy(n)) hasBody=true;
+    });
+    groups.forEach(function(g){
+      var d=document.createElement('div');
+      d.className='slide';
+      var c=document.createElement('b'); c.className='crumb'; c.textContent=label;
+      d.appendChild(c);
+      host.insertBefore(d,g[0]);
+      g.forEach(function(n){ d.appendChild(n); });
+    });
+  }
+  var hero=main.querySelector('header.hero');
+  if(hero) chunk(hero,'Day 1');
+  [].forEach.call(main.querySelectorAll('section'),function(s){
+    var h=s.querySelector('h2');
+    chunk(s,h?h.textContent.trim():'');
+  });
+
+  var slides=[].slice.call(main.querySelectorAll('.slide'));
+  if(!slides.length) return;
+
+  /* --- 2. 控制列 --- */
+  var prog=document.createElement('div'); prog.className='dkprog'; prog.style.width='0';
+  var bar=document.createElement('div'); bar.className='dkbar';
+  bar.innerHTML='<button data-d="-1" title="上一張（←）">&lsaquo;</button>'+
+    '<button data-d="1" title="下一張（→ 或空白鍵）">&rsaquo;</button>'+
+    '<span class="dkcount"></span><span class="dkwhere"></span>'+
+    '<span class="dkhint">← → 切換　F 全螢幕　Esc 回文件</span>'+
+    '<button data-x="1" title="回到文件模式（Esc）">&times;</button>';
+  document.body.appendChild(prog); document.body.appendChild(bar);
+  var cnt=bar.querySelector('.dkcount'), where=bar.querySelector('.dkwhere');
+  var pv=bar.querySelector('[data-d="-1"]'), nx=bar.querySelector('[data-d="1"]');
+
+  var i=0, on=false;
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){ s.classList.toggle('on',k===i); });
+    cnt.textContent=(i+1)+' / '+slides.length;
+    var c=slides[i].querySelector('.crumb');
+    where.textContent=c?c.textContent:'';
+    prog.style.width=((i+1)/slides.length*100)+'%';
+    pv.disabled=(i===0); nx.disabled=(i===slides.length-1);
+    slides[i].scrollTop=0;
+  }
+  function setDeck(v){
+    on=v; document.body.classList.toggle('deck',on);
+    dbtn.setAttribute('aria-pressed',on?'true':'false');
+    dbtn.textContent=on?'文件模式':'簡報模式';
+    try{ localStorage.setItem('deck',on?'1':'0'); }catch(e){}
+    if(on){ show(i); } else {
+      slides.forEach(function(s){ s.classList.remove('on'); });
+      if(slides[i]) slides[i].scrollIntoView({block:'start'});
+    }
+  }
+
+  /* --- 3. 模式切換鈕（掛在 nav 的按鈕列） --- */
+  var dbtn=document.createElement('button');
+  dbtn.className='tbtn'; dbtn.id='dk'; dbtn.setAttribute('aria-pressed','false');
+  dbtn.textContent='簡報模式';
+  var tt=document.getElementById('tt');
+  if(tt&&tt.parentNode) tt.parentNode.insertBefore(dbtn,tt);
+  else document.querySelector('.navin').appendChild(dbtn);
+
+  dbtn.addEventListener('click',function(){ setDeck(!on); });
+  bar.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    if(b.dataset.x) return setDeck(false);
+    show(i+(+b.dataset.d));
+  });
+
+  document.addEventListener('keydown',function(e){
+    var t=e.target.tagName;
+    if(t==='INPUT'||t==='TEXTAREA'||e.target.isContentEditable) return;
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    if((e.key==='p'||e.key==='P')&&!on){ e.preventDefault(); return setDeck(true); }
+    if(!on) return;
+    switch(e.key){
+      case 'ArrowRight': case 'PageDown': case ' ': e.preventDefault(); show(i+1); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); show(i-1); break;
+      case 'Home': e.preventDefault(); show(0); break;
+      case 'End': e.preventDefault(); show(slides.length-1); break;
+      case 'Escape': e.preventDefault(); setDeck(false); break;
+      case 'f': case 'F': e.preventDefault();
+        if(document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();
+        break;
+    }
+  });
+
+  /* nav 連結在簡報模式下 = 跳到那一節的第一張 */
+  [].forEach.call(document.querySelectorAll('.navlinks a'),function(a){
+    a.addEventListener('click',function(e){
+      if(!on) return;
+      var tgt=document.querySelector(a.getAttribute('href')); if(!tgt) return;
+      e.preventDefault();
+      var first=tgt.classList.contains('slide')?tgt:tgt.querySelector('.slide');
+      var k=slides.indexOf(first);
+      if(k>=0) show(k);
+    });
+  });
+
+  try{ if(localStorage.getItem('deck')==='1') setDeck(true); }catch(e){}
+})();
+/* ===== /deck mode ===== */
+</script>
+</body></html>
