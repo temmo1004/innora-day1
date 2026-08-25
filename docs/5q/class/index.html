@@ -110,6 +110,19 @@ h1{
   line-height:1.3}
 .four b{font-weight:700}
 .four i{font-style:normal;color:var(--ash);font-weight:400}
+/* ── 第二頁：五個問題總覽（跟一頁版同一套版式）────── */
+.slide.agenda{justify-content:center}
+.qlist{list-style:none;counter-reset:aq;display:flex;flex-direction:column;
+  gap:clamp(10px,3.1vh,38px);margin-top:clamp(8px,1.6vh,20px)}
+.qlist li{counter-increment:aq;display:grid;grid-template-columns:auto 1fr;
+  column-gap:clamp(12px,1.7vw,30px);align-items:baseline;
+  font-size:clamp(18px,4.2vh,50px);font-weight:700;line-height:1.4;
+  line-break:strict}
+.qlist li::before{content:counter(aq,decimal-leading-zero);color:var(--ash);
+  font-weight:400;font-size:.52em;font-variant-numeric:tabular-nums;
+  letter-spacing:.06em}
+@media (max-aspect-ratio:3/4){.qlist li{font-size:clamp(16px,2.5vh,28px)}
+  .qlist{gap:clamp(9px,1.9vh,20px)}}
 /* ── 影片頁 ─────────────────────────────────────
    影片檔放在 repo 裡，不是外連——教室沒網路照樣播。
    列印時 <video> 是空白，改顯示 poster，PDF 才不會缺一頁。 */
@@ -151,7 +164,7 @@ h1{
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><g id="wm"><path d="M 83.914062 75.890625 L 108.140625 75.890625 L 108.140625 203.339844 L 83.914062 203.339844 Z M 83.914062 75.890625 "/><path d="M 270.449219 75.890625 L 270.449219 203.339844 L 250.507812 203.339844 L 178.578125 115.011719 L 178.578125 203.339844 L 154.539062 203.339844 L 154.539062 75.890625 L 174.476562 75.890625 L 246.410156 161.226562 L 246.410156 75.890625 Z M 270.449219 75.890625 "/><path d="M 432.570312 75.890625 L 432.570312 203.339844 L 412.632812 203.339844 L 340.699219 115.011719 L 340.699219 203.339844 L 316.660156 203.339844 L 316.660156 75.890625 L 336.601562 75.890625 L 408.53125 161.226562 L 408.53125 75.890625 Z M 432.570312 75.890625 "/><path d="M 687.535156 94.226562 L 661.847656 94.226562 L 661.847656 135.957031 L 687.535156 135.957031 C 706.796875 135.957031 711.773438 130.3125 711.773438 114 C 711.773438 97.6875 706.796875 94.226562 687.535156 94.226562 M 717.273438 203.597656 L 687.117188 159.601562 C 685.597656 159.789062 684.078125 159.789062 682.554688 159.789062 L 661.847656 159.789062 L 661.847656 203.597656 L 639.882812 203.597656 L 639.882812 76.828125 L 688.550781 76.828125 C 719.640625 76.828125 733.910156 85.265625 733.910156 114 C 733.910156 133.648438 723.785156 148.109375 707.734375 154.96875 L 740.929688 203.597656 Z M 717.273438 203.597656 "/><path d="M 843.175781 154.660156 L 820.871094 97.933594 L 798.738281 154.660156 Z M 850.441406 173.566406 L 791.300781 173.566406 L 779.640625 203.597656 L 757 203.597656 L 810.226562 75.832031 L 831.855469 75.832031 L 885.253906 203.597656 L 862.273438 203.597656 Z M 850.441406 173.566406 "/><path d="M 494.195312 138.117188 C 494.195312 115.628906 508.128906 102.445312 528.269531 97.628906 L 528.269531 75.871094 C 493.949219 80.832031 469.78125 103.394531 469.78125 138.117188 C 469.78125 172.84375 493.949219 199.402344 528.269531 204.359375 L 528.269531 182.601562 C 508.128906 177.785156 494.195312 160.605469 494.195312 138.117188 "/><path d="M 610.292969 138.117188 C 610.292969 101.882812 584.234375 78.769531 547.804688 75.390625 L 547.804688 96.859375 C 570.074219 100.25 585.878906 114.171875 585.878906 138.117188 C 585.878906 162.0625 570.074219 179.984375 547.804688 183.371094 L 547.804688 204.84375 C 584.234375 201.460938 610.292969 174.351562 610.292969 138.117188 "/></g></defs></svg>
 <div class="bar" id="bar"></div>
 <section class="slide cover"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker">DAY 2</div><h1>五個問題</h1><div class="sub">INNORA　亞洲 AI 人才中心</div></section>
-<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>01</b>　探討</div><h1>你們在這裡幹嘛？</h1><div class="more"><span>有價值嗎？</span><span>憑什麼覺得有價值？</span></div></section>
+<section class="slide agenda"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker">今天，就問這五件事</div><ol class="qlist"><li>你們在這裡幹嘛？</li><li>AI 會取代掉哪些工作？</li><li>學習最有效率的方式是什麼？</li><li>什麼事情都有人做，什麼事情 AI 都可以做，那我要幹嘛？</li><li>這個時代還能做夢嗎？</li></ol></section><section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>01</b>　探討</div><h1>你們在這裡幹嘛？</h1><div class="more"><span>有價值嗎？</span><span>憑什麼覺得有價值？</span></div></section>
 <section class="slide fig"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="col"><div class="kicker"><b>01</b>　練習</div><h1>一個人一分鐘，上來講。</h1><div class="more"><span>題目：AI 市場接下來會怎麼走？</span><span>不是講你的感覺，是講你查到什麼。</span></div></div><img src="img/q1-dig.jpg" alt="往下挖，不是往旁邊鋪"></section>
 <section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>02</b>　探討</div><h1>AI 會取代掉哪些工作？</h1><div class="more"><span>真的嗎？</span><span>你怎麼證明？</span><span>所有工作都會被取代嗎？</span></div></section>
 <section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>02</b>　反過來問</div><h1>那，什麼不會被取代？</h1></section>
