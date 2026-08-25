@@ -53,13 +53,13 @@ def main():
         # 沒有 .nojekyll，GitHub Pages 會把 .md 轉成 .html，curl 原檔會 404
         (OUT.parent / ".nojekyll").touch()
 
-    # 滷味自動販賣機（Day2 示範，純靜態）一併帶進 docs
-    lw = SRC.parent / "luwei" / "index.html"
-    if lw.exists():
-        (OUT.parent / "luwei").mkdir(exist_ok=True)
-        shutil.copy(lw, OUT.parent / "luwei" / "index.html")
-        print("    luwei/ → docs/luwei/")
-        print(f"    skills/ → {dst}")
+    # 純靜態的附屬頁（滷味販賣機 demo、五個問題簡報）一併帶進 docs
+    for sub in ("luwei", "5q"):
+        page = SRC.parent / sub / "index.html"
+        if page.exists():
+            (OUT.parent / sub).mkdir(exist_ok=True)
+            shutil.copy(page, OUT.parent / sub / "index.html")
+            print(f"    {sub}/ → docs/{sub}/")
     print(f"OK  {len(SRC.read_text(encoding='utf-8')):,} → {len(html):,} bytes  →  {OUT}")
 
 if __name__ == "__main__":

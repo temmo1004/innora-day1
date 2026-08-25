@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INNORA｜五個問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141416;   /* 炭墨黑：品牌規格「近黑而非純黑」 */
+  --paper:#F7F5F1; /* 紙白：微暖白，投影不刺眼 */
+  --ash:#8A8A90;   /* 石灰：資訊層級 */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  /* 標題字照 VI 規範走 Noto Sans TC；離線退回蘋方／微軟正黑，不會崩字 */
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",
+              "Hiragino Sans TC",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.page{
+  height:100%;
+  display:flex;flex-direction:column;
+  padding:clamp(28px,5.5vh,68px) clamp(28px,7vw,120px);
+}
+/* ── 字標（wordmark）─────────────────────────────
+   純文字標，幾何無襯線＋寬字距，靠留白取份量。       */
+.wordmark{
+  font-weight:500;
+  font-size:clamp(15px,2.4vh,28px);
+  letter-spacing:.42em;   /* 寬字距是這個字標的全部個性 */
+  margin-right:-.42em;    /* 吃掉尾字多出來的那格 */
+  line-height:1;
+  align-self:flex-start;
+}
+.qs{
+  flex:1;
+  display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(14px,4.6vh,56px);
+  list-style:none;
+  counter-reset:q;
+}
+.qs li{
+  counter-increment:q;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  column-gap:clamp(14px,1.9vw,34px);
+  align-items:baseline;
+  font-size:clamp(21px,5.3vh,64px);
+  font-weight:700;
+  line-height:1.42;
+  /* 中文不該在標點前斷行，也不要吊在行尾 */
+  line-break:strict;
+  overflow-wrap:break-word;
+}
+.qs li::before{
+  content:counter(q,decimal-leading-zero);
+  color:var(--ash);
+  font-weight:400;
+  font-size:.52em;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.06em;
+}
+
+/* 直向手機：字標與題號縮一階，避免第 4 題吃掉整頁 */
+@media (max-aspect-ratio:3/4){
+  .qs li{font-size:clamp(19px,2.9vh,34px);line-height:1.5}
+  .qs{gap:clamp(12px,2.4vh,26px)}
+}
+
+/* 列印／輸出 PDF：16:9 橫式一頁 */
+@page{size:1920px 1080px;margin:0}
+@media print{
+  body{background:#fff}
+  .page{height:1080px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="wordmark">INNORA</div>
+  <ol class="qs">
+    <li>你們在這裡幹嘛？</li>
+    <li>AI 會取代掉哪些工作？</li>
+    <li>學習最有效率的方式是什麼？</li>
+    <li>什麼事情都有人做，什麼事情 AI 都可以做，那我要幹嘛？</li>
+    <li>這個時代還能做夢嗎？</li>
+  </ol>
+</div>
+</body>
+</html>
