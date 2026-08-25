@@ -17,221 +17,162 @@ body{
               "Hiragino Sans TC",system-ui,sans-serif;
   -webkit-font-smoothing:antialiased;
 }
-/* logo 固定左上，翻頁時不動——投影時視覺才穩 */
 .logo{
   position:absolute;top:clamp(24px,5vh,58px);left:clamp(28px,7vw,120px);
   height:clamp(15px,2.8vh,32px);width:auto;color:var(--ink);z-index:5;
 }
 .slide{
-  display:none;
-  position:fixed;inset:0;
-  padding:clamp(84px,15vh,190px) clamp(28px,7vw,120px) clamp(56px,9vh,100px);
+  display:none;position:fixed;inset:0;background:var(--paper);
+  padding:clamp(80px,14vh,180px) clamp(28px,7vw,120px) clamp(52px,8vh,94px);
   flex-direction:column;justify-content:center;
 }
 .slide.on{display:flex}
-/* 小標：第幾題／這一頁在幹嘛 */
 .kicker{
   font-size:clamp(12px,1.9vh,20px);letter-spacing:.24em;color:var(--ash);
-  margin-bottom:clamp(14px,3vh,34px);font-weight:500;
+  margin-bottom:clamp(12px,2.6vh,30px);font-weight:500;
 }
 .kicker b{color:var(--ink);font-weight:700;letter-spacing:.24em}
 h1{
-  font-size:clamp(26px,6.4vh,78px);font-weight:700;line-height:1.34;
+  font-size:clamp(26px,6.2vh,74px);font-weight:700;line-height:1.34;
   letter-spacing:-.01em;line-break:strict;
 }
-/* 追問：比主問小一階，靠左對齊主問 */
 .more{
-  margin-top:clamp(18px,3.6vh,44px);
+  margin-top:clamp(16px,3.2vh,40px);
   display:flex;flex-direction:column;gap:clamp(8px,1.5vh,18px);
-  font-size:clamp(17px,3.2vh,38px);font-weight:500;color:#4A4A50;
-  line-break:strict;
+  font-size:clamp(17px,3.1vh,36px);font-weight:500;color:#4A4A50;line-break:strict;
 }
 .more span::before{content:"→ ";color:var(--ash)}
-/* 觀念頁：一句話撐滿，這是要他們記住的 */
-.slide.idea h1{font-size:clamp(28px,7.4vh,92px);line-height:1.3}
-.slide.idea .kicker b{color:var(--ink)}
-/* 練習頁：左邊一條線，跟提問頁區分開 */
-.slide.do{border-left:none}
-.slide.do h1{font-size:clamp(24px,5.4vh,64px)}
+.slide.idea h1{font-size:clamp(28px,7.2vh,88px);line-height:1.3}
+.slide.do h1{font-size:clamp(24px,5.2vh,62px)}
 .slide.do .box{
-  margin-top:clamp(18px,3.4vh,40px);padding-left:clamp(16px,2vw,30px);
+  margin-top:clamp(16px,3vh,36px);padding-left:clamp(16px,2vw,30px);
   border-left:3px solid var(--ink);
-  font-size:clamp(17px,3.1vh,36px);font-weight:500;line-height:1.55;
+  font-size:clamp(17px,3vh,34px);font-weight:500;line-height:1.55;
   display:flex;flex-direction:column;gap:clamp(6px,1.2vh,14px);
 }
-.box small{font-size:.66em;color:var(--ash);font-weight:400;letter-spacing:.02em}
-/* 封面 */
+.box .url{font-family:ui-monospace,"SF Mono",Menlo,monospace;
+  font-size:.72em;letter-spacing:.01em;word-break:break-all}
+.box small{font-size:.66em;color:var(--ash);font-weight:400}
 .slide.cover{justify-content:center}
 .slide.cover h1{font-size:clamp(34px,10vh,124px);letter-spacing:.02em}
-.slide.cover .sub{
-  margin-top:clamp(12px,2.4vh,28px);color:var(--ash);
-  font-size:clamp(15px,2.6vh,30px);letter-spacing:.1em;
+.slide.cover .sub{margin-top:clamp(12px,2.4vh,28px);color:var(--ash);
+  font-size:clamp(15px,2.6vh,30px);letter-spacing:.1em}
+
+/* ── 配圖頁：文字左、圖右 ──────────────────────────
+   圖是白底黑線稿，用 multiply 讓白底融進紙白背景，
+   不會在暖白底上浮出一塊死白的方形。            */
+.slide.fig.on{display:grid;grid-template-columns:1.02fr .98fr;
+  gap:clamp(18px,3.6vw,64px);align-items:center}
+.slide.fig .col{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.slide.fig img{
+  width:100%;height:auto;max-height:62vh;object-fit:contain;
+  mix-blend-mode:multiply;justify-self:center;
 }
-/* 頁碼＋進度：投影時知道走到哪，不搶畫面 */
-.hud{
-  position:fixed;right:clamp(28px,7vw,120px);bottom:clamp(24px,4.6vh,52px);
+/* ── 兩種問法對照 ─────────────────────────────── */
+.cmp{display:grid;grid-template-columns:1fr 1.35fr;gap:clamp(16px,2.6vw,44px);
+  margin-top:clamp(14px,2.6vh,32px);align-items:start}
+.cmp .card{border:1px solid var(--line);border-radius:10px;
+  padding:clamp(12px,2vh,24px) clamp(13px,1.5vw,26px);background:#FCFBF9}
+.cmp .tag{font-size:clamp(12px,1.8vh,19px);letter-spacing:.14em;color:var(--ash);
+  margin-bottom:clamp(7px,1.3vh,14px);font-weight:700}
+.cmp .card.ok{border-color:var(--ink)}
+.cmp .card.ok .tag{color:var(--ink)}
+.cmp pre{font-family:ui-monospace,"SF Mono",Menlo,monospace;
+  font-size:clamp(11px,1.95vh,21px);line-height:1.62;white-space:pre-wrap;
+  word-break:break-word;color:var(--ink)}
+/* ── 數字對照 ────────────────────────────────── */
+.nums{margin-top:clamp(14px,2.8vh,34px);display:flex;flex-direction:column;
+  gap:clamp(9px,1.8vh,22px)}
+.nums .row{display:grid;grid-template-columns:1fr auto auto auto;
+  gap:clamp(10px,1.6vw,26px);align-items:baseline;
+  border-bottom:1px solid var(--line);padding-bottom:clamp(7px,1.4vh,16px)}
+.nums .lab{font-size:clamp(14px,2.4vh,28px);color:var(--ash);font-weight:500}
+.nums .a{font-size:clamp(16px,2.9vh,34px);color:var(--ash);font-weight:500;
+  text-decoration:line-through;text-decoration-thickness:1px}
+.nums .arw{color:var(--ash);font-size:clamp(13px,2.1vh,24px)}
+.nums .b{font-size:clamp(20px,4vh,48px);font-weight:700;
+  font-variant-numeric:tabular-nums}
+/* ── 五大要素／模塊清單 ───────────────────────── */
+.five{margin-top:clamp(14px,2.8vh,34px);display:flex;flex-direction:column;
+  gap:clamp(9px,1.7vh,21px);counter-reset:f}
+.five li{list-style:none;counter-increment:f;display:grid;
+  grid-template-columns:auto 1fr;column-gap:clamp(12px,1.5vw,26px);
+  align-items:baseline;font-size:clamp(17px,3.3vh,40px);font-weight:700}
+.five li::before{content:counter(f,decimal-leading-zero);color:var(--ash);
+  font-weight:400;font-size:.55em;font-variant-numeric:tabular-nums}
+.five li span{min-width:0}
+.five li em{font-style:normal;font-weight:400;color:var(--ash);
+  font-size:.6em;margin-left:.7em}
+/* ── 四句核心精神 ────────────────────────────── */
+.four{margin-top:clamp(12px,2.4vh,30px);display:flex;flex-direction:column;
+  gap:clamp(10px,2vh,26px);font-size:clamp(21px,4.6vh,56px);font-weight:700;
+  line-height:1.3}
+.four b{font-weight:700}
+.four i{font-style:normal;color:var(--ash);font-weight:400}
+.hud{position:absolute;right:clamp(28px,7vw,120px);bottom:clamp(22px,4.2vh,48px);
   font-size:clamp(12px,1.8vh,19px);color:var(--ash);
-  font-variant-numeric:tabular-nums;letter-spacing:.08em;z-index:5;
-}
+  font-variant-numeric:tabular-nums;letter-spacing:.08em;z-index:5}
 .bar{position:fixed;left:0;bottom:0;height:2px;background:var(--ink);
-     width:0;transition:width .22s ease;z-index:5}
-/* 手機直向：字級退一階，追問不要擠成一團 */
+     width:0;transition:width .22s ease;z-index:6}
 @media (max-aspect-ratio:3/4){
-  h1{font-size:clamp(24px,4.6vh,44px)}
-  .slide.idea h1{font-size:clamp(26px,5.2vh,50px)}
-  .more{font-size:clamp(16px,2.4vh,26px)}
+  h1{font-size:clamp(23px,4.4vh,42px)}
+  .slide.idea h1{font-size:clamp(25px,5vh,48px)}
+  .more{font-size:clamp(15px,2.3vh,25px)}
+  .slide.fig.on{grid-template-columns:1fr;align-content:center}
+  .slide.fig img{max-height:26vh}
+  .cmp{grid-template-columns:1fr}
 }
-/* 列印／輸出 PDF：每張一頁。position 從 fixed 換成 static 會失去高度，
-   所以要自己給滿版尺寸，並且把固定定位的 logo/頁碼收掉。 */
+/* 列印／輸出 PDF：每張一頁；固定定位在列印時要換成滿版區塊 */
 @page{size:1920px 1080px;margin:0}
 @media print{
   html,body{overflow:visible;height:auto}
   .slide{display:flex!important;position:relative;inset:auto;
          width:1920px;height:1080px;break-after:page}
+  .slide.fig{display:grid!important}
   .slide:last-of-type{break-after:auto}
-  .hud,.bar{display:none}
+  .bar{display:none}
 }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><g id="wm"><path d="M 83.914062 75.890625 L 108.140625 75.890625 L 108.140625 203.339844 L 83.914062 203.339844 Z M 83.914062 75.890625 "/><path d="M 270.449219 75.890625 L 270.449219 203.339844 L 250.507812 203.339844 L 178.578125 115.011719 L 178.578125 203.339844 L 154.539062 203.339844 L 154.539062 75.890625 L 174.476562 75.890625 L 246.410156 161.226562 L 246.410156 75.890625 Z M 270.449219 75.890625 "/><path d="M 432.570312 75.890625 L 432.570312 203.339844 L 412.632812 203.339844 L 340.699219 115.011719 L 340.699219 203.339844 L 316.660156 203.339844 L 316.660156 75.890625 L 336.601562 75.890625 L 408.53125 161.226562 L 408.53125 75.890625 Z M 432.570312 75.890625 "/><path d="M 687.535156 94.226562 L 661.847656 94.226562 L 661.847656 135.957031 L 687.535156 135.957031 C 706.796875 135.957031 711.773438 130.3125 711.773438 114 C 711.773438 97.6875 706.796875 94.226562 687.535156 94.226562 M 717.273438 203.597656 L 687.117188 159.601562 C 685.597656 159.789062 684.078125 159.789062 682.554688 159.789062 L 661.847656 159.789062 L 661.847656 203.597656 L 639.882812 203.597656 L 639.882812 76.828125 L 688.550781 76.828125 C 719.640625 76.828125 733.910156 85.265625 733.910156 114 C 733.910156 133.648438 723.785156 148.109375 707.734375 154.96875 L 740.929688 203.597656 Z M 717.273438 203.597656 "/><path d="M 843.175781 154.660156 L 820.871094 97.933594 L 798.738281 154.660156 Z M 850.441406 173.566406 L 791.300781 173.566406 L 779.640625 203.597656 L 757 203.597656 L 810.226562 75.832031 L 831.855469 75.832031 L 885.253906 203.597656 L 862.273438 203.597656 Z M 850.441406 173.566406 "/><path d="M 494.195312 138.117188 C 494.195312 115.628906 508.128906 102.445312 528.269531 97.628906 L 528.269531 75.871094 C 493.949219 80.832031 469.78125 103.394531 469.78125 138.117188 C 469.78125 172.84375 493.949219 199.402344 528.269531 204.359375 L 528.269531 182.601562 C 508.128906 177.785156 494.195312 160.605469 494.195312 138.117188 "/><path d="M 610.292969 138.117188 C 610.292969 101.882812 584.234375 78.769531 547.804688 75.390625 L 547.804688 96.859375 C 570.074219 100.25 585.878906 114.171875 585.878906 138.117188 C 585.878906 162.0625 570.074219 179.984375 547.804688 183.371094 L 547.804688 204.84375 C 584.234375 201.460938 610.292969 174.351562 610.292969 138.117188 "/></g></defs></svg>
-<div class="hud"><span id="n">1</span> / <span id="t">1</span></div>
 <div class="bar" id="bar"></div>
-
-<section class="slide cover">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <h1>五個問題</h1>
-  <div class="sub">INNORA　亞洲 AI 人才中心</div>
-</section>
-
-<!-- ── 01 ───────────────────────────────────────── -->
-<section class="slide">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>01</b>　探討</div>
-  <h1>你們在這裡幹嘛？</h1>
-  <div class="more"><span>有價值嗎？</span><span>憑什麼覺得有價值？</span></div>
-</section>
-<section class="slide do">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>01</b>　練習</div>
-  <h1>一個人一分鐘，上來講。</h1>
-  <div class="box">
-    <div>題目：AI 市場接下來會怎麼走？</div>
-    <small>不是講你的感覺，是講你查到什麼、憑什麼這樣說。</small>
-  </div>
-</section>
-
-<!-- ── 02 ───────────────────────────────────────── -->
-<section class="slide">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>02</b>　探討</div>
-  <h1>AI 會取代掉哪些工作？</h1>
-  <div class="more">
-    <span>真的嗎？</span><span>你怎麼證明？</span><span>所有工作都會被取代嗎？</span>
-  </div>
-</section>
-<section class="slide">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>02</b>　反過來問</div>
-  <h1>那，什麼不會被取代？</h1>
-</section>
-<section class="slide idea">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>02</b>　這一題要帶走的觀念</div>
-  <h1>在黃金還有價值的時候，<br>要趕快把它分享出去。</h1>
-</section>
-
-<!-- ── 03 ───────────────────────────────────────── -->
-<section class="slide">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>03</b>　探討</div>
-  <h1>學習最有效率的方式是什麼？</h1>
-</section>
-<section class="slide idea">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>03</b>　觀念一</div>
-  <h1>AI-first</h1>
-  <div class="more"><span>先問 AI，再自己想。不是自己卡住了才想到它。</span></div>
-</section>
-<section class="slide idea">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>03</b>　觀念二</div>
-  <h1>抄寫，是學習的第一步。</h1>
-</section>
-<section class="slide do">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>03</b>　練習</div>
-  <h1>我要開一家加盟店。</h1>
-  <div class="box">
-    <div>寫一份加盟店營運計畫書。</div>
-    <small>你會怎麼問？問幾次？問到什麼程度才算問完？</small>
-  </div>
-</section>
-
-<!-- ── 04 ───────────────────────────────────────── -->
-<section class="slide">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>04</b>　超越</div>
-  <h1>什麼事情都有人做，<br>什麼事情 AI 都可以做，<br>那我要幹嘛？</h1>
-</section>
-<section class="slide do">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>04</b>　互相討論</div>
-  <h1>回頭看剛剛做出來的東西——</h1>
-  <div class="box">
-    <div>哪些部分，是「只有 AI 才做得到」的？</div>
-    <small>找出那些部分，就是你要站上去的地方。</small>
-  </div>
-</section>
-
-<!-- ── 05 ───────────────────────────────────────── -->
-<section class="slide">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>05</b>　勇敢做大夢</div>
-  <h1>這個時代，還能做夢嗎？</h1>
-</section>
-<section class="slide do">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>05</b>　練習</div>
-  <h1>去抄一個最大的平台。</h1>
-  <div class="box">
-    <div>momo 購物、亞馬遜、淘寶——電商可以，別的也可以。</div>
-    <small>做的過程要去感受：哪些做得到、哪些做不到。</small>
-  </div>
-</section>
-<section class="slide idea">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker"><b>05</b>　真正要做的事</div>
-  <h1>在最大的平台裡面，<br>造一個最小的模塊，<br>然後把它實現出來。</h1>
-</section>
-<section class="slide do">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker">老師示範</div>
-  <h1>現在，真的來開一家店。</h1>
-</section>
-
-<!-- ── 結尾 ─────────────────────────────────────── -->
-<section class="slide">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker">結論</div>
-  <h1>「不要讓你的孩子<br>輸在起跑線上」</h1>
-  <div class="more"><span>播放影片</span></div>
-</section>
-<section class="slide">
-  <svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg>
-  <div class="kicker">最後</div>
-  <h1>你看到了什麼？</h1>
-</section>
-
+<section class="slide cover"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><h1>五個問題</h1><div class="sub">INNORA　亞洲 AI 人才中心</div></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>01</b>　探討</div><h1>你們在這裡幹嘛？</h1><div class="more"><span>有價值嗎？</span><span>憑什麼覺得有價值？</span></div></section>
+<section class="slide fig"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="col"><div class="kicker"><b>01</b>　練習</div><h1>一個人一分鐘，上來講。</h1><div class="more"><span>題目：AI 市場接下來會怎麼走？</span><span>不是講你的感覺，是講你查到什麼。</span></div></div><img src="img/q1-dig.jpg" alt="往下挖，不是往旁邊鋪"></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>02</b>　探討</div><h1>AI 會取代掉哪些工作？</h1><div class="more"><span>真的嗎？</span><span>你怎麼證明？</span><span>所有工作都會被取代嗎？</span></div></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>02</b>　反過來問</div><h1>那，什麼不會被取代？</h1></section>
+<section class="slide fig"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="col"><div class="kicker"><b>02</b>　這一題要帶走的觀念</div><h1>在黃金還有價值的時候，<br>要趕快把它分享出去。</h1></div><img src="img/q2-gold.jpg" alt="很多手伸過來接"></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>03</b>　探討</div><h1>學習最有效率的方式是什麼？</h1></section>
+<section class="slide idea"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>03</b>　觀念一</div><h1>AI-first</h1><div class="more"><span>先問 AI，再自己想。</span><span>不是自己卡住了才想到它。</span></div></section>
+<section class="slide fig"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="col"><div class="kicker"><b>03</b>　觀念二</div><h1>抄寫，<br>是學習的第一步。</h1></div><img src="img/q3-copy.jpg" alt="照著抄一遍"></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>03</b>　同一個需求，兩種問法</div><h1>你怎麼問，決定你拿到什麼。</h1><div class="cmp"><div class="card"><div class="tag">✗ 這樣問</div><pre>做個網頁</pre></div><div class="card ok"><div class="tag">✓ 這樣問</div><pre>請幫我建立一個個人作品集網頁：
+- 包含：首頁橫幅、自我介紹、3 個作品展示、聯絡方式
+- 設計風格：現代簡約，使用藍白配色
+- 技術要求：純 HTML+CSS，響應式設計
+- 程式碼要有註解，方便我理解和修改</pre></div></div></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>03</b>　差在哪裡</div><h1>同一個 AI，差別只在問法。</h1><div class="nums"><div class="row"><span class="lab">符合需求</span><span class="a">50%</span><span class="arw">→</span><span class="b">95%</span></div><div class="row"><span class="lab">需要修改次數</span><span class="a">5–10 次</span><span class="arw">→</span><span class="b">1–2 次</span></div><div class="row"><span class="lab">時間成本</span><span class="a">2–3 小時</span><span class="arw">→</span><span class="b">30 分鐘</span></div></div></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>03</b>　好提示詞的五大要素</div><h1>問清楚，就這五件事。</h1><ol class="five"><li><span>明確的目標<em>要做什麼類型的東西</em></span></li><li><span>具體的細節<em>用數據和範例，不要用形容詞</em></span></li><li><span>格式要求<em>你要它長什麼樣子交給你</em></span></li><li><span>範例或參考<em>給它一個像的東西</em></span></li><li><span>約束條件<em>不准做什麼、限制在哪</em></span></li></ol></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>03</b>　核心精神</div><div class="four"><div><b>清晰</b> <i>勝過</i> <b>聰明</b></div><div><b>具體</b> <i>勝過</i> <b>抽象</b></div><div><b>結構</b> <i>勝過</i> <b>長度</b></div><div><b>迭代</b> <i>勝過</i> <b>完美</b></div></div></section>
+<section class="slide do"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>03</b>　練習</div><h1>我要開一家加盟店。</h1><div class="box"><div>寫一份加盟店營運計畫書。</div><small>照剛剛那五個要素寫一次——寫完再看 AI 回你什麼。</small></div></section>
+<section class="slide fig"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="col"><div class="kicker"><b>04</b>　超越</div><h1>什麼事情都有人做，<br>什麼事情 AI 都可以做，<br>那我要幹嘛？</h1></div><img src="img/q4-beyond.jpg" alt="一排一樣高的人，有一個踩上去"></section>
+<section class="slide do"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>04</b>　互相討論</div><h1>回頭看剛剛做出來的東西——</h1><div class="box"><div>哪些部分，是「只有 AI 才做得到」的？</div><small>找出那些部分，就是你要站上去的地方。</small></div></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>05</b>　勇敢做大夢</div><h1>這個時代，還能做夢嗎？</h1></section>
+<section class="slide do"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>05</b>　練習</div><h1>去抄一個最大的平台。</h1><div class="box"><div>momo 購物、亞馬遜、淘寶——電商可以，別的也可以。</div><small>做的過程要去感受：哪些做得到、哪些做不到。</small></div></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker"><b>05</b>　一家店拆開來是什麼</div><h1>大平台，是這幾塊拼起來的。</h1><ol class="five"><li>商品清單</li><li>購物車</li><li>訂單</li><li>金流</li><li>資料庫</li></ol><div class="more"><span>挑<b>一塊</b>做完，比五塊都做一半有用。</span></div></section>
+<section class="slide fig"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="col"><div class="kicker"><b>05</b>　真正要做的事</div><h1>在最大的平台裡面，<br>造一個最小的模塊，<br>然後把它實現出來。</h1></div><img src="img/q5-module.jpg" alt="滿滿的格子裡，一格塗黑"></section>
+<section class="slide do"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker">老師示範</div><h1>現在，真的來開一家店。</h1><div class="box"><div>滷味自動販賣機</div><div class="url">temmo1004.github.io/innora-day1/luwei/</div><small>上面的 QR 是真的，拿手機掃掃看。</small></div></section>
+<section class="slide fig"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="col"><div class="kicker">結論</div><h1>「不要讓你的孩子<br>輸在起跑線上」</h1><div class="more"><span>播放影片</span></div></div><img src="img/end-line.jpg" alt="空的起跑線"></section>
+<section class="slide"><svg class="logo" viewBox="83.91 75.39 801.34 129.45"><use href="#wm"/></svg><div class="kicker">最後</div><h1>你看到了什麼？</h1></section>
 <script>
-// 一次一張。← → 空白 翻頁，F 全螢幕，網址 #3 直接跳第 3 張（也方便自動化逐張量高度）
+// 一次一張。← → 空白 翻頁，F 全螢幕，網址 #3 直接跳第 3 張（自動化逐張量高度也靠這個）
 const S=[...document.querySelectorAll('.slide')],N=S.length;
-document.getElementById('t').textContent=N;
+S.forEach((s,x)=>{const h=document.createElement('div');h.className='hud';
+  h.textContent=(x+1)+' / '+N;s.appendChild(h)});
 let i=0;
 function go(k,push){
   i=Math.max(0,Math.min(N-1,k));
   S.forEach((s,x)=>s.classList.toggle('on',x===i));
-  document.getElementById('n').textContent=i+1;
   document.getElementById('bar').style.width=((i+1)/N*100)+'%';
   if(push!==false)history.replaceState(null,'','#'+(i+1));
 }
@@ -243,7 +184,6 @@ addEventListener('keydown',e=>{
     document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
   }
 });
-// 點右半邊下一張、左半邊上一張
 addEventListener('click',e=>go(e.clientX>innerWidth/2?i+1:i-1));
 addEventListener('hashchange',()=>go((parseInt(location.hash.slice(1))||1)-1,false));
 go((parseInt(location.hash.slice(1))||1)-1,false);

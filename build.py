@@ -59,6 +59,15 @@ def main():
         if page.exists():
             (OUT.parent / sub).mkdir(parents=True, exist_ok=True)
             shutil.copy(page, OUT.parent / sub / "index.html")
+            # 附圖等資產（5q/class/img）也要跟著走，否則線上是破圖
+            for extra in (SRC.parent / sub).iterdir():
+                if extra.is_dir() and extra.name != "img":
+                    continue
+                if extra.is_dir():
+                    dest = OUT.parent / sub / extra.name
+                    shutil.rmtree(dest, ignore_errors=True)
+                    shutil.copytree(extra, dest)
+                    print(f"    {sub}/{extra.name}/ → docs/{sub}/{extra.name}/")
             print(f"    {sub}/ → docs/{sub}/")
     print(f"OK  {len(SRC.read_text(encoding='utf-8')):,} → {len(html):,} bytes  →  {OUT}")
 
