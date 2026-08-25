@@ -54,15 +54,13 @@ def main():
         (OUT.parent / ".nojekyll").touch()
 
     # 純靜態的附屬頁（滷味販賣機 demo、五個問題簡報）一併帶進 docs
-    for sub in ("luwei", "5q", "5q/class"):
+    for sub in ("luwei", "5q"):
         page = SRC.parent / sub / "index.html"
         if page.exists():
             (OUT.parent / sub).mkdir(parents=True, exist_ok=True)
             shutil.copy(page, OUT.parent / sub / "index.html")
             # 附圖等資產（5q/class/img）也要跟著走，否則線上是破圖
             for extra in (SRC.parent / sub).iterdir():
-                if extra.is_dir() and extra.name != "img":
-                    continue
                 if extra.is_dir():
                     dest = OUT.parent / sub / extra.name
                     shutil.rmtree(dest, ignore_errors=True)
