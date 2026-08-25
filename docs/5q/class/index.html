@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INNORA｜五個問題・課堂版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#141416;--paper:#F7F5F1;--ash:#8A8A90;--line:#DCD8D1}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",
+              "Hiragino Sans TC",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+/* logo 固定左上，翻頁時不動——投影時視覺才穩 */
+.logo{
+  position:fixed;top:clamp(24px,5vh,58px);left:clamp(28px,7vw,120px);
+  height:clamp(15px,2.8vh,32px);width:auto;color:var(--ink);z-index:5;
+}
+.slide{
+  display:none;
+  position:fixed;inset:0;
+  padding:clamp(84px,15vh,190px) clamp(28px,7vw,120px) clamp(56px,9vh,100px);
+  flex-direction:column;justify-content:center;
+}
+.slide.on{display:flex}
+/* 小標：第幾題／這一頁在幹嘛 */
+.kicker{
+  font-size:clamp(12px,1.9vh,20px);letter-spacing:.24em;color:var(--ash);
+  margin-bottom:clamp(14px,3vh,34px);font-weight:500;
+}
+.kicker b{color:var(--ink);font-weight:700;letter-spacing:.24em}
+h1{
+  font-size:clamp(26px,6.4vh,78px);font-weight:700;line-height:1.34;
+  letter-spacing:-.01em;line-break:strict;
+}
+/* 追問：比主問小一階，靠左對齊主問 */
+.more{
+  margin-top:clamp(18px,3.6vh,44px);
+  display:flex;flex-direction:column;gap:clamp(8px,1.5vh,18px);
+  font-size:clamp(17px,3.2vh,38px);font-weight:500;color:#4A4A50;
+  line-break:strict;
+}
+.more span::before{content:"→ ";color:var(--ash)}
+/* 觀念頁：一句話撐滿，這是要他們記住的 */
+.slide.idea h1{font-size:clamp(28px,7.4vh,92px);line-height:1.3}
+.slide.idea .kicker b{color:var(--ink)}
+/* 練習頁：左邊一條線，跟提問頁區分開 */
+.slide.do{border-left:none}
+.slide.do h1{font-size:clamp(24px,5.4vh,64px)}
+.slide.do .box{
+  margin-top:clamp(18px,3.4vh,40px);padding-left:clamp(16px,2vw,30px);
+  border-left:3px solid var(--ink);
+  font-size:clamp(17px,3.1vh,36px);font-weight:500;line-height:1.55;
+  display:flex;flex-direction:column;gap:clamp(6px,1.2vh,14px);
+}
+.box small{font-size:.66em;color:var(--ash);font-weight:400;letter-spacing:.02em}
+/* 封面 */
+.slide.cover{justify-content:center}
+.slide.cover h1{font-size:clamp(34px,10vh,124px);letter-spacing:.02em}
+.slide.cover .sub{
+  margin-top:clamp(12px,2.4vh,28px);color:var(--ash);
+  font-size:clamp(15px,2.6vh,30px);letter-spacing:.1em;
+}
+/* 頁碼＋進度：投影時知道走到哪，不搶畫面 */
+.hud{
+  position:fixed;right:clamp(28px,7vw,120px);bottom:clamp(24px,4.6vh,52px);
+  font-size:clamp(12px,1.8vh,19px);color:var(--ash);
+  font-variant-numeric:tabular-nums;letter-spacing:.08em;z-index:5;
+}
+.bar{position:fixed;left:0;bottom:0;height:2px;background:var(--ink);
+     width:0;transition:width .22s ease;z-index:5}
+/* 手機直向：字級退一階，追問不要擠成一團 */
+@media (max-aspect-ratio:3/4){
+  h1{font-size:clamp(24px,4.6vh,44px)}
+  .slide.idea h1{font-size:clamp(26px,5.2vh,50px)}
+  .more{font-size:clamp(16px,2.4vh,26px)}
+}
+@media print{.slide{display:flex!important;position:relative;page-break-after:always}}
+</style>
+</head>
+<body>
+<svg class="logo" viewBox="83.91 75.39 801.34 129.45" fill="currentColor" role="img" aria-label="INNORA"><path d="M 83.914062 75.890625 L 108.140625 75.890625 L 108.140625 203.339844 L 83.914062 203.339844 Z M 83.914062 75.890625 "/><path d="M 270.449219 75.890625 L 270.449219 203.339844 L 250.507812 203.339844 L 178.578125 115.011719 L 178.578125 203.339844 L 154.539062 203.339844 L 154.539062 75.890625 L 174.476562 75.890625 L 246.410156 161.226562 L 246.410156 75.890625 Z M 270.449219 75.890625 "/><path d="M 432.570312 75.890625 L 432.570312 203.339844 L 412.632812 203.339844 L 340.699219 115.011719 L 340.699219 203.339844 L 316.660156 203.339844 L 316.660156 75.890625 L 336.601562 75.890625 L 408.53125 161.226562 L 408.53125 75.890625 Z M 432.570312 75.890625 "/><path d="M 687.535156 94.226562 L 661.847656 94.226562 L 661.847656 135.957031 L 687.535156 135.957031 C 706.796875 135.957031 711.773438 130.3125 711.773438 114 C 711.773438 97.6875 706.796875 94.226562 687.535156 94.226562 M 717.273438 203.597656 L 687.117188 159.601562 C 685.597656 159.789062 684.078125 159.789062 682.554688 159.789062 L 661.847656 159.789062 L 661.847656 203.597656 L 639.882812 203.597656 L 639.882812 76.828125 L 688.550781 76.828125 C 719.640625 76.828125 733.910156 85.265625 733.910156 114 C 733.910156 133.648438 723.785156 148.109375 707.734375 154.96875 L 740.929688 203.597656 Z M 717.273438 203.597656 "/><path d="M 843.175781 154.660156 L 820.871094 97.933594 L 798.738281 154.660156 Z M 850.441406 173.566406 L 791.300781 173.566406 L 779.640625 203.597656 L 757 203.597656 L 810.226562 75.832031 L 831.855469 75.832031 L 885.253906 203.597656 L 862.273438 203.597656 Z M 850.441406 173.566406 "/><path d="M 494.195312 138.117188 C 494.195312 115.628906 508.128906 102.445312 528.269531 97.628906 L 528.269531 75.871094 C 493.949219 80.832031 469.78125 103.394531 469.78125 138.117188 C 469.78125 172.84375 493.949219 199.402344 528.269531 204.359375 L 528.269531 182.601562 C 508.128906 177.785156 494.195312 160.605469 494.195312 138.117188 "/><path d="M 610.292969 138.117188 C 610.292969 101.882812 584.234375 78.769531 547.804688 75.390625 L 547.804688 96.859375 C 570.074219 100.25 585.878906 114.171875 585.878906 138.117188 C 585.878906 162.0625 570.074219 179.984375 547.804688 183.371094 L 547.804688 204.84375 C 584.234375 201.460938 610.292969 174.351562 610.292969 138.117188 "/></svg>
+<div class="hud"><span id="n">1</span> / <span id="t">1</span></div>
+<div class="bar" id="bar"></div>
+
+<section class="slide cover">
+  <h1>五個問題</h1>
+  <div class="sub">INNORA　亞洲 AI 人才中心</div>
+</section>
+
+<!-- ── 01 ───────────────────────────────────────── -->
+<section class="slide">
+  <div class="kicker"><b>01</b>　探討</div>
+  <h1>你們在這裡幹嘛？</h1>
+  <div class="more"><span>有價值嗎？</span><span>憑什麼覺得有價值？</span></div>
+</section>
+<section class="slide do">
+  <div class="kicker"><b>01</b>　練習</div>
+  <h1>一個人一分鐘，上來講。</h1>
+  <div class="box">
+    <div>題目：AI 市場接下來會怎麼走？</div>
+    <small>不是講你的感覺，是講你查到什麼、憑什麼這樣說。</small>
+  </div>
+</section>
+
+<!-- ── 02 ───────────────────────────────────────── -->
+<section class="slide">
+  <div class="kicker"><b>02</b>　探討</div>
+  <h1>AI 會取代掉哪些工作？</h1>
+  <div class="more">
+    <span>真的嗎？</span><span>你怎麼證明？</span><span>所有工作都會被取代嗎？</span>
+  </div>
+</section>
+<section class="slide">
+  <div class="kicker"><b>02</b>　反過來問</div>
+  <h1>那，什麼不會被取代？</h1>
+</section>
+<section class="slide idea">
+  <div class="kicker"><b>02</b>　這一題要帶走的觀念</div>
+  <h1>在黃金還有價值的時候，<br>要趕快把它分享出去。</h1>
+</section>
+
+<!-- ── 03 ───────────────────────────────────────── -->
+<section class="slide">
+  <div class="kicker"><b>03</b>　探討</div>
+  <h1>學習最有效率的方式是什麼？</h1>
+</section>
+<section class="slide idea">
+  <div class="kicker"><b>03</b>　觀念一</div>
+  <h1>AI-first</h1>
+  <div class="more"><span>先問 AI，再自己想。不是自己卡住了才想到它。</span></div>
+</section>
+<section class="slide idea">
+  <div class="kicker"><b>03</b>　觀念二</div>
+  <h1>抄寫，是學習的第一步。</h1>
+</section>
+<section class="slide do">
+  <div class="kicker"><b>03</b>　練習</div>
+  <h1>我要開一家加盟店。</h1>
+  <div class="box">
+    <div>寫一份加盟店營運計畫書。</div>
+    <small>你會怎麼問？問幾次？問到什麼程度才算問完？</small>
+  </div>
+</section>
+
+<!-- ── 04 ───────────────────────────────────────── -->
+<section class="slide">
+  <div class="kicker"><b>04</b>　超越</div>
+  <h1>什麼事情都有人做，<br>什麼事情 AI 都可以做，<br>那我要幹嘛？</h1>
+</section>
+<section class="slide do">
+  <div class="kicker"><b>04</b>　互相討論</div>
+  <h1>回頭看剛剛做出來的東西——</h1>
+  <div class="box">
+    <div>哪些部分，是「只有 AI 才做得到」的？</div>
+    <small>找出那些部分，就是你要站上去的地方。</small>
+  </div>
+</section>
+
+<!-- ── 05 ───────────────────────────────────────── -->
+<section class="slide">
+  <div class="kicker"><b>05</b>　勇敢做大夢</div>
+  <h1>這個時代，還能做夢嗎？</h1>
+</section>
+<section class="slide do">
+  <div class="kicker"><b>05</b>　練習</div>
+  <h1>去抄一個最大的平台。</h1>
+  <div class="box">
+    <div>momo 購物、亞馬遜、淘寶——電商可以，別的也可以。</div>
+    <small>做的過程要去感受：哪些做得到、哪些做不到。</small>
+  </div>
+</section>
+<section class="slide idea">
+  <div class="kicker"><b>05</b>　真正要做的事</div>
+  <h1>在最大的平台裡面，<br>造一個最小的模塊，<br>然後把它實現出來。</h1>
+</section>
+<section class="slide do">
+  <div class="kicker">老師示範</div>
+  <h1>現在，真的來開一家店。</h1>
+</section>
+
+<!-- ── 結尾 ─────────────────────────────────────── -->
+<section class="slide">
+  <div class="kicker">結論</div>
+  <h1>「不要讓你的孩子<br>輸在起跑線上」</h1>
+  <div class="more"><span>播放影片</span></div>
+</section>
+<section class="slide">
+  <div class="kicker">最後</div>
+  <h1>你看到了什麼？</h1>
+</section>
+
+<script>
+// 一次一張。← → 空白 翻頁，F 全螢幕，網址 #3 直接跳第 3 張（也方便自動化逐張量高度）
+const S=[...document.querySelectorAll('.slide')],N=S.length;
+document.getElementById('t').textContent=N;
+let i=0;
+function go(k,push){
+  i=Math.max(0,Math.min(N-1,k));
+  S.forEach((s,x)=>s.classList.toggle('on',x===i));
+  document.getElementById('n').textContent=i+1;
+  document.getElementById('bar').style.width=((i+1)/N*100)+'%';
+  if(push!==false)history.replaceState(null,'','#'+(i+1));
+}
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(i+1)}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1)}
+  else if(e.key==='Home'){go(0)} else if(e.key==='End'){go(N-1)}
+  else if(e.key==='f'||e.key==='F'){
+    document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+  }
+});
+// 點右半邊下一張、左半邊上一張
+addEventListener('click',e=>go(e.clientX>innerWidth/2?i+1:i-1));
+addEventListener('hashchange',()=>go((parseInt(location.hash.slice(1))||1)-1,false));
+go((parseInt(location.hash.slice(1))||1)-1,false);
+</script>
+</body>
+</html>

@@ -54,10 +54,10 @@ def main():
         (OUT.parent / ".nojekyll").touch()
 
     # 純靜態的附屬頁（滷味販賣機 demo、五個問題簡報）一併帶進 docs
-    for sub in ("luwei", "5q"):
+    for sub in ("luwei", "5q", "5q/class"):
         page = SRC.parent / sub / "index.html"
         if page.exists():
-            (OUT.parent / sub).mkdir(exist_ok=True)
+            (OUT.parent / sub).mkdir(parents=True, exist_ok=True)
             shutil.copy(page, OUT.parent / sub / "index.html")
             print(f"    {sub}/ → docs/{sub}/")
     print(f"OK  {len(SRC.read_text(encoding='utf-8')):,} → {len(html):,} bytes  →  {OUT}")
